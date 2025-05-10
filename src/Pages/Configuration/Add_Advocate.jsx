@@ -336,14 +336,21 @@ export const AddAdvocate = () => {
                         </div>
                         <div>
                             <label>ধর্ম</label>
-                            <input
+                            <select
                                 className="w-full p-1 border rounded"
                                 name="religion"
                                 value={formData.religion}
                                 onChange={handleChange}
-                                placeholder="ধর্ম লিখুন"
-                            />
+                            >
+                                <option value="">-- নির্বাচন করুন --</option>
+                                <option value="ইসলাম">ইসলাম</option>
+                                <option value="হিন্দু">হিন্দু</option>
+                                <option value="বৌদ্ধ">বৌদ্ধ</option>
+                                <option value="খ্রিষ্টান">খ্রিষ্টান</option>
+                                <option value="অন্যান্য">অন্যান্য</option>
+                            </select>
                         </div>
+
                     </div>
                 </div>
 
@@ -535,6 +542,7 @@ export const AddAdvocate = () => {
                                 onChange={handleChange}
                             />
                             <label>সাবেক কর্মচারী?</label>
+                            
                         </div>
                         {formData.is_a_ex_employee && (
                             <div className="md:col-span-2">
