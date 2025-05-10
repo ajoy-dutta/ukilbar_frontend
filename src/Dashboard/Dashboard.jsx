@@ -538,6 +538,18 @@ const Dashboard = () => {
                 {!isMinimized && activeMenu === "configuration" && (
                   <ul className="pl-8 space-y-2">
                     <li>
+                        <NavLink
+                          to="/dashboard/Advocate"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Add Advocate
+                        </NavLink>
+                      </li>
+                    <li>
                       <NavLink
                         to="/dashboard/form"
                         className={({ isActive }) =>
@@ -580,6 +592,18 @@ const Dashboard = () => {
                 {isMinimized && activePopup === "party" && (
                   <div className="absolute left-16 top-0 bg-white shadow-lg rounded-lg w-48 z-20 border border-gray-300">
                     <ul className="space-y-2 p-2">
+                    <li>
+                        <NavLink
+                          to="/dashboard/Advocate"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Add Advocate
+                        </NavLink>
+                      </li>
                       <li>
                         <NavLink
                           to="/dashboard/form"

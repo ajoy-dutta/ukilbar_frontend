@@ -11,7 +11,8 @@ import DashboardHome from './Pages/DashboardHome/DashboardHome';
 import Dashboard from './Dashboard/Dashboard';
 import { UserProvider } from './Provider/UserProvider';
 import ProtectedRoute from './Provider/ProtectedRoute';
-import Configuration from './Pages/Configuration/Configuration';
+import AddRenter from './Pages/Configuration/AddRenter';
+import AddAdvocate from './Pages/Configuration/Add_Advocate';
 
 const router = createBrowserRouter([
   {
@@ -31,8 +32,12 @@ const router = createBrowserRouter([
         element:<DashboardHome></DashboardHome>,
       },
       {
-        path: "configuration",
-        element:<Configuration></Configuration>,
+        path: "renter",
+        element:<AddRenter></AddRenter>,
+      },
+      {
+        path: "Advocate",
+        element: <AddAdvocate></AddAdvocate>,
       },
       
     ],

@@ -20,6 +20,7 @@ AxiosInstance.interceptors.request.use(
 (config) => {
       const token = localStorage.getItem("access_token");
       if (token) {
+        console.log("Token Acccessed")
         config.headers["Authorization"] = `Bearer ${token}`;
       }
 
