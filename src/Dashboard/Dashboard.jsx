@@ -1,3 +1,4 @@
+
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import {
@@ -539,7 +540,7 @@ const Dashboard = () => {
                   <ul className="pl-8 space-y-2">
                     <li>
                       <NavLink
-                        to="/dashboard/form"
+                        to="/dashboard/formSetup"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
@@ -551,7 +552,7 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <NavLink
-                        to="/dashboard/building"
+                        to="/dashboard/addBuilding"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
