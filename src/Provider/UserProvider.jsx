@@ -3,23 +3,20 @@ import AxiosInstance from "../Components/AxiosInstance";
 
 const UserContext = createContext();
 
+
 export const useUser = () => {
   return useContext(UserContext);
 };
 
 export const UserProvider = ({ children }) => {
-  
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null; // Retrieve user data from localStorage
-  }); 
-  
-  const [loading, setLoading] = useState(false);
+  });  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
 
   const token = localStorage.getItem("access_token");
-  console.log(token)
 
   const fetchUserData = async () => {
     if (!token) {
@@ -33,52 +30,43 @@ export const UserProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      console.log("Fetching user data...");
-      const response = await AxiosInstance.get("/user/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await AxiosInstance.get('user/');
 
-      console.log("API Response:", response.data);
-
-      setUser(response.data); // Update user state
-      localStorage.setItem("user", JSON.stringify(response.data)); // Store user in LocalStorage
+      console.log("User", response.data);
+      setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
 
     } catch (err) {
-      console.error("Error fetching user data:", err.response?.data || err.message);
-      setError(err.response?.data?.message || "Failed to fetch user data.");
+      console.error(err);
+      setError(err.message || "Failed to fetch user data.");
       setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
-  // Function to Manually Refresh User Data
+
   const refreshUser = () => {
-    console.log("Refreshing User Data...");
     fetchUserData();
   };
 
-  // Handle User Logout
+  // Handle Sign Out
   const signOut = () => {
-    console.log("Signing out...");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("access_token"); 
     setUser(null);
+    
   };
 
 
   useEffect(() => {
-    if (token && !user) {
-      console.log("Token found, but no user data. Fetching user data...");
+    if (token && !user) { 
       fetchUserData();
     }
-  }, [token, user]); // Remove `user` to avoid unnecessary refetching
+  }, [token, user]);
 
   return (
     <UserContext.Provider value={{ user, loading, error, refreshUser, signOut }}>
-      {loading ? <div>Loading...</div> : children}
+       {loading ? <div>Loading...</div> : children} 
     </UserContext.Provider>
   );
 };

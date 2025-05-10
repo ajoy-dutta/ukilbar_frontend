@@ -1,8 +1,8 @@
 import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import img from "../../../assets/fabiana-targino-SY2U0EQWmk0-unsplash.jpg";
 import { useUser } from "../../Provider/UserProvider"
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons
+import AxiosInstance from "../../Components/AxiosInstance";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,8 +22,9 @@ const SignIn = () => {
       return;
     }
 
+  
     try {
-      const response = await AxiosInstance.post("/token/", credentials);
+      const response = await AxiosInstance.post("login/", credentials);
       const data = response.data;
       localStorage.setItem("access_token", data.access);
       refreshUser();
@@ -50,9 +51,6 @@ const SignIn = () => {
     username: "",
     email: "",
     password: "",
-    // phone: "",
-    // profile_picture: null,
-    // confirm_password: "",
   });
 
   const [registers, setRegister] = useState(false);
