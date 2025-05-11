@@ -12,8 +12,10 @@ import { UserProvider } from './Provider/UserProvider';
 import ProtectedRoute from './Provider/ProtectedRoute';
 import AddRenter from './Pages/Configuration/AddRenter';
 import AddAdvocate from './Pages/Configuration/Add_Advocate';
-import FormSetup from './Pages/FormSetup/FormSetup';
-import AddBuilding from './Pages/AddBuilding/AddBuilding';
+import FormSetup from './Pages/Configuration/FormSetup';
+import AddBuilding from './Pages/Configuration/AddBuilding';
+import AddBank from './Pages/Configuration/AddBank';
+import VokalatnamaFormAndList from './Pages/Sales/Vokalotnama';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,15 @@ const router = createBrowserRouter([
       {
         path: "addBuilding",
         element:<AddBuilding></AddBuilding>,
+      },
+      {
+        path: "addBank",
+        element:<AddBank></AddBank>,
+      },
+
+      {
+        path: "vokalatnamasale",
+        element: <VokalatnamaFormAndList></VokalatnamaFormAndList>,
       },
    
       

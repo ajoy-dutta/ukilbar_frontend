@@ -1,5 +1,5 @@
 import React, { useState } from "react";
- import axiosInstance from "../../Components/AxiosInstance";
+import AxiosInstance from "../../Components/AxiosInstance";
 
 const AddBuilding = () => {
   const [buildingName, setBuildingName] = useState("");
@@ -31,7 +31,7 @@ const AddBuilding = () => {
     };
 
     try {
-      const res = await axiosInstance.post("/building", newBuilding);
+      const res = await AxiosInstance.post("building/", newBuilding);
       const savedBuilding = res.data;
 
       setBuildings([...buildings, savedBuilding]);

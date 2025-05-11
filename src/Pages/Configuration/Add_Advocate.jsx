@@ -84,6 +84,7 @@ export const AddAdvocate = () => {
             } else {
                 await AxiosInstance.post('advocates/', formDataToSend);
             }
+            alert("Advocate Added Successfully")
             resetForm();
             fetchAdvocates();
         } catch (err) {
@@ -266,18 +267,17 @@ export const AddAdvocate = () => {
                     <h2 className="font-semibold mb-1">ব্যক্তিগত তথ্য</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
                         <div>
-                            <label>লিঙ্গ*</label>
+                            <label>লিঙ্গ</label>
                             <select
                                 className="w-full p-1 border rounded"
                                 name="gender"
                                 value={formData.gender}
                                 onChange={handleChange}
-                                required
                             >
                                 <option value="">নির্বাচন করুন</option>
-                                <option value="male">পুরুষ</option>
-                                <option value="female">মহিলা</option>
-                                <option value="other">অন্যান্য</option>
+                                <option value="Male">পুরুষ</option>
+                                <option value="Female">মহিলা</option>
+                                <option value="Other">অন্যান্য</option>
                             </select>
                         </div>
                         <div>
@@ -289,10 +289,9 @@ export const AddAdvocate = () => {
                                 onChange={handleChange}
                             >
                                 <option value="">নির্বাচন করুন</option>
-                                <option value="single">অবিবাহিত</option>
-                                <option value="married">বিবাহিত</option>
-                                <option value="divorced">তালাকপ্রাপ্ত</option>
-                                <option value="widowed">বিধবা/বিধুর</option>
+                                <option value="Single">অবিবাহিত</option>
+                                <option value="Married">বিবাহিত</option>
+                                <option value="Divorced">তালাকপ্রাপ্ত</option>
                             </select>
                         </div>
                         <div>
@@ -438,7 +437,7 @@ export const AddAdvocate = () => {
                     <h2 className="font-semibold mb-1">ঠিকানা তথ্য</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
                         <div>
-                            <label>বর্তমান ঠিকানা*</label>
+                            <label>বর্তমান ঠিকানা</label>
                             <textarea
                                 className="w-full p-1 border rounded"
                                 name="current_address"
@@ -446,7 +445,6 @@ export const AddAdvocate = () => {
                                 onChange={handleChange}
                                 placeholder="বর্তমান ঠিকানা লিখুন"
                                 rows="2"
-                                required
                             />
                         </div>
                         <div>

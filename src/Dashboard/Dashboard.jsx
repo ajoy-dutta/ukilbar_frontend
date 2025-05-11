@@ -586,6 +586,18 @@ const Dashboard = () => {
                         Add Renter
                       </NavLink>
                     </li>
+                    <li>
+                      <NavLink
+                        to="/dashboard/addBank"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Add Bank
+                      </NavLink>
+                    </li>
                   </ul>
                 )}
 
@@ -641,30 +653,26 @@ const Dashboard = () => {
                            Add Renter
                         </NavLink>
                       </li>
+
+                      <li>
+                      <NavLink
+                        to="/dashboard/addBank"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Add Bank
+                      </NavLink>
+                    </li>
+
                     </ul>
                   </div>
                 )}
               </li>
 
-              {/* Employee Menu */}
-              <li>
-                <NavLink
-                  to="/dashboard/employeeList"
-                  className={({ isActive }) =>
-                    isActive
-                      ? `flex items-center ${
-                          isMinimized ? "justify-center" : ""
-                        } gap-2 p-3 bg-blue-950 text-white`
-                      : `flex items-center ${
-                          isMinimized ? "justify-center" : ""
-                        } gap-2 p-3 hover:bg-blue-100`
-                  }
-                  title="কর্মরত ব্যাক্তি"
-                >
-                  <FaUserTie className="text-lg" />
-                  {!isMinimized && "কর্মরত ব্যাক্তি"}
-                </NavLink>
-              </li>
+              
 
               {/* Product Menu */}
               <li
@@ -684,7 +692,7 @@ const Dashboard = () => {
                     } gap-2`}
                   >
                     <AiFillProduct className="text-lg" />
-                    {!isMinimized && <span>পণ্য</span>}
+                    {!isMinimized && <span>Sales</span>}
                   </div>
                   {!isMinimized &&
                     (activeMenu === "product" ? (
@@ -699,14 +707,14 @@ const Dashboard = () => {
                   <ul className="pl-8 space-y-2">
                     <li>
                       <NavLink
-                        to="/dashboard/product"
+                        to="/dashboard/vokalatnamasale"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
                             : "flex items-center gap-2 p-2 hover:bg-blue-100"
                         }
                       >
-                        পণ্যের তালিকা
+                        VokalatnamaSale
                       </NavLink>
                     </li>
                     <li>
@@ -718,7 +726,7 @@ const Dashboard = () => {
                             : "flex items-center gap-2 p-2 hover:bg-blue-100"
                         }
                       >
-                        পণ্য স্টক
+                        
                       </NavLink>
                     </li>
                     <li>
@@ -730,7 +738,7 @@ const Dashboard = () => {
                             : "flex items-center gap-2 p-2 hover:bg-blue-100"
                         }
                       >
-                        পণ্য গোডাউন থেকে গোডাউন স্থানান্তর
+                       
                       </NavLink>
                     </li>
                   </ul>
@@ -742,14 +750,14 @@ const Dashboard = () => {
                     <ul className="space-y-2 p-2">
                       <li>
                         <NavLink
-                          to="/dashboard/product"
+                          to="/dashboard/vokalatnamasale"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
                               : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                           }
                         >
-                          পণ্যের তালিকা
+                          VokalatnamaSale
                         </NavLink>
                       </li>
                       <li>
@@ -761,7 +769,7 @@ const Dashboard = () => {
                               : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                           }
                         >
-                          পণ্য স্টক
+                         
                         </NavLink>
                       </li>
                       <li>
@@ -773,7 +781,7 @@ const Dashboard = () => {
                               : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                           }
                         >
-                          পণ্য গোডাউন থেকে গোডাউন স্থানান্তর
+                        
                         </NavLink>
                       </li>
                     </ul>

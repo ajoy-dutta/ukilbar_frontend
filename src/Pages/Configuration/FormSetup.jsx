@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axiosInstance from "../../Components/AxiosInstance";
+import AxiosInstance from "../../Components/AxiosInstance";
 
 const FormSetup = () => {
   const [form_name, setFormName] = useState("");
@@ -31,7 +31,7 @@ const FormSetup = () => {
     };
 
     try {
-      const res = await axiosInstance.post("/form", newForm);
+      const res = await AxiosInstance.post("/form", newForm);
       const savedForm = res.data;
 
       setForms([...forms, savedForm]);

@@ -16,7 +16,6 @@ export const AddRenter = () => {
         room_no: '',
         rent_amount: ''
     });
-    const [editMode, setEditMode] = useState(false);
     const [currentRenterId, setCurrentRenterId] = useState(null);
     const navigate = useNavigate();
 
@@ -55,7 +54,7 @@ export const AddRenter = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (editMode) {
+            if (currentRenterId) {
                 await AxiosInstance.put(`renters/${currentRenterId}/`, formData);
             } else {
                 await AxiosInstance.post('renters/', formData);
@@ -79,7 +78,6 @@ export const AddRenter = () => {
             room_no: renter.room_no,
             rent_amount: renter.rent_amount
         });
-        setEditMode(true);
         setCurrentRenterId(renter.id);
     };
 
@@ -106,25 +104,24 @@ export const AddRenter = () => {
             room_no: '',
             rent_amount: ''
         });
-        setEditMode(false);
         setCurrentRenterId(null);
     };
 
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4 mx-4 text-gray-800">
-                {editMode ? 'ভাড়াটিয়া সম্পাদনা করুন' : 'নতুন ভাড়াটিয়া যোগ করুন'}
+                {currentRenterId ? 'ভাড়াটিয়া সম্পাদনা করুন' : 'নতুন ভাড়াটিয়া যোগ করুন'}
             </h1>
             
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {/* Renter Information */}
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="renter_name">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="renter_name">
                             ভাড়াটিয়ার নাম
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="renter_name"
                             name="renter_name"
                             type="text"
@@ -135,12 +132,12 @@ export const AddRenter = () => {
                         />
                     </div>
 
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="phone">
                             ফোন নম্বর
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="phone"
                             name="phone"
                             type="text"
@@ -151,12 +148,12 @@ export const AddRenter = () => {
                         />
                     </div>
 
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="address">
                             ঠিকানা
                         </label>
                         <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="address"
                             name="address"
                             value={formData.address}
@@ -166,12 +163,12 @@ export const AddRenter = () => {
                         />
                     </div>
 
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="category">
                             ক্যাটাগরি
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="category"
                             name="category"
                             type="text"
@@ -182,12 +179,12 @@ export const AddRenter = () => {
                     </div>
 
                     {/* Building Information */}
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="building_name">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="building_name">
                             বিল্ডিং নির্বাচন করুন
                         </label>
                         <select
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="building_name"
                             name="building_name"
                             value={formData.building_name}
@@ -203,12 +200,12 @@ export const AddRenter = () => {
                         </select>
                     </div>
 
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="floor_no">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="floor_no">
                             ফ্লোর নম্বর
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="floor_no"
                             name="floor_no"
                             type="text"
@@ -219,12 +216,12 @@ export const AddRenter = () => {
                         />
                     </div>
 
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="room_no">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="room_no">
                             রুম নম্বর
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="room_no"
                             name="room_no"
                             type="text"
@@ -235,12 +232,12 @@ export const AddRenter = () => {
                         />
                     </div>
 
-                    <div className="mb-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="rent_amount">
+                    <div className="">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="rent_amount">
                             ভাড়ার পরিমাণ
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="rent_amount"
                             name="rent_amount"
                             type="number"
@@ -252,12 +249,12 @@ export const AddRenter = () => {
                         />
                     </div>
 
-                    <div className="mb-2 col-span-2">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="remarks">
+                    <div className="col-span-1">
+                        <label className="block text-gray-700 text-sm font-bold " htmlFor="remarks">
                             মন্তব্য
                         </label>
                         <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="remarks"
                             name="remarks"
                             value={formData.remarks}
@@ -272,9 +269,9 @@ export const AddRenter = () => {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
-                        {editMode ? 'আপডেট করুন' : 'যোগ করুন'}
+                        {currentRenterId ? 'আপডেট করুন' : 'যোগ করুন'}
                     </button>
-                    {editMode && (
+                    {currentRenterId && (
                         <button
                             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             type="button"
@@ -308,7 +305,7 @@ export const AddRenter = () => {
                                     <td className="py-2 px-4 border-b">{index+1}</td>
                                     <td className="py-2 px-4 border-b">{renter.renter_name}</td>
                                     <td className="py-2 px-4 border-b">{renter.phone}</td>
-                                    <td className="py-2 px-4 border-b">{renter.building_name?.name}</td>
+                                    <td className="py-2 px-4 border-b">{renter.building_name}</td>
                                     <td className="py-2 px-4 border-b">{renter.floor_no}/{renter.room_no}</td>
                                     <td className="py-2 px-4 border-b">{renter.rent_amount}</td>
                                     <td className="py-2 px-4 border-b">
