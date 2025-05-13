@@ -707,7 +707,7 @@ const Dashboard = () => {
                   <ul className="pl-8 space-y-2">
                     <li>
                       <NavLink
-                        to="/dashboard/vokalatnamasale"
+                        to="/dashboard/vokalatnama"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
@@ -715,6 +715,18 @@ const Dashboard = () => {
                         }
                       >
                         VokalatnamaSale
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/dashboard/bailbondSale"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                       BailBond Sales
                       </NavLink>
                     </li>
                     <li>

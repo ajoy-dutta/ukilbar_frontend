@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import AxiosInstance from "../../Components/AxiosInstance";
 
 const Vokalotnama = () => {
+   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
+      const [salesData, setSalesData] = useState([]);
+  
   const [formData, setFormData] = useState({
     receiptNo: "",
     salesDate: "",
@@ -69,6 +74,15 @@ const handleBack = () => {
   window.history.back();
 };
 
+const handleSearchClick = () => {
+    setIsModalOpen(true); // open the modal
+  };
+
+  const handleModalSearch = () => {
+    // Fetch sales list or filter data here
+    console.log('Searching from', fromDate, 'to', toDate);
+  };
+
 const handlePrint = () => {
   window.print();
 };
@@ -86,17 +100,141 @@ const handlePrint = () => {
       <div className="border rounded-md p-4 mb-6">
         <h3 className="text-lg font-medium mb-4">Basic Information</h3>
         <div className="grid grid-cols-4 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Receipt No.</label>
-            <input
-              name="receiptNo"
-              type="text"
-              value={formData.receiptNo}
-              onChange={handleChange}
-              placeholder="Receipt No."
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
-            />
+         <div className="relative">
+  <label className="block text-sm font-medium mb-1">Receipt No.</label>
+  <input
+    name="receiptNo"
+    type="text"
+    value={formData.receiptNo}
+    onChange={handleChange}
+    placeholder="Receipt No."
+    className="border px-2 py-1 pr-10 rounded-md w-full bg-gray-100"
+  />
+  <button
+    type="button"
+    onClick={handleSearchClick} // Define this function to perform search
+    className="bg-gray-400 hover:bg-blue-600 absolute top-1/2 right-2 transform -translate-y-0 flex items-center "
+  >
+    <svg
+  xmlns="http://www.w3.org/2000/svg"
+  className="h-6 w-6 text-gray-700 font-bold" // আগের h-4 w-4 থেকে h-6 w-6 এ বাড়ানো হয়েছে এবং bold look এর জন্য color change
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  strokeWidth={2.5} // একটু মোটা দেখানোর জন্য strokeWidth বাড়ানো হয়েছে
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+  />
+</svg>
+  </button>
+</div>
+ {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-md w-full max-w-2xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Search Vokalatnama Sales</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-800"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Date Filters */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <label className="text-sm font-medium">From Date</label>
+                <input
+                  type="date"
+                  value={fromDate}
+                  onChange={(e) => setFromDate(e.target.value)}
+                  className="border px-2 py-1 rounded-md w-full"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">To Date</label>
+                <input
+                  type="date"
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+                  className="border px-2 py-1 rounded-md w-full"
+                />
+              </div>
+              <div className="flex items-end justify-end">
+                <button
+                  onClick={handleModalSearch}
+                  className="bg-blue-950 text-white px-2 py-1 rounded-md hover:bg-blue-700 mt-1"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+
+            {/* Placeholder for Table */}
+            <div className="mt-4">
+      <p className="text-gray-800 mb-2 font-bold  text-xl text-center mt-8">Vokalatnam Sales List</p>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr className="bg-gray-100 text-gray-700">
+              <th className="px-4 py-2 border">Sales Date</th>
+              <th className="px-4 py-2 border">Receipt NO</th>
+               <th className="px-4 py-2 border">Advocate Name</th>
+               <th className="px-4 py-2 border">Customer Name</th>
+              <th className="px-4 py-2 border">Building Name</th>
+              <th className="px-4 py-2 border">Quantity</th>
+              <th className="px-4 py-2 border">Rate</th>
+              <th className="px-4 py-2 border">Total Amount</th>
+              <th className="px-4 py-2 border">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {salesData.length > 0 ? (
+              salesData.map((sale, index) => (
+                <tr key={index} className="text-center border-t">
+                  <td className="px-4 py-2 border">{sale.sales_date}</td>
+                  <td className="px-4 py-2 border">{sale.receipt_no}</td>
+                  <td className="px-4 py-2 border">{sale.advocate_name}</td>
+                                    <td className="px-4 py-2 border">{sale.customer_name}</td>
+
+                  <td className="px-4 py-2 border">{sale.building_name}</td>
+                  <td className="px-4 py-2 border">{sale.quantity}</td>
+                  <td className="px-4 py-2 border">{sale.rate}</td>
+                  <td className="px-4 py-2 border">{sale.total_amount}</td>
+                  <td className="px-4 py-2 border">
+                    {/* You can add buttons/links here */}
+                    <button className="text-blue-500 hover:underline">View</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" className="text-center px-4 py-4 text-gray-400">
+                  No sales data found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+     {/* Close Button at Bottom Right */}
+      <div className="flex justify-end mt-6">
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="bg-blue-950 text-white px-2 py-1 rounded-md hover:bg-red-600"
+        >
+          Close
+        </button>
+      </div>
           </div>
+        </div>
+      )}
           <div>
             <label className="block text-sm font-medium">Sales Date</label>
             <input

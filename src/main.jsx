@@ -15,7 +15,8 @@ import AddAdvocate from './Pages/Configuration/Add_Advocate';
 import FormSetup from './Pages/Configuration/FormSetup';
 import AddBuilding from './Pages/Configuration/AddBuilding';
 import AddBank from './Pages/Configuration/AddBank';
-import VokalatnamaFormAndList from './Pages/Sales/Vokalotnama';
+import Vokalatnama from './Pages/Sales/Vokalotnama';
+import BailbondSale from './Pages/Sales/BailbondSale.jsx';
 
 const router = createBrowserRouter([
   {
@@ -52,8 +53,12 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "vokalatnamasale",
-        element: <VokalatnamaFormAndList></VokalatnamaFormAndList>,
+        path: "vokalatnama",
+        element: <Vokalatnama></Vokalatnama>,
+      },
+      {
+        path: "bailbondSale",
+        element: <BailbondSale></BailbondSale>,
       },
    
       
