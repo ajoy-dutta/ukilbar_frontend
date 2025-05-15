@@ -8,45 +8,99 @@ const BailbondSale = () => {
   const [salesData, setSalesData] = useState([]);
 
   const [formData, setFormData] = useState({
-    receiptNo: "",
-    salesDate: "",
-    advocateName: "",
-    buildingName: "",
-    advocateId: "",
-    phoneNo: "",
-    customerName: "",
-    customerAddress: "",
-    vokalotSerials: [{ from: "", to: "", total: "" }],
-    totalCount: "",
-    rate: "",
-    totalAmount: "",
+    receipt_no: "",
+    sales_date: "",
+    building_name: "",
+    remarks: "",
+    bailbond_serials: [{ from_serial: null, to_serial: null, total: null }],
+    total_count: "",
+    price: "",
+    total_amount: "",
   });
 
-  // Automatically ensure 4 rows for serials on mount
-  useEffect(() => {
-    const updated = [...formData.vokalotSerials];
+
+  const ensureFourRows = (serials) => {
+    const updated = [...serials];
     while (updated.length < 4) {
-      updated.push({ from: "", to: "", total: "" });
+      updated.push({ from_serial: null, to_serial: null, total: null });
     }
-    setFormData((prev) => ({ ...prev, vokalotSerials: updated }));
-  }, []);
+    return updated.slice(0, 4); 
+  };
+
+
+  useEffect(() => {
+      setFormData(prev => ({
+        ...prev,
+        serials: ensureFourRows(prev.serials)
+      }));
+    }, []);
+
+
+
+  useEffect(() => {
+      const price = parseFloat(formData.price) || 0;
+      const total_amount = (price * formData.total_count).toFixed(2);
+      setFormData(prev => ({ ...prev, total_amount }));
+    }, [formData.price, formData.total_count]);
+
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSerialChange = (index, field, value) => {
-    const updatedSerials = [...formData.vokalotSerials];
-    updatedSerials[index][field] = value;
-    setFormData({ ...formData, vokalotSerials: updatedSerials });
+    const updatedSerials = [...formData.bailbond_serials];
+    updatedSerials[index][field] = parseInt(value);
+
+    // Calculate total if both from and to have values
+    if (field === 'from_serial' || field === 'to_serial') {
+      const fromValue = parseInt(updatedSerials[index].from_serial) || 0;
+      const toValue = parseInt(updatedSerials[index].to_serial) || 0;
+      
+      if (fromValue && toValue) {
+        const total = Math.abs(toValue - fromValue) + 1;
+        updatedSerials[index].total = total
+        formData.total_count += total
+        
+      } else {
+        updatedSerials[index].total = '';
+      }
+    }
+
+
+    const newtotal_count = updatedSerials.reduce((sum, row) => {
+      return sum + (parseInt(row.total) || 0);
+    }, 0);
+
+    setFormData({
+      ...formData,
+      bailbond_serials: updatedSerials,
+      total_count:newtotal_count,
+    });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const filteredSerials = formData.bailbond_serials.filter(
+    (serial) =>
+      serial.from_serial &&
+      serial.to_serial  &&
+      serial.total  
+    );
+
+    const payload = {
+      ...formData,
+      bailbond_serials: filteredSerials,
+    };
+
     try {
-      const response = await AxiosInstance.post("/bailbondSale", formData);
+      const response = await AxiosInstance.post("/bailbondSale", payload);
       console.log("Success:", response.data);
       alert("Submitted successfully!");
+      handleClear();
     } catch (error) {
       console.error("Error submitting data:", error);
       alert("Submission failed.");
@@ -55,30 +109,27 @@ const BailbondSale = () => {
 
   const handleClear = () => {
     setFormData({
-      receiptNo: "",
-      salesDate: "",
-
-      buildingName: "",
+      receipt_no: "",
+      sales_date: "",
+      building_name: "",
       remarks: "",
-      phoneNo: "",
-      customerName: "",
-      customerAddress: "",
-      vokalotSerials: [{ from: "", to: "", total: "" }],
-      totalCount: "",
-      rate: "",
-      totalAmount: "",
+      bailbond_serials: ensureFourRows([]),
+      total_count: "",
+      price: "",
+      total_amount: "",
     });
   };
+
+
   const handleBack = () => {
-    // history.back() or router.push('/vokalotnama-list')
     window.history.back();
   };
+
   const handleSearchClick = () => {
     setIsModalOpen(true); // open the modal
   };
 
   const handleModalSearch = () => {
-    // Fetch sales list or filter data here
     console.log("Searching from", fromDate, "to", toDate);
   };
 
@@ -191,14 +242,14 @@ const BailbondSale = () => {
                           <th className="px-4 py-2 border">Receipt NO</th>
                           <th className="px-4 py-2 border">Building Name</th>
                           <th className="px-4 py-2 border">BailBond Count</th>
-                          <th className="px-4 py-2 border">Rate</th>
+                          <th className="px-4 py-2 border">price</th>
                           <th className="px-4 py-2 border">Total Amount</th>
                           <th className="px-4 py-2 border">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {salesData.length > 0 ? (
-                          salesData.map((sale, index) => (
+                          salesData?.map((sale, index) => (
                             <tr key={index} className="text-center border-t">
                               <td className="px-4 py-2 border">
                                 {sale.sales_date}
@@ -212,7 +263,7 @@ const BailbondSale = () => {
                               <td className="px-4 py-2 border">
                                 {sale.bailbond_count}
                               </td>
-                              <td className="px-4 py-2 border">{sale.rate}</td>
+                              <td className="px-4 py-2 border">{sale.price}</td>
                               <td className="px-4 py-2 border">
                                 {sale.total_amount}
                               </td>
@@ -293,25 +344,25 @@ const BailbondSale = () => {
         <div className="border rounded-md p-4">
           <h3 className="text-lg font-medium mb-4">Bailbond Serial No.</h3>
           <div className="grid grid-cols-3 gap-3">
-            {formData.vokalotSerials.map((item, index) => (
+            {formData.serials.map((item, index) => (
               <React.Fragment key={index}>
                 <input
                   type="text"
                   placeholder={index === 0 ? "From *" : "From"}
-                  value={item.from}
+                  value={item.from_serial}
                   required={index === 0}
                   onChange={(e) =>
-                    handleSerialChange(index, "from", e.target.value)
+                    handleSerialChange(index, "from_serial", e.target.value)
                   }
                   className="border px-2 py-1 rounded-md w-full bg-gray-100"
                 />
                 <input
                   type="text"
                   placeholder={index === 0 ? "To *" : "To"}
-                  value={item.to}
+                  value={item.to_serial}
                   required={index === 0}
                   onChange={(e) =>
-                    handleSerialChange(index, "to", e.target.value)
+                    handleSerialChange(index, "to_serial", e.target.value)
                   }
                   className="border px-2 py-1 rounded-md w-full bg-gray-100"
                 />
@@ -336,9 +387,9 @@ const BailbondSale = () => {
             <div>
               <label className="block text-sm font-medium">Total Count</label>
               <input
-                name="totalCount"
+                name="total_count"
                 type="text"
-                value={formData.totalCount}
+                value={formData.total_count}
                 onChange={handleChange}
                 placeholder="Total Count"
                 className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -346,14 +397,14 @@ const BailbondSale = () => {
             </div>
             <div>
               <label className="block text-sm font-medium">
-                Rate <span className="text-red-500">*</span>
+                price <span className="text-red-500">*</span>
               </label>
               <input
-                name="rate"
+                name="price"
                 type="text"
-                value={formData.rate}
+                value={formData.price}
                 onChange={handleChange}
-                placeholder="Rate"
+                placeholder="Price"
                 className="border px-2 py-1 rounded-md w-full bg-gray-100"
                 required
               />
@@ -363,9 +414,9 @@ const BailbondSale = () => {
                 Total Amount <span className="text-red-500">*</span>
               </label>
               <input
-                name="totalAmount"
+                name="total_amount"
                 type="text"
-                value={formData.totalAmount}
+                value={formData.total_amount}
                 onChange={handleChange}
                 placeholder="Total Amount"
                 className="border px-2 py-1 rounded-md w-full bg-gray-100"

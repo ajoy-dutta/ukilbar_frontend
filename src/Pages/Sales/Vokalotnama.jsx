@@ -2,51 +2,113 @@ import React, { useState, useEffect } from "react";
 import AxiosInstance from "../../Components/AxiosInstance";
 
 const Vokalotnama = () => {
-   const [isModalOpen, setIsModalOpen] = useState(false);
-    const [fromDate, setFromDate] = useState('');
-    const [toDate, setToDate] = useState('');
-      const [salesData, setSalesData] = useState([]);
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [salesData, setSalesData] = useState([]);
+
   const [formData, setFormData] = useState({
-    receiptNo: "",
-    salesDate: "",
-    advocateName: "",
-    buildingName: "",
+    receipt_no: "",
+    sales_date: "",
+    advocate_name: "",
+    building_name: "",
     advocateId: "",
-    phoneNo: "",
-    customerName: "",
-    customerAddress: "",
-    vokalotSerials: [{ from: "", to: "", total: "" }],
-    totalCount: "",
-    rate: "",
-    totalAmount: "",
+    customer_phone: "",
+    customer_name: "",
+    customer_address: "",
+    serials: [{from_serial: null, to_serial: null, total: null}],
+    total_count: 0,
+    price: 0,
+    total_amount: 0,
   });
 
-  // Automatically ensure 4 rows for serials on mount
-  useEffect(() => {
-    const updated = [...formData.vokalotSerials];
+
+  const ensureFourRows = (serials) => {
+    const updated = [...serials];
     while (updated.length < 4) {
-      updated.push({ from: "", to: "", total: "" });
+      updated.push({ from_serial: "", to_serial: "", total: "" });
     }
-    setFormData((prev) => ({ ...prev, vokalotSerials: updated }));
+    return updated.slice(0, 4); 
+  };
+
+ 
+
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      serials: ensureFourRows(prev.serials)
+    }));
   }, []);
 
+
+  useEffect(() => {
+    const price = parseFloat(formData.price) || 0;
+    const total_amount = (price * formData.total_count).toFixed(2);
+    setFormData(prev => ({ ...prev, total_amount }));
+  }, [formData.price, formData.total_count]);
+
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSerialChange = (index, field, value) => {
-    const updatedSerials = [...formData.vokalotSerials];
-    updatedSerials[index][field] = value;
-    setFormData({ ...formData, vokalotSerials: updatedSerials });
+    const updatedSerials = [...formData.serials];
+    updatedSerials[index][field] = parseInt(value);
+
+    // Calculate total if both from and to have values
+    if (field === 'from_serial' || field === 'to_serial') {
+      const fromValue = parseInt(updatedSerials[index].from_serial) || 0;
+      const toValue = parseInt(updatedSerials[index].to_serial) || 0;
+      
+      if (fromValue && toValue) {
+        const total = Math.abs(toValue - fromValue) + 1;
+        updatedSerials[index].total = total
+        formData.total_count += total
+        
+      } else {
+        updatedSerials[index].total = '';
+      }
+    }
+
+
+    const newtotal_count = updatedSerials.reduce((sum, row) => {
+      return sum + (parseInt(row.total) || 0);
+    }, 0);
+
+
+
+    setFormData({
+      ...formData,
+      serials: updatedSerials,
+      total_count:newtotal_count,
+    });
   };
 
+
   const handleSubmit = async (e) => {
+    console.log(formData)
     e.preventDefault();
+
+    const filteredSerials = formData.serials.filter(
+    (serial) =>
+      serial.from_serial &&
+      serial.to_serial  &&
+      serial.total  
+    );
+
+    const payload = {
+      ...formData,
+      serials: filteredSerials,
+    };
+
+
     try {
-      const response = await AxiosInstance.post("/vokalotnama", formData);
+      const response = await AxiosInstance.post("vokalotnama/", payload);
       console.log("Success:", response.data);
       alert("Submitted successfully!");
+      handleClear();
     } catch (error) {
       console.error("Error submitting data:", error);
       alert("Submission failed.");
@@ -55,37 +117,39 @@ const Vokalotnama = () => {
 
   const handleClear = () => {
     setFormData({
-      receiptNo: "",
-      salesDate: "",
-      advocateName: "",
-      buildingName: "",
+      receipt_no: "",
+      sales_date: "",
+      advocate_name: "",
+      building_name: "",
       advocateId: "",
-      phoneNo: "",
-      customerName: "",
-      customerAddress: "",
-      vokalotSerials: [{ from: "", to: "", total: "" }],
-      totalCount: "",
-      rate: "",
-      totalAmount: "",
+      customer_phone: "",
+      customer_name: "",
+      customer_address: "",
+      serials: ensureFourRows([]),
+      total_count: 0,
+      price: 0,
+      total_amount: 0,
     });
   };
-const handleBack = () => {
-  // history.back() or router.push('/vokalotnama-list')
-  window.history.back();
-};
 
-const handleSearchClick = () => {
-    setIsModalOpen(true); // open the modal
+  const handleBack = () => {
+    // history.back() or router.push('/vokalotnama-list')
+    window.history.back();
   };
 
-  const handleModalSearch = () => {
-    // Fetch sales list or filter data here
-    console.log('Searching from', fromDate, 'to', toDate);
-  };
+  const handleSearchClick = () => {
+      setIsModalOpen(true); // open the modal
+    };
 
-const handlePrint = () => {
-  window.print();
-};
+    const handleModalSearch = () => {
+      // Fetch sales list or filter data here
+      console.log('Searching from', fromDate, 'to', toDate);
+    };
+
+    const handlePrint = () => {
+      window.print();
+    };
+
 
   return (
     <form
@@ -101,37 +165,38 @@ const handlePrint = () => {
         <h3 className="text-lg font-medium mb-4">Basic Information</h3>
         <div className="grid grid-cols-4 gap-4">
          <div className="relative">
-  <label className="block text-sm font-medium mb-1">Receipt No.</label>
-  <input
-    name="receiptNo"
-    type="text"
-    value={formData.receiptNo}
-    onChange={handleChange}
-    placeholder="Receipt No."
-    className="border px-2 py-1 pr-10 rounded-md w-full bg-gray-100"
-  />
-  <button
-    type="button"
-    onClick={handleSearchClick} // Define this function to perform search
-    className="bg-gray-400 hover:bg-blue-600 absolute top-1/2 right-2 transform -translate-y-0 flex items-center "
-  >
-    <svg
-  xmlns="http://www.w3.org/2000/svg"
-  className="h-6 w-6 text-gray-700 font-bold" // আগের h-4 w-4 থেকে h-6 w-6 এ বাড়ানো হয়েছে এবং bold look এর জন্য color change
-  fill="none"
-  viewBox="0 0 24 24"
-  stroke="currentColor"
-  strokeWidth={2.5} // একটু মোটা দেখানোর জন্য strokeWidth বাড়ানো হয়েছে
->
-  <path
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
-  />
-</svg>
-  </button>
-</div>
- {/* Modal */}
+        <label className="block text-sm font-medium mb-1">Receipt No.</label>
+        <input
+          name="receipt_no"
+          type="text"
+          value={formData.receipt_no}
+          onChange={handleChange}
+          placeholder="Receipt No."
+          className="border px-2 py-1 pr-10 rounded-md w-full bg-gray-100"
+        />
+        <button
+          type="button"
+          onClick={handleSearchClick} // Define this function to perform search
+          className="bg-gray-400 hover:bg-blue-600 absolute top-1/2 right-2 transform -translate-y-0 flex items-center "
+        >
+          <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6 text-gray-700 font-bold" // আগের h-4 w-4 থেকে h-6 w-6 এ বাড়ানো হয়েছে এবং bold look এর জন্য color change
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2.5} // একটু মোটা দেখানোর জন্য strokeWidth বাড়ানো হয়েছে
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+        />
+      </svg>
+        </button>
+      </div>
+
+       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-md w-full max-w-2xl shadow-lg">
@@ -188,7 +253,7 @@ const handlePrint = () => {
                <th className="px-4 py-2 border">Customer Name</th>
               <th className="px-4 py-2 border">Building Name</th>
               <th className="px-4 py-2 border">Quantity</th>
-              <th className="px-4 py-2 border">Rate</th>
+              <th className="px-4 py-2 border">price</th>
               <th className="px-4 py-2 border">Total Amount</th>
               <th className="px-4 py-2 border">Action</th>
             </tr>
@@ -204,7 +269,7 @@ const handlePrint = () => {
 
                   <td className="px-4 py-2 border">{sale.building_name}</td>
                   <td className="px-4 py-2 border">{sale.quantity}</td>
-                  <td className="px-4 py-2 border">{sale.rate}</td>
+                  <td className="px-4 py-2 border">{sale.price}</td>
                   <td className="px-4 py-2 border">{sale.total_amount}</td>
                   <td className="px-4 py-2 border">
                     {/* You can add buttons/links here */}
@@ -238,9 +303,9 @@ const handlePrint = () => {
           <div>
             <label className="block text-sm font-medium">Sales Date</label>
             <input
-              name="salesDate"
+              name="sales_date"
               type="date"
-              value={formData.salesDate}
+              value={formData.sales_date}
               onChange={handleChange}
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
             />
@@ -248,9 +313,9 @@ const handlePrint = () => {
           <div>
             <label className="block text-sm font-medium">Advocate Name</label>
             <input
-              name="advocateName"
+              name="advocate_name"
               type="text"
-              value={formData.advocateName}
+              value={formData.advocate_name}
               onChange={handleChange}
               placeholder="Advocate Name"
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -259,9 +324,9 @@ const handlePrint = () => {
           <div>
             <label className="block text-sm font-medium">Building Name</label>
             <input
-              name="buildingName"
+              name="building_name"
               type="text"
-              value={formData.buildingName}
+              value={formData.building_name}
               onChange={handleChange}
               placeholder="Building Name"
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -288,9 +353,9 @@ const handlePrint = () => {
           <div>
             <label className="block text-sm font-medium">Phone No.</label>
             <input
-              name="phoneNo"
+              name="customer_phone"
               type="text"
-              value={formData.phoneNo}
+              value={formData.customer_phone}
               onChange={handleChange}
               placeholder="Phone No."
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -299,9 +364,9 @@ const handlePrint = () => {
           <div>
             <label className="block text-sm font-medium">Name</label>
             <input
-              name="customerName"
+              name="customer_name"
               type="text"
-              value={formData.customerName}
+              value={formData.customer_name}
               onChange={handleChange}
               placeholder="Name"
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -310,9 +375,9 @@ const handlePrint = () => {
           <div>
             <label className="block text-sm font-medium">Address</label>
             <input
-              name="customerAddress"
+              name="customer_address"
               type="text"
-              value={formData.customerAddress}
+              value={formData.customer_address}
               onChange={handleChange}
               placeholder="Address"
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -327,36 +392,34 @@ const handlePrint = () => {
   <div className="border rounded-md p-4">
     <h3 className="text-lg font-medium mb-4">Vokalotnama Serial No.</h3>
     <div className="grid grid-cols-3 gap-3">
-      {formData.vokalotSerials.map((item, index) => (
+      {formData.serials.map((item, index) => (
         <React.Fragment key={index}>
           <input
-            type="text"
+            type="number"
             placeholder={index === 0 ? "From *" : "From"}
-            value={item.from}
+            value={item.from_serial}
             required={index === 0}
             onChange={(e) =>
-              handleSerialChange(index, "from", e.target.value)
+              handleSerialChange(index, "from_serial", e.target.value)
             }
             className="border px-2 py-1 rounded-md w-full bg-gray-100"
           />
           <input
-            type="text"
+            type="number"
             placeholder={index === 0 ? "To *" : "To"}
-            value={item.to}
+            value={item.to_serial}
             required={index === 0}
             onChange={(e) =>
-              handleSerialChange(index, "to", e.target.value)
+              handleSerialChange(index, "to_serial", e.target.value)
             }
             className="border px-2 py-1 rounded-md w-full bg-gray-100"
           />
           <input
-            type="text"
+            type="number"
             placeholder="Total"
             value={item.total}
-            onChange={(e) =>
-              handleSerialChange(index, "total", e.target.value)
-            }
             className="border px-2 py-1 rounded-md w-full bg-gray-100"
+            disabled
           />
         </React.Fragment>
       ))}
@@ -370,24 +433,25 @@ const handlePrint = () => {
       <div>
         <label className="block text-sm font-medium">Total Count</label>
         <input
-          name="totalCount"
+          name="total_count"
           type="text"
-          value={formData.totalCount}
+          value={formData.total_count}
           onChange={handleChange}
           placeholder="Total Count"
           className="border px-2 py-1 rounded-md w-full bg-gray-100"
+          disabled
         />
       </div>
       <div>
         <label className="block text-sm font-medium">
-          Rate <span className="text-red-500">*</span>
+          price <span className="text-red-500">*</span>
         </label>
         <input
-          name="rate"
-          type="text"
-          value={formData.rate}
+          name="price"
+          type="number"
+          value={formData.price}
           onChange={handleChange}
-          placeholder="Rate"
+          placeholder="price"
           className="border px-2 py-1 rounded-md w-full bg-gray-100"
           required
         />
@@ -397,13 +461,14 @@ const handlePrint = () => {
           Total Amount <span className="text-red-500">*</span>
         </label>
         <input
-          name="totalAmount"
+          name="total_amount"
           type="text"
-          value={formData.totalAmount}
+          value={formData.total_amount}
           onChange={handleChange}
           placeholder="Total Amount"
           className="border px-2 py-1 rounded-md w-full bg-gray-100"
           required
+          disabled
         />
       </div>
     </div>
@@ -427,12 +492,12 @@ const handlePrint = () => {
           Save
         </button>
       <button
-  type="button" // Ensure it's type="button" and not type="reset"
-  onClick={handleClear}
-  className="bg-gray-300 text-black h-8 w-16 rounded-md"
->
-  Clear
-</button>
+          type="button"
+          onClick={handleClear}
+          className="bg-gray-300 text-black h-8 w-16 rounded-md"
+        >
+          Clear
+      </button>
 
         <button
           type="button"
