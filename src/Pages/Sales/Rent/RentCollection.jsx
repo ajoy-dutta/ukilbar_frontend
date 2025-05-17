@@ -13,23 +13,27 @@ const RentCollection = () => {
         room: "",
         rent_amount:"",
         payment_type:"",
-        remarks: "",
+        remarks1: "",
 
         // Monthly Fee
-        monthly_fee: false,
+        monthly_fee_form: false,
         from_month: new Date().getMonth() + 1,
         from_year: new Date().getFullYear(),
         to_month: new Date().getMonth() + 1,
         to_year: new Date().getFullYear(),
-        monthly_amount: '',
+        monthly_fee: '',
+        total_monthly_amount: '',
         monthly_payment_type: 'cash',
+        remarks2:'',
         
         // Yearly Fee
-        yearly_fee: false,
+        yearly_fee_form: false,
         yearly_from_year: new Date().getFullYear(),
         yearly_to_year: new Date().getFullYear(),
-        yearly_amount: '',
-        yearly_payment_type: 'cash'
+        yearly_fee: '',
+        total_yearly_amount: '',
+        yearly_payment_type: 'cash',
+        remarks3: '',
 
     });
 
@@ -270,8 +274,8 @@ const RentCollection = () => {
                     Remarks
                 </label>
                 <textarea
-                    name="remarks"
-                    value={formData.remarks}
+                    name="remarks1"
+                    value={formData.remarks1}
                     onChange={handleChange}
                     className="shadow appearance-none border rounded bg-gray-100 w-1/3 px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     rows="3"
@@ -282,17 +286,17 @@ const RentCollection = () => {
 
             <button 
             type="button"
-            onClick={() => setFormData(prev => ({...prev, monthly_fee: !prev.monthly_fee}))}
+            onClick={() => setFormData(prev => ({...prev, monthly_fee_form: !prev.monthly_fee_form}))}
             className="text-sm mx-4 px-4 py-2 rounded-lg bg-green-200"
             >
-            {formData.monthly_fee ? 'Remove Monthly Fee' : 'Add Monthly Fee'}
+            {formData.monthly_fee_form ? 'Remove Monthly Fee' : 'Add Monthly Fee'}
             </button>
 
              {/* Monthly Fee Section */}
-                {formData.monthly_fee && (
+                {formData.monthly_fee_form && (
                 <div className="border-t-2 border-gray-200 pt-4 mb-6">
-                <h2 className="text-lg font-semibold mb-6 text-center">Monthly Fee</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <h2 className="text-lg font-semibold mb-6 text-center">Advocate Monthly Fee</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-semibold mb-1">From Month</label>
                     <select
@@ -350,15 +354,27 @@ const RentCollection = () => {
                     </div>
 
                     <div className="mb-2">
-                    <label className="block text-gray-700 text-sm font-semibold mb-1">Amount</label>
+                    <label className="block text-gray-700 text-sm font-semibold mb-1">Monthly fee</label>
                     <input
                         type="number"
-                        name="monthly_amount"
-                        value={formData.monthly_amount}
+                        name="monthly_fee"
+                        value={formData.monthly_fee}
                         onChange={handleChange}
                         className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
+
+                    <div className="mb-2">
+                    <label className="block text-gray-700 text-sm font-semibold mb-1">Total Amount</label>
+                    <input
+                        type="number"
+                        name="total_monthly_amount"
+                        value={formData.total_monthly_amount}
+                        onChange={handleChange}
+                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    </div>
+                    
 
                     <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-semibold mb-1">Payment Type</label>
@@ -374,6 +390,21 @@ const RentCollection = () => {
                         <option value="mobile_banking">Mobile Banking</option>
                     </select>
                     </div>
+
+                    {/* Remarks */}
+                    <div className="mb-2">
+                    <label className="block text-gray-700 text-sm font-semibold mb-1">
+                        Remarks
+                    </label>
+                    <textarea
+                        name="remarks2"
+                        value={formData.remarks2}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded bg-gray-100 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        rows="3"
+                    />
+                    </div>
+
                 </div>
                 </div>
                 )}
@@ -381,16 +412,16 @@ const RentCollection = () => {
 
                 <button 
                 type="button"
-                onClick={() => setFormData(prev => ({...prev, yearly_fee: !prev.yearly_fee}))}
+                onClick={() => setFormData(prev => ({...prev, yearly_fee_form: !prev.yearly_fee_form}))}
                 className="text-sm px-4 py-2 rounded-lg bg-green-200 mx-4"
                 >
-                {formData.yearly_fee ? 'Remove Yearly Fee' : 'Add Yearly Fee'}
+                {formData.yearly_fee_form ? 'Remove Yearly Fee' : 'Add Yearly Fee'}
                 </button>
                 {/* Yearly Fee Section */}
-                 {formData.yearly_fee && (
+                 {formData.yearly_fee_form && (
                 <div className="border-t-2 border-gray-200 pt-4 mb-6">
-                <h2 className="text-lg font-semibold mb-6 text-center">Yearly Fee</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <h2 className="text-lg font-semibold mb-6 text-center">Advocate Yearly Fee</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-semibold mb-1">From Year</label>
                     <select
@@ -420,15 +451,28 @@ const RentCollection = () => {
                     </div>
 
                     <div className="mb-2">
-                    <label className="block text-gray-700 text-sm font-semibold mb-1">Amount</label>
+                    <label className="block text-gray-700 text-sm font-semibold mb-1">Yearly fee</label>
                     <input
                         type="number"
-                        name="yearly_amount"
-                        value={formData.yearly_amount}
+                        name="yearly_fee"
+                        value={formData.yearly_fee}
                         onChange={handleChange}
                         className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
+
+                    <div className="mb-2">
+                    <label className="block text-gray-700 text-sm font-semibold mb-1">Total Amount</label>
+                    <input
+                        type="number"
+                        name="total_yearly_amount"
+                        value={formData.total_yearly_amount}
+                        onChange={handleChange}
+                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    </div>
+
+                    
 
                     <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-semibold mb-1">Payment Type</label>
@@ -449,8 +493,8 @@ const RentCollection = () => {
                     <div className="mb-2">
                     <label className="block text-gray-700 text-sm font-semibold mb-1">Remarks</label>
                     <textarea
-                        name="remarks"
-                        value={formData.remarks}
+                        name="remarks3"
+                        value={formData.remarks3}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded bg-gray-100 w-full px-2 py-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         rows="3"
