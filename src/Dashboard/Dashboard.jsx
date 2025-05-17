@@ -731,28 +731,17 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <NavLink
-                        to="/dashboard/productStock"
+                        to="/dashboard/rentCollection"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
                             : "flex items-center gap-2 p-2 hover:bg-blue-100"
                         }
                       >
-                        
+                        Collect Rent
                       </NavLink>
                     </li>
-                    <li>
-                      <NavLink
-                        to="/dashboard/productTransfer"
-                        className={({ isActive }) =>
-                          isActive
-                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
-                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
-                        }
-                      >
-                       
-                      </NavLink>
-                    </li>
+                    
                   </ul>
                 )}
 

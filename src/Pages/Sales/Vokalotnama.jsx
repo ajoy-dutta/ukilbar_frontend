@@ -16,29 +16,12 @@ const Vokalotnama = () => {
     customer_phone: "",
     customer_name: "",
     customer_address: "",
-    serials: [{from_serial: null, to_serial: null, total: null}],
+    serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
     total_count: 0,
     price: 0,
     total_amount: 0,
   });
 
-
-  const ensureFourRows = (serials) => {
-    const updated = [...serials];
-    while (updated.length < 4) {
-      updated.push({ from_serial: "", to_serial: "", total: "" });
-    }
-    return updated.slice(0, 4); 
-  };
-
- 
-
-  useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      serials: ensureFourRows(prev.serials)
-    }));
-  }, []);
 
 
   useEffect(() => {
@@ -125,7 +108,7 @@ const Vokalotnama = () => {
       customer_phone: "",
       customer_name: "",
       customer_address: "",
-      serials: ensureFourRows([]),
+      serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
       total_count: 0,
       price: 0,
       total_amount: 0,

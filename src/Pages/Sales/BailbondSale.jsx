@@ -12,28 +12,12 @@ const BailbondSale = () => {
     sales_date: "",
     building_name: "",
     remarks: "",
-    bailbond_serials: [{ from_serial: null, to_serial: null, total: null }],
+    bailbond_serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
     total_count: "",
     price: "",
     total_amount: "",
   });
 
-
-  const ensureFourRows = (serials) => {
-    const updated = [...serials];
-    while (updated.length < 4) {
-      updated.push({ from_serial: null, to_serial: null, total: null });
-    }
-    return updated.slice(0, 4); 
-  };
-
-
-  useEffect(() => {
-      setFormData(prev => ({
-        ...prev,
-        serials: ensureFourRows(prev.serials)
-      }));
-    }, []);
 
 
 
@@ -97,7 +81,7 @@ const BailbondSale = () => {
     };
 
     try {
-      const response = await AxiosInstance.post("/bailbondSale", payload);
+      const response = await AxiosInstance.post("bailbond/", payload);
       console.log("Success:", response.data);
       alert("Submitted successfully!");
       handleClear();
@@ -113,7 +97,7 @@ const BailbondSale = () => {
       sales_date: "",
       building_name: "",
       remarks: "",
-      bailbond_serials: ensureFourRows([]),
+      bailbond_serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
       total_count: "",
       price: "",
       total_amount: "",
@@ -155,9 +139,9 @@ const BailbondSale = () => {
               Receipt No.
             </label>
             <input
-              name="receiptNo"
+              name="receipt_no"
               type="text"
-              value={formData.receiptNo}
+              value={formData.receipt_no}
               onChange={handleChange}
               placeholder="Receipt No."
               className="border px-2 py-1 pr-10 rounded-md w-full bg-gray-100"
@@ -305,9 +289,9 @@ const BailbondSale = () => {
           <div>
             <label className="block text-sm font-medium">Sales Date</label>
             <input
-              name="salesDate"
+              name="sales_date"
               type="date"
-              value={formData.salesDate}
+              value={formData.sales_date}
               onChange={handleChange}
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
             />
@@ -316,9 +300,9 @@ const BailbondSale = () => {
           <div>
             <label className="block text-sm font-medium">Building Name</label>
             <input
-              name="buildingName"
+              name="building_name"
               type="text"
-              value={formData.buildingName}
+              value={formData.building_name}
               onChange={handleChange}
               placeholder="Building Name"
               className="border px-2 py-1 rounded-md w-full bg-gray-100"
@@ -344,7 +328,7 @@ const BailbondSale = () => {
         <div className="border rounded-md p-4">
           <h3 className="text-lg font-medium mb-4">Bailbond Serial No.</h3>
           <div className="grid grid-cols-3 gap-3">
-            {formData.serials.map((item, index) => (
+            {formData.bailbond_serials.map((item, index) => (
               <React.Fragment key={index}>
                 <input
                   type="text"

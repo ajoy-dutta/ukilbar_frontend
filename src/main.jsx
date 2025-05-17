@@ -17,6 +17,7 @@ import AddBuilding from './Pages/Configuration/AddBuilding';
 import AddBank from './Pages/Configuration/AddBank';
 import Vokalatnama from './Pages/Sales/Vokalotnama';
 import BailbondSale from './Pages/Sales/BailbondSale.jsx';
+import RentCollection from './Pages/Sales/Rent/RentCollection.jsx';
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,10 @@ const router = createBrowserRouter([
         path: "bailbondSale",
         element: <BailbondSale></BailbondSale>,
       },
-   
+      {
+        path: "rentCollection",
+        element: <RentCollection></RentCollection>,
+      },
       
     ],
   }
