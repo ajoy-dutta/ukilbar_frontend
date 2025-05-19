@@ -14,7 +14,11 @@ const Vokalotnama = () => {
     customer_phone: "",
     customer_name: "",
     customer_address: "",
-    serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
+    serials : Array(4).fill().map(() => ({
+      from_serial: "",
+      to_serial: "",
+      total: ""
+    })),
     total_count: 0,
     price: 0,
     total_amount: 0,
@@ -112,7 +116,11 @@ const Vokalotnama = () => {
       customer_phone: "",
       customer_name: "",
       customer_address: "",
-      serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
+      serials : Array(4).fill().map(() => ({
+        from_serial: "",
+        to_serial: "",
+        total: ""
+      })),
       total_count: 0,
       price: 0,
       total_amount: 0,
@@ -151,7 +159,7 @@ const Vokalotnama = () => {
             id="sale_type"
             value={formData.sale_type}
             onChange={handleTypeChange}
-            className="w-1/4 p-2 border border-gray-300 rounded"
+            className="w-1/4 px-2 py-1 border border-gray-300 rounded"
           >
             <option value="Vokalotnama">Vokalotnama</option>
             <option value="Cartis Paper">Cartis Paper</option>
@@ -168,23 +176,23 @@ const Vokalotnama = () => {
       
       </div>
 
-      <h2 className="text-2xl font-bold text-blue-950 mb-4 text-center">
+      <h2 className="text-xl font-bold text-blue-950 mb-2 text-center">
         {formData.sale_type} Sales
       </h2>
 
       {/* Basic Info */}
-      <div className="border rounded-md p-4 mb-6">
+      <div className="border rounded-md p-4 mb-2">
         <h3 className="text-lg font-medium mb-4">Basic Information</h3>
         <div className="grid grid-cols-4 gap-4">
          <div className="relative">
-        <label className="block text-sm font-medium mb-1">Receipt No.</label>
+        <label className="block text-sm font-medium">Receipt No.</label>
         <input
           name="receipt_no"
           type="text"
           value={formData.receipt_no}
           onChange={handleChange}
           placeholder="Receipt No."
-          className="border px-2 py-1 pr-10 rounded-md w-full bg-gray-100"
+          className="border px-2 pr-10 rounded-md w-full bg-gray-100"
         />
       </div>
 
@@ -195,7 +203,7 @@ const Vokalotnama = () => {
               type="date"
               value={formData.sales_date}
               onChange={handleChange}
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
           <div>
@@ -206,7 +214,7 @@ const Vokalotnama = () => {
               value={formData.advocate_name}
               onChange={handleChange}
               placeholder="Advocate Name"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
           <div>
@@ -217,7 +225,7 @@ const Vokalotnama = () => {
               value={formData.building_name}
               onChange={handleChange}
               placeholder="Building Name"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
           <div>
@@ -228,14 +236,14 @@ const Vokalotnama = () => {
               value={formData.advocateId}
               onChange={handleChange}
               placeholder="Advocate ID"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
         </div>
       </div>
 
       {/* Customer Info */}
-      <div className="border rounded-md p-4 mb-6">
+      <div className="border rounded-md p-4 mb-2">
         <h3 className="text-lg font-medium mb-4">Customer Information</h3>
         <div className="grid grid-cols-3 gap-4">
           <div>
@@ -246,7 +254,7 @@ const Vokalotnama = () => {
               value={formData.customer_phone}
               onChange={handleChange}
               placeholder="Phone No."
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2  rounded-md w-full bg-gray-100"
             />
           </div>
           <div>
@@ -257,7 +265,7 @@ const Vokalotnama = () => {
               value={formData.customer_name}
               onChange={handleChange}
               placeholder="Name"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2  rounded-md w-full bg-gray-100"
             />
           </div>
           <div>
@@ -268,17 +276,17 @@ const Vokalotnama = () => {
               value={formData.customer_address}
               onChange={handleChange}
               placeholder="Address"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2  rounded-md w-full bg-gray-100"
             />
           </div>
         </div>
       </div>
 
       {/* Serial and Summary */}
-    <div className="grid grid-cols-2 gap-6 mb-6">
+    <div className="grid grid-cols-2 gap-6 mb-4">
   {/* Vokalotnama Serial Section */}
   <div className="border rounded-md p-4">
-    <h3 className="text-lg font-medium mb-4">Vokalotnama Serial No.</h3>
+    <h3 className="text-lg font-medium mb-2">Vokalotnama Serial No.</h3>
     <div className="grid grid-cols-3 gap-3">
       {formData.serials.map((item, index) => (
         <React.Fragment key={index}>
@@ -290,7 +298,7 @@ const Vokalotnama = () => {
             onChange={(e) =>
               handleSerialChange(index, "from_serial", e.target.value)
             }
-            className="border px-2 py-1 rounded-md w-full bg-gray-100"
+            className="border px-2  rounded-md w-full bg-gray-100"
           />
           <input
             type="number"
@@ -300,13 +308,13 @@ const Vokalotnama = () => {
             onChange={(e) =>
               handleSerialChange(index, "to_serial", e.target.value)
             }
-            className="border px-2 py-1 rounded-md w-full bg-gray-100"
+            className="border px-2  rounded-md w-full bg-gray-100"
           />
           <input
             type="number"
             placeholder="Total"
             value={item.total}
-            className="border px-2 py-1 rounded-md w-full bg-gray-100"
+            className="border px-2  rounded-md w-full bg-gray-100"
             disabled
           />
         </React.Fragment>
@@ -316,8 +324,8 @@ const Vokalotnama = () => {
 
   {/* Summary Section */}
   <div className="border rounded-md p-4">
-    <h3 className="text-lg font-medium mb-4">Summary</h3>
-    <div className="space-y-4">
+    <h3 className="text-lg font-medium mb-2">Summary</h3>
+    <div className="space-y-2">
       <div>
         <label className="block text-sm font-medium">Total Count</label>
         <input
@@ -326,7 +334,7 @@ const Vokalotnama = () => {
           value={formData.total_count}
           onChange={handleChange}
           placeholder="Total Count"
-          className="border px-2 py-1 rounded-md w-full bg-gray-100"
+          className="border px-2  rounded-md w-full bg-gray-100"
           disabled
         />
       </div>
@@ -340,7 +348,7 @@ const Vokalotnama = () => {
           value={formData.price}
           onChange={handleChange}
           placeholder="price"
-          className="border px-2 py-1 rounded-md w-full bg-gray-100"
+          className="border px-2  rounded-md w-full bg-gray-100"
           required
         />
       </div>
@@ -354,7 +362,7 @@ const Vokalotnama = () => {
           value={formData.total_amount}
           onChange={handleChange}
           placeholder="Total Amount"
-          className="border px-2 py-1 rounded-md w-full bg-gray-100"
+          className="border px-2  rounded-md w-full bg-gray-100"
           required
           disabled
         />

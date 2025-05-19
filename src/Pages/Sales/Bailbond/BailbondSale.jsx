@@ -12,7 +12,11 @@ const BailbondSale = () => {
     sales_date: "",
     building_name: "",
     remarks: "",
-    bailbond_serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
+    bailbond_serials: Array(4).fill().map(() => ({
+      from_serial: "",
+      to_serial: "",
+      total: ""
+    })),
     total_count: "",
     price: "",
     total_amount: "",
@@ -97,7 +101,11 @@ const BailbondSale = () => {
       sales_date: "",
       building_name: "",
       remarks: "",
-      bailbond_serials: Array(4).fill({ from_serial: "", to_serial: "", total: "" }),
+      bailbond_serials: Array(4).fill().map(() => ({
+      from_serial: "",
+      to_serial: "",
+      total: ""
+      })),
       total_count: "",
       price: "",
       total_amount: "",
@@ -126,12 +134,18 @@ const BailbondSale = () => {
       onSubmit={handleSubmit}
       className="p-6 max-w-6xl mx-auto bg-white shadow-md rounded-md"
     >
-      <h2 className="text-2xl font-bold text-blue-950 mb-4 text-center">
+      <h2 className="text-xl font-bold text-blue-950 mb-4 text-center">
         BailBond Sales
       </h2>
+{/* 
+      <div className="">
+        <Link to="/dashboard/BailBondSale-list">
+        <h2 className="bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white px-4 py-2">Go to List</h2>
+        </Link> 
+      </div> */}
 
       {/* Basic Info */}
-      <div className="border rounded-md p-4 mb-6">
+      <div className="border rounded-md p-4 mb-4">
         <h3 className="text-lg font-medium mb-4">Basic Information</h3>
         <div className="grid grid-cols-4 gap-4">
           <div className="relative">
@@ -144,7 +158,7 @@ const BailbondSale = () => {
               value={formData.receipt_no}
               onChange={handleChange}
               placeholder="Receipt No."
-              className="border px-2 py-1 pr-10 rounded-md w-full bg-gray-100"
+              className="border px-2  pr-10 rounded-md w-full bg-gray-100"
             />
             <button
               type="button"
@@ -191,7 +205,7 @@ const BailbondSale = () => {
                       type="date"
                       value={fromDate}
                       onChange={(e) => setFromDate(e.target.value)}
-                      className="border px-2 py-1 rounded-md w-full"
+                      className="border px-2  rounded-md w-full"
                     />
                   </div>
                   <div>
@@ -200,13 +214,13 @@ const BailbondSale = () => {
                       type="date"
                       value={toDate}
                       onChange={(e) => setToDate(e.target.value)}
-                      className="border px-2 py-1 rounded-md w-full"
+                      className="border px-2  rounded-md w-full"
                     />
                   </div>
                   <div className="flex items-end justify-end">
                     <button
                       onClick={handleModalSearch}
-                      className="bg-blue-950 text-white px-2 py-1 rounded-md hover:bg-blue-700 mt-1"
+                      className="bg-blue-950 text-white px-2  rounded-md hover:bg-blue-700 mt-1"
                     >
                       Search
                     </button>
@@ -277,7 +291,7 @@ const BailbondSale = () => {
       <div className="flex justify-end mt-6">
         <button
           onClick={() => setIsModalOpen(false)}
-          className="bg-blue-950 text-white px-2 py-1 rounded-md hover:bg-red-600"
+          className="bg-blue-950 text-white px-2  rounded-md hover:bg-red-600"
         >
           Close
         </button>
@@ -293,7 +307,7 @@ const BailbondSale = () => {
               type="date"
               value={formData.sales_date}
               onChange={handleChange}
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2  rounded-md w-full bg-gray-100"
             />
           </div>
 
@@ -305,7 +319,7 @@ const BailbondSale = () => {
               value={formData.building_name}
               onChange={handleChange}
               placeholder="Building Name"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2  rounded-md w-full bg-gray-100"
             />
           </div>
           <div>
@@ -316,7 +330,7 @@ const BailbondSale = () => {
               value={formData.remarks}
               onChange={handleChange}
               placeholder="Remarks"
-              className="border px-2 py-1 rounded-md w-full bg-gray-100"
+              className="border px-2  rounded-md w-full bg-gray-100"
             />
           </div>
         </div>
@@ -326,7 +340,7 @@ const BailbondSale = () => {
       <div className="grid grid-cols-2 gap-6 mb-6">
         {/* Vokalotnama Serial Section */}
         <div className="border rounded-md p-4">
-          <h3 className="text-lg font-medium mb-4">Bailbond Serial No.</h3>
+          <h3 className="text-lg font-medium mb-2">Bailbond Serial No.</h3>
           <div className="grid grid-cols-3 gap-3">
             {formData.bailbond_serials.map((item, index) => (
               <React.Fragment key={index}>
@@ -338,7 +352,7 @@ const BailbondSale = () => {
                   onChange={(e) =>
                     handleSerialChange(index, "from_serial", e.target.value)
                   }
-                  className="border px-2 py-1 rounded-md w-full bg-gray-100"
+                  className="border px-2 rounded-md w-full bg-gray-100"
                 />
                 <input
                   type="text"
@@ -348,7 +362,7 @@ const BailbondSale = () => {
                   onChange={(e) =>
                     handleSerialChange(index, "to_serial", e.target.value)
                   }
-                  className="border px-2 py-1 rounded-md w-full bg-gray-100"
+                  className="border px-2 rounded-md w-full bg-gray-100"
                 />
                 <input
                   type="text"
@@ -357,7 +371,7 @@ const BailbondSale = () => {
                   onChange={(e) =>
                     handleSerialChange(index, "total", e.target.value)
                   }
-                  className="border px-2 py-1 rounded-md w-full bg-gray-100"
+                  className="border px-2 rounded-md w-full bg-gray-100"
                 />
               </React.Fragment>
             ))}
@@ -366,8 +380,8 @@ const BailbondSale = () => {
 
         {/* Summary Section */}
         <div className="border rounded-md p-4">
-          <h3 className="text-lg font-medium mb-4">Summary</h3>
-          <div className="space-y-4">
+          <h3 className="text-lg font-medium mb-2">Summary</h3>
+          <div className="space-y-2">
             <div>
               <label className="block text-sm font-medium">Total Count</label>
               <input
@@ -376,7 +390,7 @@ const BailbondSale = () => {
                 value={formData.total_count}
                 onChange={handleChange}
                 placeholder="Total Count"
-                className="border px-2 py-1 rounded-md w-full bg-gray-100"
+                className="border px-2 rounded-md w-full bg-gray-100"
               />
             </div>
             <div>
@@ -389,7 +403,7 @@ const BailbondSale = () => {
                 value={formData.price}
                 onChange={handleChange}
                 placeholder="Price"
-                className="border px-2 py-1 rounded-md w-full bg-gray-100"
+                className="border px-2 rounded-md w-full bg-gray-100"
                 required
               />
             </div>
@@ -403,7 +417,7 @@ const BailbondSale = () => {
                 value={formData.total_amount}
                 onChange={handleChange}
                 placeholder="Total Amount"
-                className="border px-2 py-1 rounded-md w-full bg-gray-100"
+                className="border px-2 rounded-md w-full bg-gray-100"
                 required
               />
             </div>
