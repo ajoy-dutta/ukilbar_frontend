@@ -1,15 +1,17 @@
 import {  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../../Provider/UserProvider"
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons
 import AxiosInstance from "../../Components/AxiosInstance";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../redux/authSlice";
+
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const navigate = useNavigate();
-  const { refreshUser } = useUser();
 
   const handleLoginChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -25,9 +27,10 @@ const SignIn = () => {
   
     try {
       const response = await AxiosInstance.post("login/", credentials);
-      const data = response.data;
-      localStorage.setItem("access_token", data.access);
-      refreshUser();
+
+      const {user, access } = response.data;
+      dispatch(loginSuccess({ user , access }));
+
       alert("Login successful!");
       navigate("/dashboard");
     } catch (error) {

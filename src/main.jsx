@@ -1,6 +1,9 @@
 import { StrictMode } from 'react'
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import store from './redux/store';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -8,16 +11,17 @@ import {
 import './index.css'
 import SignIn from './Pages/Authentication/SignIn';
 import Dashboard from './Dashboard/Dashboard';
-import { UserProvider } from './Provider/UserProvider';
 import ProtectedRoute from './Provider/ProtectedRoute';
 import AddRenter from './Pages/Configuration/AddRenter';
 import AddAdvocate from './Pages/Configuration/Add_Advocate';
 import FormSetup from './Pages/Configuration/FormSetup';
 import AddBuilding from './Pages/Configuration/AddBuilding';
 import AddBank from './Pages/Configuration/AddBank';
-import Vokalatnama from './Pages/Sales/Vokalotnama';
-import BailbondSale from './Pages/Sales/BailbondSale.jsx';
 import RentCollection from './Pages/Sales/Rent/RentCollection.jsx';
+import Vokalotnama from './Pages/Sales/vokalotnama/Vokalotnama.jsx';
+import BailbondSale from './Pages/Sales/Bailbond/BailbondSale.jsx';
+import SaleList from './Pages/Sales/vokalotnama/SaleList.jsx';
+import Profile from './Pages/Authentication/Profile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +36,11 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
+
+      {
+        path: "profile",
+        element:<Profile></Profile>,
+      },
       {
         path: "formSetup",
         element:<FormSetup></FormSetup>,
@@ -55,8 +64,14 @@ const router = createBrowserRouter([
 
       {
         path: "vokalatnama",
-        element: <Vokalatnama></Vokalatnama>,
+        element: <Vokalotnama></Vokalotnama>,
       },
+      
+      {
+        path: "sale-list",
+        element: <SaleList></SaleList>,
+      },
+
       {
         path: "bailbondSale",
         element: <BailbondSale></BailbondSale>,
@@ -71,9 +86,9 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode> 
-      <UserProvider>
+    <Provider store={store}>
         <RouterProvider router={router} />
-      </UserProvider>
+    </Provider>
   </React.StrictMode>
 
 );

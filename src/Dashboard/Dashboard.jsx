@@ -19,19 +19,20 @@ import { AiFillProduct } from "react-icons/ai";
 import { HiCurrencyBangladeshi, HiUserGroup } from "react-icons/hi";
 import { IoIosStats } from "react-icons/io";
 import { BiSolidReport } from "react-icons/bi";
-import { useUser } from "../Provider/UserProvider";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GiReceiveMoney, GiPayMoney  } from "react-icons/gi";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice"
+import { use } from "react";
 
 const Dashboard = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [activePopup, setActivePopup] = useState(null);
-  const { signOut } = useUser();
-  const { user } = useUser(); // Get user context
+  const dispatch = useDispatch();
+  const user = useSelector((state)=> state.auth.user)
 
 
-   console.log("us",user)
   const menuRefs = useRef({});
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
@@ -158,7 +159,7 @@ const Dashboard = () => {
                     className="p-2 hover:bg-gray-200 rounded cursor-pointer"
                     onClick={() => {
                       setIsDropdownOpen(false);
-                      signOut();
+                      dispatch(logout())
                     }}
                   >
                     <div className="flex items-center gap-2">
@@ -472,7 +473,7 @@ const Dashboard = () => {
                             : "flex items-center gap-2 p-2 hover:bg-blue-100"
                         }
                       >
-                        Collect Rent
+                        Advocate All Fees
                       </NavLink>
                     </li>
                     
