@@ -10,13 +10,15 @@ const RentCollection = () => {
         advocate_id: "",
 
         // House Rent
+        house_fee_form: false,
         month: "",
         year: "",
+        rent_type:"House",
         building_name: "",
         floor: "",
         room: "",
         rent_amount:"",
-        payment_type:"",
+        payment_type:"Cash",
         remarks1: "",
 
         // Monthly Fee
@@ -31,7 +33,7 @@ const RentCollection = () => {
         remarks2:'',
         
         // Yearly Fee
-        bar_association_fee: false,
+        bar_association_form: false,
         yearly_from_year: new Date().getFullYear(),
         yearly_to_year: new Date().getFullYear(),
         yearly_fee: '',
@@ -40,7 +42,7 @@ const RentCollection = () => {
         benevolent_delay_fee: '',
         relief_fund_fee: '',
         total_amount:'',
-        court_type:'',
+        court_type:'L/C',
         remarks3: '',
 
     });
@@ -56,8 +58,7 @@ const RentCollection = () => {
     'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
+    const years = Array.from({ length: 2050 - 2010 + 1 }, (_, i) => 2010 + i);
 
 
     // Fething the Buildings
@@ -110,14 +111,113 @@ const RentCollection = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const payload = {};
+
+        if (formData.month && formData.rent_amount) {
+        payload.house_fee_form = true;
+        payload.house_rent = {
+            collection_date: formData.collection_date,
+            advocate_id: formData.advocate_id,
+            month: formData.month,
+            year: formData.year,
+            rent_type: formData.rent_type,
+            building_name: formData.building_name,
+            floor: formData.floor,
+            room: formData.room,
+            rent_amount: formData.rent_amount,
+            payment_type: formData.payment_type,
+            remarks: formData.remarks1,
+        };
+        }
+
+        if (formData.monthly_fee && formData.total_monthly_amount) {
+        payload.monthly_fee_form = true;
+        payload.monthly_fee = {
+            collection_date: formData.collection_date,
+            advocate_id: formData.advocate_id,
+            from_month: formData.from_month,
+            from_year: formData.from_year,
+            to_month: formData.to_month,
+            to_year: formData.to_year,
+            monthly_fee: formData.monthly_fee,
+            total_monthly_amount: formData.total_monthly_amount,
+            monthly_payment_type: formData.monthly_payment_type,
+            remarks: formData.remarks2,
+        };
+        }
+
+        if (formData.yearly_fee && formData.total_amount) {
+        payload.bar_association_form = true;
+        payload.bar_association_fee = {
+            collection_date: formData.collection_date,
+            advocate_id: formData.advocate_id,
+            yearly_from_year: formData.yearly_from_year,
+            yearly_to_year: formData.yearly_to_year,
+            yearly_fee: formData.yearly_fee || 0,
+            yearly_delay_fee: formData.yearly_delay_fee || 0,
+            benevolent_fund_fee: formData.benevolent_fund_fee || 0,
+            benevolent_delay_fee: formData.benevolent_delay_fee || 0,
+            relief_fund_fee: formData.relief_fund_fee || 0,
+            total_amount: formData.total_amount || 0,
+            court_type: formData.court_type,
+            remarks: formData.remarks3,
+        };
+        }
+
+     
         try {
-        const response = await AxiosInstance.post('rent-collections/', formData);
-        alert('Rent saved successfully!');
+        const response = await AxiosInstance.post('advocate-all-fees/', payload);
+        alert('Data saved successfully!');
+        handleClear();
         } catch (error) {
         console.error('Error submitting rent collection:', error);
         alert('Failed to submit rent collection: ' + (error.response?.data?.message || error.message));
         }
     };
+
+
+    const handleClear = () => {
+        setFormData({
+            collection_date : new Date().toISOString().split('T')[0],
+            advocate_id: "",
+
+            // House Rent
+            house_fee_form: false,
+            month: "",
+            year: "",
+            rent_type:"",
+            building_name: "",
+            floor: "",
+            room: "",
+            rent_amount:"",
+            payment_type:"",
+            remarks1: "",
+
+            // Monthly Fee
+            monthly_fee_form: false,
+            from_month: new Date().getMonth() + 1,
+            from_year: new Date().getFullYear(),
+            to_month: new Date().getMonth() + 1,
+            to_year: new Date().getFullYear(),
+            monthly_fee: '',
+            total_monthly_amount: '',
+            monthly_payment_type: 'cash',
+            remarks2:'',
+            
+            // Bar Association Fee
+            bar_association_form: false,
+            yearly_from_year: new Date().getFullYear(),
+            yearly_to_year: new Date().getFullYear(),
+            yearly_fee: '',
+            yearly_delay_fee : '',
+            benevolent_fund_fee: '',
+            benevolent_delay_fee: '',
+            relief_fund_fee: '',
+            total_amount:'',
+            court_type:'',
+            remarks3: '',
+        });
+  };
 
 
 
@@ -126,7 +226,7 @@ const RentCollection = () => {
     return(   
             <div className="container mx-auto p-4">
             
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 
                 <div className="mb-2">
                 <h1 className="text-lg text-sky-900 text-center font-semibold mb-4">Basic Info</h1>
@@ -217,6 +317,7 @@ const RentCollection = () => {
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
                     >
+                    <option value="">Select Month</option>
                     {months.map((month, index) => (
                         <option key={index} value={index + 1}>{month}</option>
                     ))}
@@ -234,6 +335,7 @@ const RentCollection = () => {
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
                     >
+                    <option value="">Select Year</option>
                     {years.map(year => (
                         <option key={year} value={year}>{year}</option>
                     ))}
@@ -246,8 +348,8 @@ const RentCollection = () => {
                     House/Shop/Billboard
                     </label>
                     <select
-                    name="type"
-                    value={formData.type}
+                    name="rent_type"
+                    value={formData.rent_type}
                     onChange={handleChange}
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
@@ -286,11 +388,10 @@ const RentCollection = () => {
                     </label>
                     <input
                     type="text"
-                    name="floor_no"
-                    value={formData.floor_no}
+                    name="floor"
+                    value={formData.floor}
                     onChange={handleChange}
                     className=" border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                     />
                 </div>
 
@@ -300,11 +401,10 @@ const RentCollection = () => {
                     </label>
                     <input
                     type="text"
-                    name="room_no"
-                    value={formData.room_no}
+                    name="room"
+                    value={formData.room}
                     onChange={handleChange}
                     className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                     />
                 </div>
 
@@ -315,8 +415,8 @@ const RentCollection = () => {
                     </label>
                     <input
                     type="number"
-                    name="amount"
-                    value={formData.amount}
+                    name="rent_amount"
+                    value={formData.rent_amount}
                     onChange={handleChange}
                     className="shadow appearance-none border  bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required
@@ -489,14 +589,14 @@ const RentCollection = () => {
 
                 <button 
                 type="button"
-                onClick={() => setFormData(prev => ({...prev, bar_association_fee: !prev.bar_association_fee}))}
+                onClick={() => setFormData(prev => ({...prev, bar_association_form: !prev.bar_association_form}))}
                 className="text-sm px-4 py-2 rounded-lg bg-sky-900 text-white flex items-center gap-2"
                 >
-                {formData.bar_association_fee ? 'Remove Bar Association Fee' : 'Add Bar Association Fee'}
+                {formData.bar_association_form ? 'Remove Bar Association Fee' : 'Add Bar Association Fee'}
                  <FaArrowRight />
                 </button>
 
-                {formData.bar_association_fee && (
+                {formData.bar_association_form && (
                 <div className="border-t-2 border-gray-200 pt-6 mb-2">
                 <h2 className="text-lg text-sky-900 font-semibold mb-4 text-center">Bar Association Fee</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -652,7 +752,7 @@ const RentCollection = () => {
                 </button>
                 <button
                     type="button"
-                    onClick={() => navigate('/rent-collections')}
+                    onClick={() => handleClear()}
                     className="bg-gray-500 hover:bg-gray-700 text-white font-semibold py-1 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                     Cancel

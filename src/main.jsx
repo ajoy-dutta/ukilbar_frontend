@@ -22,6 +22,9 @@ import Vokalotnama from './Pages/Sales/vokalotnama/Vokalotnama.jsx';
 import BailbondSale from './Pages/Sales/Bailbond/BailbondSale.jsx';
 import SaleList from './Pages/Sales/vokalotnama/SaleList.jsx';
 import Profile from './Pages/Authentication/Profile.jsx';
+import AssociateRenewal from './Pages/Sales/Renewal Registration/AssociateRenewal.jsx';
+import AssociateList from './Pages/Sales/Renewal Registration/AssociateList.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -80,6 +83,17 @@ const router = createBrowserRouter([
         path: "rentCollection",
         element: <RentCollection></RentCollection>,
       },
+      {
+        path: "associate-renewal",
+        element: <AssociateRenewal></AssociateRenewal>,
+      },
+
+      {
+        path: "associate-renewal-list",
+        element: <AssociateList></AssociateList>,
+      },
+
+      
       
     ],
   }

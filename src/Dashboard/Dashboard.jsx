@@ -476,6 +476,19 @@ const Dashboard = () => {
                         Advocate All Fees
                       </NavLink>
                     </li>
+
+                    <li>
+                      <NavLink
+                        to="/dashboard/associate-renewal"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Associate Registration Renewal
+                      </NavLink>
+                    </li>
                     
                   </ul>
                 )}
@@ -496,30 +509,46 @@ const Dashboard = () => {
                           VokalatnamaSale
                         </NavLink>
                       </li>
+
                       <li>
                         <NavLink
-                          to="/dashboard/productStock"
+                          to="/dashboard/bailbondSale"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
                               : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                           }
                         >
-                         
+                        BailBond Sales
                         </NavLink>
                       </li>
+
                       <li>
                         <NavLink
-                          to="/dashboard/productTransfer"
+                          to="/dashboard/rentCollection"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
                               : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                           }
                         >
-                        
+                        Advocate All Fees
                         </NavLink>
                       </li>
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/associate-renewal"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                        Associate Registration Renewal
+                        </NavLink>
+                      </li>
+                      
                     </ul>
                   </div>
                 )}
