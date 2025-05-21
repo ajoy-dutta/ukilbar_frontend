@@ -14,16 +14,16 @@ const AssociateRenewal = () =>{
 
  const [formData, setFormData] = useState({
     receipt_no: "",
-    renewal_date: new Date().toISOString().slice(0, 10),
+    registration_date: new Date().toISOString().slice(0, 10),
     license_no: "",
     name: "",
-    year: "",
+    // year: "",
     advocate_name: "",
     advocate_id: "",
-    type: "",
+    // type: "",
     entry_fee: "",
     book_rate: "",
-    renewal_fee: "",
+    // renewal_fee: "",
     total: "",
     remarks: "",
   });
@@ -57,9 +57,9 @@ const AssociateRenewal = () =>{
 
         try {
             if (isEditMode) {
-               await AxiosInstance.put(`/associate-renewal/${renewalData.id}/`, formData);
+               await AxiosInstance.put(`associate-registration/${renewalData.id}/`, formData);
             } else {
-               await AxiosInstance.post(`/associate-renewal/`, formData);
+               await AxiosInstance.post(`associate-registration/`, formData);
             }
             alert("Submitted successfully!");
             handleClear();
@@ -72,16 +72,16 @@ const AssociateRenewal = () =>{
     const handleClear = () => {
         setFormData({
             receipt_no: "",
-            renewal_date: new Date().toISOString().slice(0, 10),
+            registration_date: new Date().toISOString().slice(0, 10),
             license_no: "",
             name: "",
-            year: "",
+            // year: "",
             advocate_name: "",
             advocate_id: "",
-            type: "",
+            // type: "",
             entry_fee: "",
             book_rate: "",
-            renewal_fee: "",
+            // renewal_fee: "",
             total: "",
             remarks: "",
         });
@@ -95,7 +95,7 @@ const AssociateRenewal = () =>{
   return (
     <div className="p-6 mt-4 bg-white shadow rounded-md max-w-6xl mx-auto">
       <div className="mb-4 flex flex-row">
-        <h2 className="text-xl font-semibold flex-1">Associate Registration Renewal</h2>
+        <h2 className="text-xl font-semibold flex-1">Associate Registration</h2>
         <div className="">
             <Link to="/dashboard/associate-renewal-list">
             <h2 className="bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white px-4 py-2">Go to List</h2>
@@ -119,12 +119,12 @@ const AssociateRenewal = () =>{
 
         <div>
         <label className="text-sm font-semibold">
-            Renewal Date <span className="text-red-500">*</span>
+            Regestration Date <span className="text-red-500">*</span>
         </label>
         <input
             type="date"
-            name="renewal_date"
-            value={formData.renewal_date}
+            name="registration_date"
+            value={formData.registration_date}
             onChange={handleChange}
             className="input required"
             placeholder="Select renewal date"
@@ -159,7 +159,7 @@ const AssociateRenewal = () =>{
         />
         </div>
 
-        <div>
+        {/* <div>
         <label className="text-sm font-semibold">
             Year <span className="text-red-500">*</span>
         </label>
@@ -175,7 +175,7 @@ const AssociateRenewal = () =>{
             return <option key={year}>{year}</option>;
             })}
         </select>
-        </div>
+        </div> */}
 
         <div>
         <label className="text-sm font-semibold">
@@ -203,7 +203,7 @@ const AssociateRenewal = () =>{
         />
         </div>
 
-        <div>
+        {/* <div>
         <label className="text-sm font-semibold">
             Type <span className="text-red-500">*</span>
         </label>
@@ -218,7 +218,7 @@ const AssociateRenewal = () =>{
             <option value="New">New</option>
             <option value="Old">Old</option>
         </select>
-        </div>
+        </div> */}
 
         <div>
         <label className="text-sm font-semibold">Entry Fee</label>
@@ -244,7 +244,7 @@ const AssociateRenewal = () =>{
         />
         </div>
 
-        <div>
+        {/* <div>
         <label className="text-sm font-semibold">Renewal Fee</label>
         <input
             type="number"
@@ -254,7 +254,7 @@ const AssociateRenewal = () =>{
             className="input"
             placeholder="Enter renewal fee"
         />
-        </div>
+        </div> */}
 
         <div>
         <label className="text-sm font-semibold">Total</label>
