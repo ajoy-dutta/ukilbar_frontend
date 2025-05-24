@@ -17,7 +17,6 @@ import AddAdvocate from './Pages/Configuration/Add_Advocate';
 import FormSetup from './Pages/Configuration/FormSetup';
 import AddBuilding from './Pages/Configuration/AddBuilding';
 import AddBank from './Pages/Configuration/AddBank';
-import RentCollection from './Pages/Sales/Rent/RentCollection.jsx';
 import Vokalotnama from './Pages/Sales/vokalotnama/Vokalotnama.jsx';
 import BailbondSale from './Pages/Sales/Bailbond/BailbondSale.jsx';
 import SaleList from './Pages/Sales/vokalotnama/SaleList.jsx';
@@ -30,6 +29,7 @@ import ShopRent from './Pages/Sales/Rent/ShopRent.jsx';
 import ShopRentList from './Pages/Sales/Rent/ShopRentList.jsx';
 import FundCollection from './Pages/Fund Collection/FundCollection.jsx';
 import FundList from './Pages/Fund Collection/FundList.jsx';
+import AdvocateFees from './Pages/Advocate all Fees/AdvocateFees.jsx';
 
 
 const router = createBrowserRouter([
@@ -86,8 +86,8 @@ const router = createBrowserRouter([
         element: <BailbondSale></BailbondSale>,
       },
       {
-        path: "rentCollection",
-        element: <RentCollection></RentCollection>,
+        path: "advocate-all-fees",
+        element: <AdvocateFees></AdvocateFees>,
       },
       {
         path: "associate-renewal",

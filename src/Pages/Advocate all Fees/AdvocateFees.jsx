@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import AxiosInstance from "../../../Components/AxiosInstance";
+import AxiosInstance from "../../Components/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import EntryFeeForm from "./EntryFee";
 
-const RentCollection = () => {
+const AdvocateFees = () => {
     const [formData, setFormData] = useState({
         // basic info
         collection_date : new Date().toISOString().split('T')[0],
@@ -20,6 +21,13 @@ const RentCollection = () => {
         rent_amount:"",
         payment_type:"Cash",
         remarks1: "",
+
+
+        // Entry Fee
+        entry_fee_form: false,
+        receipt_no: '',
+        entry_fee: '',
+        remarks4:'',
 
         // Monthly Fee
         monthly_fee_form: false,
@@ -52,6 +60,9 @@ const RentCollection = () => {
     const [advocates, setAdvocates] = useState([]);
     const [selectedAdvocate, setSelectedAdvocate] = useState(null);
     const navigate = useNavigate();
+    const [showEntryForm, setShowEntryForm] = useState(false);
+
+
 
     const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -130,6 +141,17 @@ const RentCollection = () => {
         };
         }
 
+
+        if (formData.entry_fee_form && formData.entry_fee) {
+        payload.entry_fee_form = true;
+        payload.Entry_Fee = {
+            collection_date: formData.collection_date,
+            advocate_id: formData.advocate_id,
+            entry_fee: formData.entry_fee,
+            remarks4: formData.remarks4,
+         };
+        }
+
         if (formData.monthly_fee && formData.total_monthly_amount) {
         payload.monthly_fee_form = true;
         payload.monthly_fee = {
@@ -164,6 +186,8 @@ const RentCollection = () => {
         };
         }
 
+        console.log("payload",payload)
+
      
         try {
         const response = await AxiosInstance.post('advocate-all-fees/', payload);
@@ -192,6 +216,13 @@ const RentCollection = () => {
             rent_amount:"",
             payment_type:"",
             remarks1: "",
+
+
+            // Entry Fee
+            entry_fee_form: false,
+            receipt_no: '',
+            entry_fee: '',
+            remarks4:'',
 
             // Monthly Fee
             monthly_fee_form: false,
@@ -460,6 +491,31 @@ const RentCollection = () => {
             </div>
 
 
+            {/* Entry Fee Section */}
+            <div className="mb-6">
+                <button
+                type="button"
+                className="text-sm px-4 py-2 mb-2 rounded-lg bg-sky-900 text-white flex items-center gap-2"
+                onClick={() => {
+                    setShowEntryForm(!showEntryForm)
+                    setFormData(prev => ({...prev, entry_fee_form: !prev.entry_fee_form}))
+                }}
+                >
+                    
+                {formData.entry_fee_form ? 'Remove Entry Fee' : 'Add Entry Fee '}
+                <FaArrowRight />
+                </button>
+
+            {showEntryForm && (
+                <EntryFeeForm
+                formData={formData}
+                handleChange={handleChange}
+                onClose={() => setShowEntryForm(false)}
+                />
+            )}
+            </div>
+
+
             <button 
             type="button"
             onClick={() => setFormData(prev => ({...prev, monthly_fee_form: !prev.monthly_fee_form}))}
@@ -471,7 +527,7 @@ const RentCollection = () => {
 
              {/* Monthly Fee Section */}
                 {formData.monthly_fee_form && (
-                <div className="border-t-2 border-gray-200 pt-6 mb-2">
+                <div className="border-t-2 border-gray-200 pt-4">
                 <h2 className="text-lg text-sky-900 font-semibold mb-4 text-center">Monthly Fee</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div className="">
@@ -481,7 +537,7 @@ const RentCollection = () => {
                         value={formData.from_month}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    >
+                    > 
                         {months.map((month, index) => (
                         <option key={index} value={index + 1}>{month}</option>
                         ))}
@@ -590,7 +646,7 @@ const RentCollection = () => {
                 <button 
                 type="button"
                 onClick={() => setFormData(prev => ({...prev, bar_association_form: !prev.bar_association_form}))}
-                className="text-sm px-4 py-2 rounded-lg bg-sky-900 text-white flex items-center gap-2"
+                className="text-sm px-4 py-2 mb-2 rounded-lg bg-sky-900 text-white flex items-center gap-2"
                 >
                 {formData.bar_association_form ? 'Remove Bar Association Fee' : 'Add Bar Association Fee'}
                  <FaArrowRight />
@@ -764,4 +820,4 @@ const RentCollection = () => {
         );
 }
 
-export default RentCollection
+export default AdvocateFees;

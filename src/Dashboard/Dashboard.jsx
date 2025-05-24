@@ -476,7 +476,7 @@ const Dashboard = () => {
                     </li>
                     <li>
                       <NavLink
-                        to="/dashboard/rentCollection"
+                        to="/dashboard/advocate-all-fees"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
@@ -574,7 +574,7 @@ const Dashboard = () => {
 
                       <li>
                         <NavLink
-                          to="/dashboard/rentCollection"
+                          to="/dashboard/advocate-all-fees"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
