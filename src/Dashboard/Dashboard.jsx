@@ -22,6 +22,7 @@ import { BiSolidReport } from "react-icons/bi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GiReceiveMoney, GiPayMoney  } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
+import { fetchAdvocates } from "../redux/advocateSlice";
 import { logout } from "../redux/authSlice"
 import { use } from "react";
 
@@ -31,6 +32,15 @@ const Dashboard = () => {
   const [activePopup, setActivePopup] = useState(null);
   const dispatch = useDispatch();
   const user = useSelector((state)=> state.auth.user)
+  const { advocates, status, error } = useSelector((state) => state.advocate);
+
+
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchAdvocates());
+    }
+  }, [dispatch, status]);
 
 
   const menuRefs = useRef({});
@@ -489,6 +499,45 @@ const Dashboard = () => {
                         Associate Registration Renewal
                       </NavLink>
                     </li>
+
+                    <li>
+                      <NavLink
+                        to="/dashboard/advocate-change"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Advocate Change Fee
+                      </NavLink>
+                    </li>
+
+                     <li>
+                      <NavLink
+                        to="/dashboard/shop-rent"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Shop Rent Collection
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/dashboard/donation"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Donation
+                      </NavLink>
+                    </li>
                     
                   </ul>
                 )}
@@ -548,6 +597,45 @@ const Dashboard = () => {
                         Associate Registration Renewal
                         </NavLink>
                       </li>
+
+                       <li>
+                      <NavLink
+                        to="/dashboard/advocate-change"
+                        className={({ isActive }) =>
+                          isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                        }
+                      >
+                        Advocate Change Fee
+                      </NavLink>
+                    </li>
+
+                     <li>
+                      <NavLink
+                        to="/dashboard/shop-rent"
+                        className={({ isActive }) =>
+                           isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                        }
+                      >
+                        Shop Rent Collection
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/dashboard/donation"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                            : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                        }
+                      >
+                        Donation
+                      </NavLink>
+                    </li>
                       
                     </ul>
                   </div>

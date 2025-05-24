@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "../../../Components/AxiosInstance";
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 
 const Vokalotnama = () => {
@@ -24,8 +25,10 @@ const Vokalotnama = () => {
     total_amount: 0,
   });
 
+  const [suggestions, setSuggestions] = useState([]);
+  const advocates = useSelector((state) => state.advocate.advocates);
 
-   const handleTypeChange = (e) => {
+  const handleTypeChange = (e) => {
     const selectedType = e.target.value;
     setFormData({ ...formData, sale_type: selectedType });
   };
@@ -42,7 +45,41 @@ const Vokalotnama = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+
+
+    // For advocate_id, filter matching suggestions
+    if (name === "advocateId") {
+      const matches = advocates.filter((adv) =>
+        adv.bar_registration_number.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(matches);
+    }
+
+    // Auto-fill advocate name when exact match is selected
+    const matchedAdv = advocates.find(
+      (adv) => adv.bar_registration_number === value
+    );
+    if (matchedAdv) {
+      setFormData((prev) => ({
+        ...prev,
+        advocateId: matchedAdv.bar_registration_number,
+        advocate_name: matchedAdv.name_english,
+      }));
+      setSuggestions([]); // hide suggestions
+    }
   };
+
+
+  const handleSuggestionClick = (bar_registration_number, name) => {
+    setFormData((prev) => ({
+      ...prev,
+      advocate_id: bar_registration_number,
+      advocate_name: name,
+    }));
+    setSuggestions([]);
+  };
+
+
 
   const handleSerialChange = (index, field, value) => {
     const updatedSerials = [...formData.serials];
@@ -206,6 +243,32 @@ const Vokalotnama = () => {
               className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
+          
+          <div>
+            <label className="block text-sm font-medium">Advocate ID</label>
+            <input
+              name="advocateId"
+              type="text"
+              value={formData.advocateId}
+              onChange={handleChange}
+              placeholder="Advocate ID"
+              className="border px-2 rounded-md w-full bg-gray-100"
+            />
+            {suggestions.length > 0 && (
+                <ul className="absolute z-10 bg-white border border-gray-300 mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
+                {suggestions.map((adv) => (
+                    <li
+                    key={adv.id}
+                    onClick={() => handleSuggestionClick(adv.bar_registration_number, adv.name_english)}
+                    className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                    >
+                    {adv.bar_registration_number} 
+                    </li>
+                ))}
+                </ul>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium">Advocate Name</label>
             <input
@@ -217,6 +280,7 @@ const Vokalotnama = () => {
               className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
+
           <div>
             <label className="block text-sm font-medium">Building Name</label>
             <input
@@ -228,17 +292,7 @@ const Vokalotnama = () => {
               className="border px-2 rounded-md w-full bg-gray-100"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium">Advocate ID</label>
-            <input
-              name="advocateId"
-              type="text"
-              value={formData.advocateId}
-              onChange={handleChange}
-              placeholder="Advocate ID"
-              className="border px-2 rounded-md w-full bg-gray-100"
-            />
-          </div>
+
         </div>
       </div>
 

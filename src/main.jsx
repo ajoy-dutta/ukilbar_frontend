@@ -24,6 +24,12 @@ import SaleList from './Pages/Sales/vokalotnama/SaleList.jsx';
 import Profile from './Pages/Authentication/Profile.jsx';
 import AssociateRenewal from './Pages/Sales/Renewal Registration/AssociateRenewal.jsx';
 import AssociateList from './Pages/Sales/Renewal Registration/AssociateList.jsx';
+import AdvocateChange from './Pages/Advocate Change/AdvocateChange.jsx';
+import ChangeList from './Pages/Advocate Change/ChangeList.jsx';
+import ShopRent from './Pages/Sales/Rent/ShopRent.jsx';
+import ShopRentList from './Pages/Sales/Rent/ShopRentList.jsx';
+import FundCollection from './Pages/Fund Collection/FundCollection.jsx';
+import FundList from './Pages/Fund Collection/FundList.jsx';
 
 
 const router = createBrowserRouter([
@@ -93,7 +99,35 @@ const router = createBrowserRouter([
         element: <AssociateList></AssociateList>,
       },
 
-      
+      {
+        path: "advocate-change",
+        element: <AdvocateChange></AdvocateChange>,
+      },
+
+      {
+        path: "advocate-change-list",
+        element: <ChangeList></ChangeList>,
+      },
+
+      {
+        path: "shop-rent",
+        element: <ShopRent></ShopRent>,
+      },
+
+      {
+        path: "shop-rent-list",
+        element: <ShopRentList></ShopRentList>,
+      },
+
+      {
+        path: "donation",
+        element: <FundCollection></FundCollection>,
+      },
+
+      {
+        path: "donation-list",
+        element: <FundList></FundList>,
+      },
       
     ],
   }

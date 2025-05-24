@@ -374,7 +374,7 @@ const RentCollection = () => {
                     >
                     <option value="">Select Building</option>
                     {buildings.map(building => (
-                        <option key={building.id} value={building.id}>{building.building_name}</option>
+                        <option key={building.id} value={building.building_name}>{building.building_name}</option>
                     ))}
                     </select>
                 </div>

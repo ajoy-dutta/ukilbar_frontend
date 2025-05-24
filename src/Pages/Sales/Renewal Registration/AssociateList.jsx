@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../../Components/AxiosInstance";
 import { useNavigate } from 'react-router-dom';
 import RenewalModal from './RenewalModal';
-
+import { IoArrowBackSharp } from "react-icons/io5";
 
 
 const AssociateList = () => {
@@ -87,7 +87,11 @@ const AssociateList = () => {
     <div>
       <div className="bg-white p-6 mx-8 rounded-md w-full mx-auto">
         
-
+       <button onClick={(e)=> handleEdit()} className="flex items-center gap-2 mt-4 mb-4 bg-gray-200 rounded-lg px-4 py-2 hover:bg-gray-300">
+          <IoArrowBackSharp className="text-xl" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+        
         {/* Date Filters */}
         <div className="grid md:grid-cols-4 gap-4 mb-4">
           <div>
@@ -127,12 +131,11 @@ const AssociateList = () => {
         </div>
         </div>
 
-      
-
-        <div className="mt-8 mr-6">
-        <p className="text-gray-800 mb-4 font-bold text-xl text-center mt-8">
+        <p className="text-gray-800 mb-2 font-bold text-xl text-left mt-8">
             Associate List
         </p>
+
+        <div className="mt-4 mr-6">
         <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200">
             <thead>
