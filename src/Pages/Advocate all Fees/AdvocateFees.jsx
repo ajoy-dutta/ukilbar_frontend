@@ -272,7 +272,7 @@ const AdvocateFees = () => {
                         name="collection_date"
                         value={formData.collection_date}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         required
                         />
                     </div>
@@ -303,7 +303,7 @@ const AdvocateFees = () => {
                             type="text"
                             value={selectedAdvocate.name_bengali}
                             readOnly
-                            className="w-full bg-gray-100 border rounded py-2 px-3"
+                            className="w-full bg-sky-50 border rounded py-2 px-3"
                         />
                         </div>
 
@@ -313,7 +313,7 @@ const AdvocateFees = () => {
                             type="text"
                             value={selectedAdvocate.father_name}
                             readOnly
-                            className="w-full bg-gray-100 border rounded py-2 px-3"
+                            className="w-full bg-sky-50 border rounded py-2 px-3"
                         />
                         </div>
 
@@ -323,7 +323,7 @@ const AdvocateFees = () => {
                             type="text"
                             value={selectedAdvocate.enrollment_date_As_lawyer}
                             readOnly
-                            className="w-full bg-gray-100 border rounded py-2 px-3"
+                            className="w-full bg-sky-50 border rounded py-2 px-3"
                         />
                         </div>
                     </>
@@ -346,7 +346,6 @@ const AdvocateFees = () => {
                     value={formData.month}
                     onChange={handleChange}
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                     >
                     <option value="">Select Month</option>
                     {months.map((month, index) => (
@@ -364,7 +363,6 @@ const AdvocateFees = () => {
                     value={formData.year}
                     onChange={handleChange}
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                     >
                     <option value="">Select Year</option>
                     {years.map(year => (
@@ -383,7 +381,6 @@ const AdvocateFees = () => {
                     value={formData.rent_type}
                     onChange={handleChange}
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                     >
                     <option value="House">House</option>
                     <option value="Shop">Shop</option>
@@ -401,7 +398,6 @@ const AdvocateFees = () => {
                     value={formData.building_name}
                     onChange={handleChange}
                     className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                     >
                     <option value="">Select Building</option>
                     {buildings.map(building => (
@@ -422,7 +418,7 @@ const AdvocateFees = () => {
                     name="floor"
                     value={formData.floor}
                     onChange={handleChange}
-                    className=" border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>
 
@@ -435,7 +431,7 @@ const AdvocateFees = () => {
                     name="room"
                     value={formData.room}
                     onChange={handleChange}
-                    className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>
 
@@ -449,8 +445,7 @@ const AdvocateFees = () => {
                     name="rent_amount"
                     value={formData.rent_amount}
                     onChange={handleChange}
-                    className="shadow appearance-none border  bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
+                    className="shadow appearance-none border  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>
 
@@ -462,8 +457,7 @@ const AdvocateFees = () => {
                     name="payment_type"
                     value={formData.payment_type}
                     onChange={handleChange}
-                    className="shadow appearance-none border rounded bg-gray-100 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
+                    className="shadow appearance-none border rounded bg-sky-50 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
                     <option value="cash">Cash</option>
                     <option value="bank">Bank Transfer</option>
@@ -482,7 +476,7 @@ const AdvocateFees = () => {
                         name="remarks1"
                         value={formData.remarks1}
                         onChange={handleChange}
-                        className="shadow appearance-none border h-12 rounded bg-gray-100 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border h-12 rounded bg-sky-50 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         rows="3"
                     />
                 </div>
@@ -593,7 +587,7 @@ const AdvocateFees = () => {
                         name="monthly_fee"
                         value={formData.monthly_fee}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -604,7 +598,7 @@ const AdvocateFees = () => {
                         name="total_monthly_amount"
                         value={formData.total_monthly_amount}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
                     
@@ -615,7 +609,7 @@ const AdvocateFees = () => {
                         name="monthly_payment_type"
                         value={formData.monthly_payment_type}
                         onChange={handleChange}
-                        className="shadow appearance-none border rounded bg-gray-100 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded bg-sky-50 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="cash">Cash</option>
                         <option value="bank">Bank Transfer</option>
@@ -633,7 +627,7 @@ const AdvocateFees = () => {
                         name="remarks2"
                         value={formData.remarks2}
                         onChange={handleChange}
-                        className="shadow appearance-none border  h-12 rounded bg-gray-100 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border  h-12 rounded bg-sky-50 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         rows="3"
                     />
                     </div>
@@ -691,7 +685,7 @@ const AdvocateFees = () => {
                         name="yearly_fee"
                         value={formData.yearly_fee}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -702,7 +696,7 @@ const AdvocateFees = () => {
                         name="yearly_delay_fee"
                         value={formData.yearly_delay_fee}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -713,7 +707,7 @@ const AdvocateFees = () => {
                         name="benevolent_fund_fee"
                         value={formData.benevolent_fund_fee}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -724,7 +718,7 @@ const AdvocateFees = () => {
                         name="benevolent_delay_fee"
                         value={formData.benevolent_delay_fee}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -735,7 +729,7 @@ const AdvocateFees = () => {
                         name="relief_fund_fee"
                         value={formData.relief_fund_fee}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -746,7 +740,7 @@ const AdvocateFees = () => {
                         name="total_amount"
                         value={formData.total_amount}
                         onChange={handleChange}
-                        className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     </div>
 
@@ -757,7 +751,7 @@ const AdvocateFees = () => {
                         name="court_type"
                         value={formData.court_type}
                         onChange={handleChange}
-                        className="shadow appearance-none border rounded bg-gray-100 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded bg-sky-50 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="L/C">L/C</option>
                         <option value="H/C">H/C</option>
@@ -765,23 +759,6 @@ const AdvocateFees = () => {
                     </div>
 
                     
-                    
-
-                    {/* <div className="">
-                    <label className="block text-gray-700 text-sm font-semibold ">Payment Type</label>
-                    <select
-                        name="yearly_payment_type"
-                        value={formData.yearly_payment_type}
-                        onChange={handleChange}
-                        className="shadow appearance-none border rounded bg-gray-100 w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    >
-                        <option value="cash">Cash</option>
-                        <option value="bank">Bank Transfer</option>
-                        <option value="check">Check</option>
-                        <option value="mobile_banking">Mobile Banking</option>
-                    </select>
-                    </div> */}
-
                     {/* Remarks */}
                     <div className="">
                     <label className="block text-gray-700 text-sm font-semibold ">Remarks</label>
@@ -789,7 +766,7 @@ const AdvocateFees = () => {
                         name="remarks3"
                         value={formData.remarks3}
                         onChange={handleChange}
-                        className="shadow appearance-none border h-12 rounded bg-gray-100 w-full px-2 py-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border h-12 rounded bg-sky-50 w-full px-2 py-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         rows="3"
                     />
                     </div>

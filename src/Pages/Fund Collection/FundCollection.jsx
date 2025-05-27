@@ -90,7 +90,7 @@ const FundCollection = () => {
 
         <div className="grid grid-cols-2 gap-4">
             {/* Donation Type Select */}
-            <div className="mb-1">
+            <div >
             <label className="block text-sm font-medium text-gray-700">
                 Donation Type <span className="text-red-500">*</span>
             </label>
@@ -108,7 +108,7 @@ const FundCollection = () => {
             </div>
 
             {/* Receipt No - disabled */}
-            <div className="mb-1">
+            <div >
             <label className="block text-sm font-medium text-gray-700">Receipt No</label>
             <input
                 type="text"
@@ -128,7 +128,7 @@ const FundCollection = () => {
             { label: 'Fund Amount', name: 'fund_amount', type: 'number', placeholder: 'Enter amount' },
             { label: 'Purpose', name: 'purpose', type: 'text', placeholder: 'Enter purpose of fund' },
             ].map(({ label, name, type, placeholder }) => (
-            <div key={name} className="mb-1">
+            <div key={name} >
                 <label className="block text-sm font-medium text-gray-700">
                 {label} <span className="text-red-500">*</span>
                 </label>
@@ -145,7 +145,7 @@ const FundCollection = () => {
             ))}
 
             {/* Payment Type */}
-            <div className="mb-1">
+            <div >
             <label className="block text-sm font-medium">Payment Type</label>
             <select
                 name="payment_type"
@@ -160,7 +160,7 @@ const FundCollection = () => {
             </div>
 
             {/* Remarks */}
-            <div className="mb-1">
+            <div >
             <label className="block text-sm font-medium">Remarks</label>
             <textarea
                 name="remarks"

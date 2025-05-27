@@ -1,88 +1,138 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AxiosInstance from "../../Components/AxiosInstance";
 
 const AddBuilding = () => {
-  const [buildingName, setBuildingName] = useState("");
-  const [remarks, setRemarks] = useState("");
-    const [institution, setInstitution] = useState("");
+  const [formData, setFormData] = useState({
+    building_name: "",
+    institute: "",
+    remarks: "",
+  });
+  const [buildinOptions, setBuildingOptions] = useState([]);
+  const [editId, setEditId] = useState(null);
 
-  const [buildings, setBuildings] = useState([
-    {
-      id: 1,
-      name: "জেলা আইনজীবী সমিতি ২ নং ভবন",
-      remarks: "",
-      institution: "JASHORE DISTRICT BAR ASSOCIATION",
-    },
-    {
-      id: 2,
-      name: "জেলা আইনজীবী সমিতি ১ নং ভবন",
-      remarks: "",
-      institution: "JASHORE DISTRICT BAR ASSOCIATION",
-    },
-  ]);
+  useEffect(() => {
+    const fetchBuildings = async () => {
+      try {
+        const response = await AxiosInstance.get("buildings/");
+        setBuildingOptions(response.data);
+      } catch (error) {
+        console.error("Error fetching building data:", error);
+      }
+    };
+
+    fetchBuildings();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newBuilding = {
-      name: buildingName,
-      remarks: remarks,
-      institution: "institution",
-    };
-
     try {
-      const res = await AxiosInstance.post("building/", newBuilding);
-      const savedBuilding = res.data;
-
-      setBuildings([...buildings, savedBuilding]);
-      setBuildingName("");
-      setRemarks("");
+      if (editId) {
+        const response = await AxiosInstance.put(`buildings/${editId}/`,formData);
+        setBuildingOptions(buildinOptions.map((b) => (b.id === editId ? response.data : b)));
+        alert("Building Edited Successfully!");
+      } else {
+        const response = await AxiosInstance.post("buildings/", formData);
+        setBuildingOptions([...buildinOptions, response.data]);
+        alert("Building submitted Successfully!");
+      }
+      handleClear();
     } catch (error) {
       console.error("Failed to save building:", error);
       alert("❌ বিল্ডিং সংরক্ষণ ব্যর্থ হয়েছে");
     }
   };
 
-  const handleDelete = (id) => {
-    setBuildings(buildings.filter((b) => b.id !== id));
+  const handleClear = () => {
+    setFormData({
+      building_name: "",
+      institute: "",
+      remarks: "",
+    });
+    setEditId(null);
   };
+
+  const handleEdit = (form) => {
+    setFormData({
+      building_name: form.building_name,
+      institute: form.institute,
+      remarks: form.remarks,
+    });
+    setEditId(form.id);
+  };
+
+
+  const handleDelete = async (id) => {
+    try {
+      await AxiosInstance.delete(`buildings/${id}/`);
+      setBuildingOptions(buildinOptions.filter(b => b.id !== id));
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Error in deleting building !");
+    }
+  };
+
 
   return (
     <div className="p-4 max-w-4xl">
       <h2 className="text-xl text-center font-semibold mb-4">Building Info</h2>
-
-      <form onSubmit={handleSubmit} className="border p-4 rounded-md shadow mb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="border p-4 rounded-md shadow mb-6"
+      >
+        <label className="block font-medium" htmlFor="building_name">
+          Building Name
+        </label>
         <input
           type="text"
+          id="building_name"
           placeholder="Building Name"
-          value={buildingName}
-          onChange={(e) => setBuildingName(e.target.value)}
-          className="block w-full mb-2 p-2 border rounded"
+          name="building_name"
+          value={formData.building_name}
+          onChange={handleChange}
+          className="block w-full mb-2 px-2 py-1 border rounded"
           required
         />
-           <input
+
+        <label className="block font-medium" htmlFor="institute">
+          Institution Name
+        </label>
+        <input
           type="text"
+          id="institute"
           placeholder="Institution Name"
-          value={institution}
-          onChange={(e) => setInstitution(e.target.value)}
-          className="block w-full mb-2 p-2 border rounded"
+          name="institute"
+          value={formData.institute}
+          onChange={handleChange}
+          className="block w-full mb-2 px-2 py-1 border rounded"
           required
         />
+
+        <label className="block font-medium" htmlFor="remarks">
+          Remarks
+        </label>
         <textarea
+          id="remarks"
           placeholder="Remarks"
-          value={remarks}
-          onChange={(e) => setRemarks(e.target.value)}
-          className="block w-full mb-2 p-2 border rounded"
+          name="remarks"
+          value={formData.remarks}
+          onChange={handleChange}
+          className="block w-full mb-2 h-12 px-2 py-1 border rounded"
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded mr-2">
+
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded mr-2"
+        >
           Save
         </button>
         <button
           type="button"
-          onClick={() => {
-            setBuildingName("");
-            setRemarks("");
-          }}
+          onClick={() => handleClear()}
           className="bg-gray-700 text-white px-4 py-2 rounded"
         >
           Clear
@@ -95,19 +145,24 @@ const AddBuilding = () => {
           <thead>
             <tr className="bg-gray-200">
               <th className="border p-2">Building Name</th>
-              <th className="border p-2">Remarks</th>
               <th className="border p-2">Institution Name</th>
+              <th className="border p-2">Remarks</th>
+
               <th className="border p-2">Action</th>
             </tr>
           </thead>
           <tbody>
-            {buildings.map((b) => (
-              <tr key={b.id}>
-                <td className="border p-2">{b.name}</td>
+            {buildinOptions.map((b) => (
+              <tr key={b.id} className="text-center">
+                <td className="border p-2">{b.building_name}</td>
+                <td className="border p-2">{b.institute}</td>
                 <td className="border p-2">{b.remarks}</td>
-                <td className="border p-2">{b.institution}</td>
                 <td className="border p-2 flex space-x-2 justify-center">
-                  <button className="hover:bg-blue-900 text-white px-1 py-1 rounded">✏️</button>
+                  <button 
+                   onClick={(e) => handleEdit(b)}
+                   className="hover:bg-blue-900 text-white px-1 py-1 rounded">
+                    ✏️
+                  </button>
                   <button
                     onClick={() => handleDelete(b.id)}
                     className=" hover:bg-blue-900 text-white px-2 py-1 rounded"

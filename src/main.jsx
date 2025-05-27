@@ -30,7 +30,13 @@ import ShopRentList from './Pages/Sales/Rent/ShopRentList.jsx';
 import FundCollection from './Pages/Fund Collection/FundCollection.jsx';
 import FundList from './Pages/Fund Collection/FundList.jsx';
 import AdvocateFees from './Pages/Advocate all Fees/AdvocateFees.jsx';
-
+import ElectricityBill from './Pages/Collection/ElectricityBill.jsx';
+import ElectricityBillList from './Pages/Collection/ElectricityBillList.jsx';
+import BankInterest from './Pages/Collection/BankInterest.jsx';
+import BankInterestList from './Pages/Collection/BankInterestList.jsx';
+import FormSale from './Pages/Sales/FormSale/FormSale.jsx';
+import FormSellList from './Pages/Sales/FormSale/FormSellList.jsx';
+import ProbabableIncome from './Pages/Accounts/Probabable Income/ProbabableIncome.jsx';
 
 const router = createBrowserRouter([
   {
@@ -128,7 +134,42 @@ const router = createBrowserRouter([
         path: "donation-list",
         element: <FundList></FundList>,
       },
-      
+
+      {
+        path: "electricity-bill-collect",
+        element: <ElectricityBill></ElectricityBill>,
+      },
+
+      {
+        path: "electricity-bill-list",
+        element: <ElectricityBillList></ElectricityBillList>,
+      }, 
+
+      {
+        path: "bank-interest-collect",
+        element: <BankInterest></BankInterest>,
+      }, 
+
+      {
+        path: "bank-interest-list",
+        element: <BankInterestList></BankInterestList>,
+      }, 
+
+      {
+        path: "form-sale",
+        element: <FormSale></FormSale>,
+      },
+
+      {
+        path: "form-sale-list",
+        element: <FormSellList></FormSellList>,
+      },
+
+      {
+        path: "probabable-income-list",
+        element: <ProbabableIncome></ProbabableIncome>,
+      },
+
     ],
   }
 ]);

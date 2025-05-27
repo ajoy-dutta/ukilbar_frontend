@@ -164,20 +164,7 @@ const Vokalotnama = () => {
     });
   };
 
-  const handleBack = () => {
-    // history.back() or router.push('/vokalotnama-list')
-    window.history.back();
-  };
-
-  const handleSearchClick = () => {
-      setIsModalOpen(true); // open the modal
-    };
-
-
-    const handlePrint = () => {
-      window.print();
-    };
-
+ 
 
   return (
     <form
@@ -372,90 +359,74 @@ const Vokalotnama = () => {
             disabled
           />
         </React.Fragment>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
 
-  {/* Summary Section */}
-  <div className="border rounded-md p-4">
-    <h3 className="text-lg font-medium mb-2">Summary</h3>
-    <div className="space-y-2">
-      <div>
-        <label className="block text-sm font-medium">Total Count</label>
-        <input
-          name="total_count"
-          type="text"
-          value={formData.total_count}
-          onChange={handleChange}
-          placeholder="Total Count"
-          className="border px-2  rounded-md w-full bg-gray-100"
-          disabled
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          price <span className="text-red-500">*</span>
-        </label>
-        <input
-          name="price"
-          type="number"
-          value={formData.price}
-          onChange={handleChange}
-          placeholder="price"
-          className="border px-2  rounded-md w-full bg-gray-100"
-          required
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          Total Amount <span className="text-red-500">*</span>
-        </label>
-        <input
-          name="total_amount"
-          type="text"
-          value={formData.total_amount}
-          onChange={handleChange}
-          placeholder="Total Amount"
-          className="border px-2  rounded-md w-full bg-gray-100"
-          required
-          disabled
-        />
+    {/* Summary Section */}
+    <div className="border rounded-md p-4">
+      <h3 className="text-lg font-medium mb-2">Summary</h3>
+      <div className="space-y-2">
+        <div>
+          <label className="block text-sm font-medium">Total Count</label>
+          <input
+            name="total_count"
+            type="text"
+            value={formData.total_count}
+            onChange={handleChange}
+            placeholder="Total Count"
+            className="border px-2  rounded-md w-full bg-gray-100"
+            disabled
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">
+            price <span className="text-red-500">*</span>
+          </label>
+          <input
+            name="price"
+            type="number"
+            value={formData.price}
+            onChange={handleChange}
+            placeholder="price"
+            className="border px-2  rounded-md w-full bg-gray-100"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">
+            Total Amount <span className="text-red-500">*</span>
+          </label>
+          <input
+            name="total_amount"
+            type="text"
+            value={formData.total_amount}
+            onChange={handleChange}
+            placeholder="Total Amount"
+            className="border px-2  rounded-md w-full bg-gray-100"
+            required
+            disabled
+          />
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
       {/* Buttons */}
       <div className="flex gap-2 justify-end">
-        <button
-          type="button"
-           onClick={handleBack}
-          className="bg-gray-700 text-white h-8 w-24 rounded-md"
-        >
-          Back To List
-        </button>
         <button
           type="submit"
           className="bg-blue-600 text-white h-8 w-16 rounded-md"
         >
           Save
         </button>
-      <button
-          type="button"
-          onClick={handleClear}
-          className="bg-gray-300 text-black h-8 w-16 rounded-md"
-        >
-          Clear
-      </button>
-
         <button
-          type="button"
-            onClick={handlePrint}
-
-          className="bg-blue-500 text-white h-8 w-16 rounded-md"
-        >
-          Print
+            type="button"
+            onClick={handleClear}
+            className="bg-gray-300 text-black h-8 w-16 rounded-md"
+          >
+            Clear
         </button>
       </div>
     </form>

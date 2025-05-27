@@ -13,7 +13,7 @@ function EntryFeeForm({ formData, handleChange }) {
             value={formData.receipt_no}
             onChange={handleChange}
             placeholder="Auto Generated"
-            className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
+            className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
             />
         </div>
 
@@ -27,7 +27,7 @@ function EntryFeeForm({ formData, handleChange }) {
             value={formData.entry_fee}
             onChange={handleChange}
             placeholder="Enter entry fee"
-            className="shadow appearance-none border bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
             />  
 
@@ -42,7 +42,7 @@ function EntryFeeForm({ formData, handleChange }) {
                 name="remarks4"
                 value={formData.remarks4}
                 onChange={handleChange}
-                className="shadow appearance-none border h-12 rounded bg-gray-100 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border h-12 rounded bg-sky-50 w-full px-2  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 rows="3"
             />
         </div>

@@ -5,8 +5,10 @@ import {
   MdOutlineShoppingCart,
   MdDashboard,
   MdOutlineAccountTree,
+  MdAccountBalanceWallet,
+  MdAccountBox,
 } from "react-icons/md";
-import { FaBalanceScale, FaAngleUp, FaAngleDown } from "react-icons/fa";
+import { FaBalanceScale, FaAngleUp, FaAngleDown, FaAccessibleIcon } from "react-icons/fa";
 import {
   IoPersonRemoveSharp,
   IoPersonSharp,
@@ -15,7 +17,7 @@ import {
 } from "react-icons/io5";
 import { useState } from "react";
 import { FaUserTie } from "react-icons/fa6";
-import { AiFillProduct } from "react-icons/ai";
+import { AiFillAccountBook, AiFillProduct } from "react-icons/ai";
 import { HiCurrencyBangladeshi, HiUserGroup } from "react-icons/hi";
 import { IoIosStats } from "react-icons/io";
 import { BiSolidReport } from "react-icons/bi";
@@ -288,8 +290,8 @@ const Dashboard = () => {
                           to="/dashboard/Advocate"
                           className={({ isActive }) =>
                             isActive
-                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
-                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                              : "flex items-center gap-2 p-2 hover:bg-blue-100"
                           }
                         >
                           Add Advocate
@@ -404,8 +406,8 @@ const Dashboard = () => {
                         to="/dashboard/addBank"
                         className={({ isActive }) =>
                           isActive
-                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
-                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                         }
                       >
                         Add Bank
@@ -472,6 +474,19 @@ const Dashboard = () => {
                         }
                       >
                        BailBond Sales
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/dashboard/form-sale"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                      Form Sales
                       </NavLink>
                     </li>
                     <li>
@@ -542,6 +557,100 @@ const Dashboard = () => {
                   </ul>
                 )}
 
+
+            
+              {/* Configuration Menu */}
+              <li
+                ref={(el) => (menuRefs.current["party"] = el)}
+                className="relative"
+              >
+                <div
+                  onClick={() => toggleMinimizedMenu("collection")}
+                  className={`flex items-center ${
+                    isMinimized ? "justify-center" : "justify-between"
+                  } gap-2 p-3 cursor-pointer hover:bg-blue-100`}
+                  title="collection"
+                >
+                  <div
+                    className={`flex items-center ${
+                      isMinimized ? "justify-center" : ""
+                    } gap-2`}
+                  >
+                    <HiUserGroup className="text-lg" />
+                    {!isMinimized && <span>Collection</span>}
+                  </div>
+                  {!isMinimized &&
+                    (activeMenu === "collection" ? <FaAngleUp /> : <FaAngleDown />)}
+                </div>
+
+                {/* Subcategories - only show if not minimized and this menu is active */}
+                {!isMinimized && activeMenu === "collection" && (
+                  <ul className="pl-8 space-y-2">
+                    <li>
+                        <NavLink
+                          to="/dashboard/electricity-bill-collect"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                              : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                          }
+                        >
+                          Electricity Bill Collect
+                        </NavLink>
+                      </li>
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/bank-interest-collect"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                              : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                          }
+                        >
+                          Bank Interest Collect
+                        </NavLink>
+                      </li>
+                    
+                  </ul>
+                )}
+
+                {/* Popup submenu for minimized mode */}
+                {isMinimized && activePopup === "party" && (
+                  <div className="absolute left-16 top-0 bg-white shadow-lg rounded-lg w-48 z-20 border border-gray-300">
+                    <ul className="space-y-2 p-2">
+                    <li>
+                        <NavLink
+                          to="/dashboard/electricity-bill-collect"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                           Electricity Bill Collect
+                        </NavLink>
+                      </li>
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/bank-interest-collect"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Bank Interest Collect
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </li>
+
+              
+
                 {/* Popup submenu for minimized mode */}
                 {isMinimized && activePopup === "product" && (
                   <div className="absolute left-16 top-0 bg-white shadow-lg rounded-lg w-48 z-20 border border-gray-300">
@@ -574,6 +683,19 @@ const Dashboard = () => {
 
                       <li>
                         <NavLink
+                          to="/dashboard/form-sale"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                        Form Sales
+                        </NavLink>
+                      </li>
+
+                      <li>
+                        <NavLink
                           to="/dashboard/advocate-all-fees"
                           className={({ isActive }) =>
                             isActive
@@ -598,7 +720,7 @@ const Dashboard = () => {
                         </NavLink>
                       </li>
 
-                       <li>
+                      <li>
                       <NavLink
                         to="/dashboard/advocate-change"
                         className={({ isActive }) =>
@@ -609,7 +731,7 @@ const Dashboard = () => {
                       >
                         Advocate Change Fee
                       </NavLink>
-                    </li>
+                     </li>
 
                      <li>
                       <NavLink
@@ -637,6 +759,97 @@ const Dashboard = () => {
                       </NavLink>
                     </li>
                       
+                    </ul>
+                  </div>
+                )}
+              </li>
+
+              {/* Accounts Menu */}
+              <li
+                ref={(el) => (menuRefs.current["account"] = el)}
+                className="relative"
+              >
+                <div
+                  onClick={() => toggleMinimizedMenu("account")}
+                  className={`flex items-center ${
+                    isMinimized ? "justify-center" : "justify-between"
+                  } gap-2 p-3 cursor-pointer hover:bg-blue-100`}
+                  title="account"
+                >
+                  <div
+                    className={`flex items-center ${
+                      isMinimized ? "justify-center" : ""
+                    } gap-2`}
+                  >
+                    <AiFillAccountBook className="text-lg" />
+                    {!isMinimized && <span>Account</span>}
+                  </div>
+                  {!isMinimized &&
+                    (activeMenu === "account" ? (
+                      <FaAngleUp />
+                    ) : (
+                      <FaAngleDown />
+                    ))}
+                </div>
+
+                {/* Subcategories - only show if not minimized and this menu is active */}
+                {!isMinimized && activeMenu === "account" && (
+                  <ul className="pl-8 space-y-2">
+                    <li>
+                      <NavLink
+                        to="/dashboard/probabable-income-list"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Probabable Income
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/dashboard/passwordChange"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Change password
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
+
+                {/* Popup submenu for minimized mode */}
+                {isMinimized && activePopup === "settings" && (
+                  <div className="absolute left-16 top-0 bg-white shadow-lg rounded-lg w-48 z-20 border border-gray-300">
+                    <ul className="space-y-2 p-2">
+                      <li>
+                        <NavLink
+                          to="/dashboard/probabable-income-list"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Probabable Income
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/dashboard/passwordChange"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Change password
+                        </NavLink>
+                      </li>
                     </ul>
                   </div>
                 )}
