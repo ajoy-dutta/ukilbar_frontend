@@ -37,6 +37,8 @@ import BankInterestList from './Pages/Collection/BankInterestList.jsx';
 import FormSale from './Pages/Sales/FormSale/FormSale.jsx';
 import FormSellList from './Pages/Sales/FormSale/FormSellList.jsx';
 import ProbabableIncome from './Pages/Accounts/Probabable Income/ProbabableIncome.jsx';
+import IncomeList from './Pages/Accounts/Income List/IncomeList.jsx';
+import ProbableExpanse from './Pages/Accounts/ProbabableExpanse/ExpanseList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -169,6 +171,19 @@ const router = createBrowserRouter([
         path: "probabable-income-list",
         element: <ProbabableIncome></ProbabableIncome>,
       },
+
+      {
+        path: "income-list",
+        element: <IncomeList></IncomeList>,
+      },
+
+      {
+        path: "expanse-list",
+        element: <ProbableExpanse></ProbableExpanse>,
+      },
+
+      
+
 
     ],
   }

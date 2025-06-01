@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../../Components/AxiosInstance";
 
-const ProbableIncome = () => {
+const ProbableExpanse = () => {
   const [formData, setFormData] = useState({
-    IncomeCategory: "",
-    amount: "",
+    expanseCategory: "",
+    ProbableExpanse: "",
+    expanse: ""
   });
-  const [incomeList, setIncomeList] = useState([]);
+  const [expanseList, setExpanseList] = useState([]);
   const [editId, setEditId] = useState(null);
 
   useEffect(() => {
-    fetchIncomes();
+    fetchexpanses();
   }, []);
 
-  const fetchIncomes = async () => {
+  const fetchexpanses = async () => {
     try {
-      const response = await AxiosInstance.get("probable_income/");
-      setIncomeList(response.data);
+      const response = await AxiosInstance.get("probable_expanse/");
+      setExpanseList(response.data);
     } catch (err) {
-      console.error("Failed to fetch income list:", err);
+      console.error("Failed to fetch expanse list:", err);
     }
   };
 
@@ -31,14 +32,14 @@ const ProbableIncome = () => {
     e.preventDefault();
     try {
       if (editId) {
-        const response = await AxiosInstance.put(`probable_income/${editId}/`, formData);
-        setIncomeList(
-          incomeList.map((item) => (item.id === editId ? response.data : item))
+        const response = await AxiosInstance.put(`probable_expanse/${editId}/`, formData);
+        setExpanseList(
+          expanseList.map((item) => (item.id === editId ? response.data : item))
         );
         alert("Income updated successfully!");
       } else {
-        const response = await AxiosInstance.post("probable_income/", formData);
-        setIncomeList([...incomeList, response.data]);
+        const response = await AxiosInstance.post("probable_expanse/", formData);
+        setExpanseList([...expanseList, response.data]);
         alert("Income added successfully!");
       }
       handleClear();
@@ -49,26 +50,26 @@ const ProbableIncome = () => {
   };
 
   const handleClear = () => {
-    setFormData({ IncomeCategory: "", amount: "" });
+    setFormData({ expanseCategory: "", ProbableExpanse: "" , expanse: ""});
     setEditId(null);
   };
 
   const handleEdit = (item) => {
-    setFormData({ IncomeCategory: item.IncomeCategory, amount: item.amount });
+    setFormData({ expanseCategory: item.expanseCategory, ProbableExpanse: item.ProbableExpanse });
     setEditId(item.id);
   };
 
   const handleDelete = async (id) => {
     try {
-      await AxiosInstance.delete(`probable_income/${id}/`);
-      setIncomeList(incomeList.filter((item) => item.id !== id));
+      await AxiosInstance.delete(`probable_expanse/${id}/`);
+      setExpanseList(expanseList.filter((item) => item.id !== id));
     } catch (err) {
       console.error("Failed to delete income:", err);
       alert("❌ Failed to delete income.");
     }
   };
 
-  const totalAmount = incomeList.reduce((sum, item) => sum + parseFloat(item.amount), 0);
+  const totalProbableExpanse = expanseList.reduce((sum, item) => sum + parseFloat(item.ProbableExpanse), 0);
 
   return (
     <div className="p-4 max-w-4xl">
@@ -78,25 +79,25 @@ const ProbableIncome = () => {
         onSubmit={handleSubmit}
         className="border p-4 rounded-md shadow mb-6"
       >
-        <label className="block font-medium mb-1" htmlFor="IncomeCategory">IncomeCategory</label>
+        <label className="block font-medium mb-1" htmlFor="expanseCategory">expanseCategory</label>
         <input
           type="text"
-          id="IncomeCategory"
+          id="expanseCategory"
           placeholder="Enter Income Category"
-          name="IncomeCategory"
-          value={formData.IncomeCategory}
+          name="expanseCategory"
+          value={formData.expanseCategory}
           onChange={handleChange}
           className="block w-full mb-3 px-2 py-1 border rounded"
           required
         />
 
-        <label className="block font-medium mb-1" htmlFor="amount">Amount (৳)</label>
+        <label className="block font-medium mb-1" htmlFor="ProbableExpanse">ProbableExpanse(৳)</label>
         <input
           type="number"
-          id="amount"
-          placeholder="Amount"
-          name="amount"
-          value={formData.amount}
+          id="ProbableExpanse"
+          placeholder="ProbableExpanse"
+          name="ProbableExpanse"
+          value={formData.ProbableExpanse}
           onChange={handleChange}
           className="block w-full mb-3 px-2 py-1 border rounded"
           required
@@ -122,18 +123,18 @@ const ProbableIncome = () => {
         <thead>
           <tr className="bg-gray-200">
             <th className="border p-2">SL</th>
-            <th className="border p-2">IncomeCategory</th>
-            <th className="border p-2">Amount (৳)</th>
+            <th className="border p-2">expanseCategory</th>
+            <th className="border p-2">ProbableExpanse (৳)</th>
             <th className="border p-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {incomeList.map((item, index) => (
+          {expanseList.map((item, index) => (
             <tr key={item.id} className="text-center">
               <td className="border p-2">{index + 1}</td>
-              <td className="border p-2">{item.IncomeCategory}</td>
+              <td className="border p-2">{item.expanseCategory}</td>
               <td className="border p-2 text-right">
-                {parseFloat(item.amount).toLocaleString()}৳
+                {parseFloat(item.ProbableExpanse).toLocaleString()}৳
               </td>
               <td className="border p-2 flex space-x-2 justify-center">
                 <button
@@ -154,7 +155,7 @@ const ProbableIncome = () => {
           <tr className="font-bold bg-gray-100">
             <td colSpan="2" className="border px-2 py-1 text-right">Total</td>
             <td className="border px-2 py-1 text-right">
-              {totalAmount.toLocaleString()}৳
+              {totalProbableExpanse.toLocaleString()}৳
             </td>
           </tr>
         </tbody>
@@ -163,4 +164,4 @@ const ProbableIncome = () => {
   );
 };
 
-export default ProbableIncome;
+export default ProbableExpanse;
