@@ -139,13 +139,13 @@ const ProbableExpanse = () => {
               <td className="border p-2 flex space-x-2 justify-center">
                 <button
                   onClick={() => handleEdit(item)}
-                  className="bg-blue-600 text-white px-2 py-1 rounded"
+                  className="text-white text-base px-2 py-1 rounded"
                 >
                   ✏️
                 </button>
                 <button
                   onClick={() => handleDelete(item.id)}
-                  className="bg-red-600 text-white px-2 py-1 rounded"
+                  className="text-white text-base px-2 py-1 rounded"
                 >
                   🗑
                 </button>
@@ -153,7 +153,7 @@ const ProbableExpanse = () => {
             </tr>
           ))}
           <tr className="font-bold bg-gray-100">
-            <td colSpan="2" className="border px-2 py-1 text-right">Total</td>
+            <td colSpan="2" className="border px-2 py-1 text-center">Total</td>
             <td className="border px-2 py-1 text-right">
               {totalProbableExpanse.toLocaleString()}৳
             </td>

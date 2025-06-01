@@ -833,6 +833,19 @@ const Dashboard = () => {
                       </NavLink>
                     </li>
 
+                    <li>
+                      <NavLink
+                        to="/dashboard/income-report"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Income Report
+                      </NavLink>
+                    </li>
+
                     
                   </ul>
                 )}
@@ -878,6 +891,21 @@ const Dashboard = () => {
                           Expanse List
                         </NavLink>
                       </li>
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/income-report"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Income Report
+                        </NavLink>
+                      </li>
+
+
                     </ul>
                   </div>
                 )}
