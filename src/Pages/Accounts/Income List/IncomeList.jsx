@@ -3,19 +3,22 @@ import AxiosInstance from '../../../Components/AxiosInstance';
 
 const IncomeList = () => {
   const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 11 }, (_, i) => currentYear - i);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+
   const [month, setMonth] = useState(new Date().getMonth() + 1); // 1–12
   const [data, setData] = useState(null);
 
   // Fetch data on mount
   useEffect(() => {
-    AxiosInstance.get('income-report/')
+    AxiosInstance.get(`income-report/?year=${selectedYear}`)
       .then(response => {
         setData(response.data);
       })
       .catch(error => {
         console.error('Error fetching income data:', error);
       });
-  }, []);
+  }, [selectedYear]);
 
   const getDaysInMonth = (year, month) => {
     const days = [];
@@ -57,23 +60,47 @@ const IncomeList = () => {
 
   return (
     <div className="p-4">
-      <div className="mb-4">
-        <label className="mr-2 font-semibold">Select Month:</label>
-        <select
-          value={month}
-          onChange={e => setMonth(Number(e.target.value))}
-          className="border px-2 py-1 rounded"
-        >
-          {Array.from({ length: 12 }, (_, i) => (
-            <option key={i+1} value={i + 1}>
-              {new Date(0, i).toLocaleString('default', { month: 'long' })}
+
+      <div className="my-4 px-4 flex flex-row gap-4">
+
+        {/* Year selector */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="year" className="font-semibold">
+            Select Year:
+          </label>
+          <select
+            id="year"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+            className="border px-4 py-2 rounded"
+          >
+          {years.map((yr) => (
+            <option key={yr} value={yr}>
+              {yr}
             </option>
           ))}
-        </select>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label className="font-semibold">Select Month:</label>
+          <select
+            value={month}
+            onChange={e => setMonth(Number(e.target.value))}
+            className="border px-2 py-2 rounded"
+          >
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i+1} value={i + 1}>
+                {new Date(0, i).toLocaleString('default', { month: 'long' })}
+              </option>
+            ))}
+          </select>
+        </div>
+
       </div>
 
       <div className="overflow-x-auto">
-        <h1 className='text-black text-center text-lg font-semibold my-4'>Monthly Income List</h1>
+        <h1 className='text-black text-center text-xl font-semibold my-6'>Monthly Income List</h1>
         <table className="min-w-full border border-gray-300 text-sm">
           <thead className="bg-gray-100">
             <tr>

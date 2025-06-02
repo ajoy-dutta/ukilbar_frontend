@@ -40,6 +40,7 @@ import ProbabableIncome from './Pages/Accounts/Probabable Income/ProbabableIncom
 import IncomeList from './Pages/Accounts/Income List/IncomeList.jsx';
 import ProbableExpanse from './Pages/Accounts/ProbabableExpanse/ExpanseList.jsx';
 import IncomeReport from './Pages/Accounts/Report/IncomeReport.jsx';
+import ExpanseReport from './Pages/Accounts/Expanse Report/ExpanseReport.jsx';
 
 const router = createBrowserRouter([
   {
@@ -187,6 +188,13 @@ const router = createBrowserRouter([
         path: "income-report",
         element: <IncomeReport></IncomeReport>,
       },    
+
+      {
+        path: "expanse-report",
+        element: <ExpanseReport></ExpanseReport>,
+      },    
+
+
 
 
     ],

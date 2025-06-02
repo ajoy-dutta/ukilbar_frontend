@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../../Components/AxiosInstance";
 
 const ProbableIncome = () => {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 11 }, (_, i) => currentYear - i);
   const [formData, setFormData] = useState({
+    year: currentYear,
     IncomeCategory: "",
     amount: "",
   });
@@ -11,11 +14,11 @@ const ProbableIncome = () => {
 
   useEffect(() => {
     fetchIncomes();
-  }, []);
+  }, [formData.year]);
 
   const fetchIncomes = async () => {
     try {
-      const response = await AxiosInstance.get("probable_income/");
+      const response = await AxiosInstance.get(`probable_income/?year=${formData.year}`);
       setIncomeList(response.data);
     } catch (err) {
       console.error("Failed to fetch income list:", err);
@@ -37,6 +40,7 @@ const ProbableIncome = () => {
         );
         alert("Income updated successfully!");
       } else {
+        console.log("formData", formData)
         const response = await AxiosInstance.post("probable_income/", formData);
         setIncomeList([...incomeList, response.data]);
         alert("Income added successfully!");
@@ -49,7 +53,7 @@ const ProbableIncome = () => {
   };
 
   const handleClear = () => {
-    setFormData({ IncomeCategory: "", amount: "" });
+    setFormData({ IncomeCategory: "", amount: ""});
     setEditId(null);
   };
 
@@ -73,6 +77,30 @@ const ProbableIncome = () => {
   return (
     <div className="p-4 max-w-4xl">
       <h2 className="text-xl font-semibold text-center mb-4">Probable Income</h2>
+
+       {/* Year selector */}
+      <div className="mb-4 px-2 flex items-center gap-2">
+        <label htmlFor="yearSelect" className="font-medium">
+          Select Year:
+        </label>
+        <select
+          id="year"
+          value={formData.year}
+          onChange={(e) =>{
+            setFormData(prev=>({
+              ...prev, 
+              year:parseInt(e.target.value)
+              }))
+            }}
+          className="border px-4 py-2"
+        >
+          {years.map((yr) => (
+            <option key={yr} value={yr}>
+              {yr}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <form
         onSubmit={handleSubmit}

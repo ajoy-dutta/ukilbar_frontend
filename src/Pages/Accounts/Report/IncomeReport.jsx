@@ -14,11 +14,11 @@ const IncomeReport = () => {
 
   useEffect(() => {
     fetchProbableIncomes();
-  }, []);
+  }, [selectedYear]);
 
   const fetchProbableIncomes = async () => {
     try {
-      const response = await AxiosInstance.get("probable_income/");
+      const response = await AxiosInstance.get(`probable_income/?year=${selectedYear}`);
       setProbableIncome(response.data);
     } catch (err) {
       console.error("Failed to fetch Probable income list:", err);
@@ -129,11 +129,11 @@ const IncomeReport = () => {
           onChange={(e) => setSelectedYear(parseInt(e.target.value))}
           className="border px-2 py-1 rounded"
         >
-          {years.map((yr) => (
-            <option key={yr} value={yr}>
-              {yr}
-            </option>
-          ))}
+        {years.map((yr) => (
+          <option key={yr} value={yr}>
+            {yr}
+          </option>
+        ))}
         </select>
       </div>
 

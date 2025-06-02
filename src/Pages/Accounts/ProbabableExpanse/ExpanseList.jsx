@@ -2,21 +2,26 @@ import React, { useEffect, useState } from "react";
 import AxiosInstance from "../../../Components/AxiosInstance";
 
 const ProbableExpanse = () => {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 11 }, (_, i) => currentYear - i);
+
   const [formData, setFormData] = useState({
+    year: currentYear,
     expanseCategory: "",
     ProbableExpanse: "",
-    expanse: ""
   });
   const [expanseList, setExpanseList] = useState([]);
   const [editId, setEditId] = useState(null);
+ 
+
 
   useEffect(() => {
     fetchexpanses();
-  }, []);
+  }, [formData.year]);
 
   const fetchexpanses = async () => {
     try {
-      const response = await AxiosInstance.get("probable_expanse/");
+      const response = await AxiosInstance.get(`probable_expanse/?year=${formData.year}`);
       setExpanseList(response.data);
     } catch (err) {
       console.error("Failed to fetch expanse list:", err);
@@ -36,11 +41,12 @@ const ProbableExpanse = () => {
         setExpanseList(
           expanseList.map((item) => (item.id === editId ? response.data : item))
         );
-        alert("Income updated successfully!");
+        alert("Probable Expanse updated successfully!");
       } else {
         const response = await AxiosInstance.post("probable_expanse/", formData);
+        console.log("formData", formData)
         setExpanseList([...expanseList, response.data]);
-        alert("Income added successfully!");
+        alert("Probable Expanse added successfully!");
       }
       handleClear();
     } catch (err) {
@@ -50,12 +56,12 @@ const ProbableExpanse = () => {
   };
 
   const handleClear = () => {
-    setFormData({ expanseCategory: "", ProbableExpanse: "" , expanse: ""});
+    setFormData({ expanseCategory: "", ProbableExpanse: "" , year: currentYear,});
     setEditId(null);
   };
 
   const handleEdit = (item) => {
-    setFormData({ expanseCategory: item.expanseCategory, ProbableExpanse: item.ProbableExpanse });
+    setFormData({ expanseCategory: item.expanseCategory, ProbableExpanse: item.ProbableExpanse , year:item.year});
     setEditId(item.id);
   };
 
@@ -73,23 +79,54 @@ const ProbableExpanse = () => {
 
   return (
     <div className="p-4 max-w-4xl">
-      <h2 className="text-xl font-semibold text-center mb-4">Probable Income</h2>
+      <h2 className="text-xl font-semibold text-center mb-4">Probable Expanse</h2>
+
+
+      {/* Year selector */}
+      <div className="mb-4 px-2 flex items-center gap-2">
+        <label htmlFor="year" className="font-medium">
+          Select Year:
+        </label>
+        <select
+          id="year"
+          value={formData.year}
+          onChange={(e) =>{
+            setFormData(prev=>({
+              ...prev, 
+              year:parseInt(e.target.value)
+              }))
+            }}
+          className="border px-4 py-2"
+        >
+          {years.map((yr) => (
+            <option key={yr} value={yr}>
+              {yr}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <form
         onSubmit={handleSubmit}
         className="border p-4 rounded-md shadow mb-6"
       >
         <label className="block font-medium mb-1" htmlFor="expanseCategory">expanseCategory</label>
-        <input
-          type="text"
-          id="expanseCategory"
-          placeholder="Enter Income Category"
-          name="expanseCategory"
-          value={formData.expanseCategory}
-          onChange={handleChange}
-          className="block w-full mb-3 px-2 py-1 border rounded"
-          required
-        />
+        <select
+            id="expanseCategory"
+            name="expanseCategory"
+            value={formData.expanseCategory || ''}
+            onChange={handleChange}
+            className="block w-full mb-3 px-2 py-1 border rounded"
+            required
+            >
+            <option value="">Select Expense Category</option>
+            <option value="Vokalatnama printing cost">Vokalatnama printing cost</option>
+            <option value="Bailbond printing cost">Bailbond printing cost</option>
+            <option value="Telephone bill">Telephone bill</option>
+            <option value="Electricity bill">Electricity bill</option>
+            <option value="Library maintenance cost">Library maintenance cost</option>
+            <option value="Employee salary">Employee salary</option>
+        </select>
 
         <label className="block font-medium mb-1" htmlFor="ProbableExpanse">ProbableExpanse(৳)</label>
         <input
