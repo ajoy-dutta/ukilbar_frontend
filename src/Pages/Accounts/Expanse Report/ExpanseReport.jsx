@@ -9,6 +9,7 @@ const ExpanseReport = () => {
     year: currentYear,
     expanseCategory: "",
     actualExpanse: "",
+    date: "",
   });
   const [expanseList, setExpanseList] = useState([]);
   const [editId, setEditId] = useState(null);
@@ -73,7 +74,7 @@ const ExpanseReport = () => {
   };
 
   const handleClear = () => {
-    setFormData({ expanseCategory: "", actualExpanse: "", year: currentYear });
+    setFormData({ expanseCategory: "", actualExpanse: "", year: currentYear , date:""});
     setEditId(null);
   };
 

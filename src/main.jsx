@@ -41,6 +41,9 @@ import IncomeList from './Pages/Accounts/Income List/IncomeList.jsx';
 import ProbableExpanse from './Pages/Accounts/ProbabableExpanse/ExpanseList.jsx';
 import IncomeReport from './Pages/Accounts/Report/IncomeReport.jsx';
 import ExpanseReport from './Pages/Accounts/Expanse Report/ExpanseReport.jsx';
+import AddExpanse from './Pages/Accounts/AddExpanse/AddExpanse.jsx';
+import AddCategory from './Pages/Configuration/AddCategory.jsx';
+import ExpanseList from './Pages/Accounts/Monthly Expanse List/ExpanseList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -60,22 +63,32 @@ const router = createBrowserRouter([
         path: "profile",
         element:<Profile></Profile>,
       },
+
       {
         path: "formSetup",
         element:<FormSetup></FormSetup>,
       },
+
       {
         path: "renter",
         element:<AddRenter></AddRenter>,
       },
+
       {
         path: "Advocate",
         element: <AddAdvocate></AddAdvocate>,
       },
+
       {
         path: "addBuilding",
         element:<AddBuilding></AddBuilding>,
       },
+
+      {
+        path: "add-category",
+        element:<AddCategory></AddCategory>,
+      },
+
       {
         path: "addBank",
         element:<AddBank></AddBank>,
@@ -95,10 +108,12 @@ const router = createBrowserRouter([
         path: "bailbondSale",
         element: <BailbondSale></BailbondSale>,
       },
+
       {
         path: "advocate-all-fees",
         element: <AdvocateFees></AdvocateFees>,
       },
+
       {
         path: "associate-renewal",
         element: <AssociateRenewal></AssociateRenewal>,
@@ -170,18 +185,29 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "probabable-income-list",
+        path: "probable-income-list",
         element: <ProbabableIncome></ProbabableIncome>,
       },
 
       {
-        path: "income-list",
+        path: "probable-expanse-list",
+        element: <ProbableExpanse></ProbableExpanse>,
+      },
+
+      {
+        path: "add-expanse",
+        element: <AddExpanse></AddExpanse>,
+      },
+
+
+      {
+        path: "monthly-income-list",
         element: <IncomeList></IncomeList>,
       },
 
       {
-        path: "expanse-list",
-        element: <ProbableExpanse></ProbableExpanse>,
+        path: "monthly-expanse-list",
+        element: <ExpanseList></ExpanseList>,
       },
 
       {

@@ -12,6 +12,7 @@ const ProbableExpanse = () => {
   });
   const [expanseList, setExpanseList] = useState([]);
   const [editId, setEditId] = useState(null);
+  const [ categories, setCategories] = useState([])
  
 
 
@@ -27,6 +28,22 @@ const ProbableExpanse = () => {
       console.error("Failed to fetch expanse list:", err);
     }
   };
+
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await AxiosInstance.get("expanse_category/");
+        setCategories(response.data);
+      } catch (err) {
+        console.error("Failed to fetch categories", err);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,13 +136,14 @@ const ProbableExpanse = () => {
             className="block w-full mb-3 px-2 py-1 border rounded"
             required
             >
-            <option value="">Select Expense Category</option>
-            <option value="Vokalatnama printing cost">Vokalatnama printing cost</option>
-            <option value="Bailbond printing cost">Bailbond printing cost</option>
-            <option value="Telephone bill">Telephone bill</option>
-            <option value="Electricity bill">Electricity bill</option>
-            <option value="Library maintenance cost">Library maintenance cost</option>
-            <option value="Employee salary">Employee salary</option>
+            <option value="" disabled>
+                Select a category
+              </option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.category || 'Electric Bill'}>
+                  {cat.category}
+                </option>
+              ))}
         </select>
 
         <label className="block font-medium mb-1" htmlFor="ProbableExpanse">ProbableExpanse(৳)</label>

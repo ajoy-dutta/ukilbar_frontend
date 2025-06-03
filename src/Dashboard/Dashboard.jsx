@@ -321,6 +321,20 @@ const Dashboard = () => {
                         Add Building
                       </NavLink>
                     </li>
+
+                     <li>
+                      <NavLink
+                        to="/dashboard/add-category"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Add Category
+                      </NavLink>
+                    </li>
+
                     <li>
                       <NavLink
                         to="/dashboard/renter"
@@ -378,7 +392,7 @@ const Dashboard = () => {
                       </li>
                       <li>
                         <NavLink
-                          to="/dashboard/building"
+                          to="/dashboard/addBuilding"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
@@ -388,6 +402,20 @@ const Dashboard = () => {
                          Add Building
                         </NavLink>
                       </li>
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/add-category"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                         Add Category
+                        </NavLink>
+                      </li>
+
                       <li>
                         <NavLink
                           to="/dashboard/renter"
@@ -797,7 +825,7 @@ const Dashboard = () => {
                   <ul className="pl-8 space-y-2">
                     <li>
                       <NavLink
-                        to="/dashboard/probabable-income-list"
+                        to="/dashboard/probable-income-list"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
@@ -807,9 +835,36 @@ const Dashboard = () => {
                         Probabable Income
                       </NavLink>
                     </li>
+
+                     <li>
+                      <NavLink
+                        to="/dashboard/probable-expanse-list"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Probable Expanse
+                      </NavLink>
+                    </li>
+
                     <li>
                       <NavLink
-                        to="/dashboard/income-list"
+                        to="/dashboard/add-expanse"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Add Expanse
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/dashboard/monthly-income-list"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
@@ -822,14 +877,14 @@ const Dashboard = () => {
 
                     <li>
                       <NavLink
-                        to="/dashboard/expanse-list"
+                        to="/dashboard/monthly-expanse-list"
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
                             : "flex items-center gap-2 p-2 hover:bg-blue-100"
                         }
                       >
-                        Expanse List
+                        Monthly Expanse List
                       </NavLink>
                     </li>
 
@@ -869,7 +924,7 @@ const Dashboard = () => {
                     <ul className="space-y-2 p-2">
                       <li>
                         <NavLink
-                          to="/dashboard/probabable-income-list"
+                          to="/dashboard/probable-income-list"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
@@ -879,9 +934,38 @@ const Dashboard = () => {
                           Probabable Income
                         </NavLink>
                       </li>
+
                       <li>
                         <NavLink
-                          to="/dashboard/income-list"
+                          to="/dashboard/probable-expanse-list"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Probabable Expanse
+                        </NavLink>
+                      </li>
+
+                       <li>
+                        <NavLink
+                          to="/dashboard/add-expanse"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          Add Expanse
+                        </NavLink>
+                      </li>
+
+
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/monthly-income-list"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
@@ -894,16 +978,18 @@ const Dashboard = () => {
 
                       <li>
                         <NavLink
-                          to="/dashboard/expanse-list"
+                          to="/dashboard/monthly-expanse-list"
                           className={({ isActive }) =>
                             isActive
                               ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
                               : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
                           }
                         >
-                          Expanse List
+                          Monthly Expanse List
                         </NavLink>
                       </li>
+
+                      
 
                       <li>
                         <NavLink
