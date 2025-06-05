@@ -44,6 +44,8 @@ import ExpanseReport from './Pages/Accounts/Expanse Report/ExpanseReport.jsx';
 import AddExpanse from './Pages/Accounts/AddExpanse/AddExpanse.jsx';
 import AddCategory from './Pages/Configuration/AddCategory.jsx';
 import ExpanseList from './Pages/Accounts/Monthly Expanse List/ExpanseList.jsx';
+import GeneralIncome from './Pages/Accounts/Report/GeneralIncome.jsx';
+import WelfareFund from './Pages/Accounts/Report/WelfareFund.jsx';
 
 const router = createBrowserRouter([
   {
@@ -219,6 +221,18 @@ const router = createBrowserRouter([
         path: "expanse-report",
         element: <ExpanseReport></ExpanseReport>,
       },    
+
+      {
+        path: "general-income-report",
+        element: <GeneralIncome></GeneralIncome>,
+      },  
+      
+      {
+        path: "welfare-fund-report",
+        element: <WelfareFund></WelfareFund>,
+      },    
+
+
 
 
 

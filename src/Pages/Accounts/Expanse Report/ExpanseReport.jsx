@@ -4,31 +4,48 @@ import AxiosInstance from "../../../Components/AxiosInstance";
 const ExpanseReport = () => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 11 }, (_, i) => currentYear - i);
-
-  const [formData, setFormData] = useState({
-    year: currentYear,
-    expanseCategory: "",
-    actualExpanse: "",
-    date: "",
-  });
+  const [rawData, setRawData] = useState([]);
   const [expanseList, setExpanseList] = useState([]);
-  const [editId, setEditId] = useState(null);
   const [categoryTotals, setCategoryTotals] = useState({});
+  const [probableExpanseList, setProbableExpanseList] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
 
   useEffect(() => {
     fetchexpanses();
-  }, [formData.year]);
+    fetchProbableExpanses();
+  }, [selectedYear]);
+
+  const fetchProbableExpanses = async () => {
+    try {
+      const response = await AxiosInstance.get(
+        `probable_expanse/?year=${selectedYear}`
+      );
+      setProbableExpanseList(response.data);
+    } catch (err) {
+      console.error("Failed to fetch Probable expanse list:", err);
+    }
+  };
 
   const fetchexpanses = async () => {
     try {
       const response = await AxiosInstance.get(
-        `actual_expanse/?year=${formData.year}`
+        `actual_expanse/?year=${selectedYear}`
       );
-      setExpanseList(response.data);
+      setRawData(response.data);
     } catch (err) {
       console.error("Failed to fetch expanse list:", err);
     }
   };
+
+  useEffect(() => {
+    const filteredActual = rawData.filter((item) => {
+      const date = new Date(item.date);
+      return date.getMonth() + 1 === selectedMonth;
+    });
+
+    setExpanseList(filteredActual);
+  }, [selectedMonth, rawData]);
 
   useEffect(() => {
     const totals = {};
@@ -40,171 +57,86 @@ const ExpanseReport = () => {
     setCategoryTotals(totals);
   }, [expanseList]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (editId) {
-        const response = await AxiosInstance.put(
-          `actual_expanse/${editId}/`,
-          formData
-        );
-        alert("Income updated successfully!");
-        console.log(response.data);
-        setExpanseList(
-          expanseList.map((item) =>
-            item.id === Number(editId) ? response.data : item
-          )
-        );
-      } else {
-        const response = await AxiosInstance.post("actual_expanse/", formData);
-        console.log("formData", formData);
-        alert("Income added successfully!");
-        setExpanseList([...expanseList, response.data]);
-      }
-      handleClear();
-    } catch (err) {
-      console.error("Failed to save income:", err);
-      alert("❌ Failed to save income.");
-    }
-  };
-
-  const handleClear = () => {
-    setFormData({ expanseCategory: "", actualExpanse: "", year: currentYear , date:""});
-    setEditId(null);
-  };
-
-  const handleEdit = (item) => {
-    setFormData({
-      expanseCategory: item.expanseCategory,
-      actualExpanse: item.actualExpanse,
-      year: item.year,
+  const mergedList = () => {
+    const probableMap = {};
+    probableExpanseList.forEach((item) => {
+      probableMap[item.expanseCategory] = parseFloat(item.ProbableExpanse);
     });
-    setEditId(item.id);
+
+    const allCategories = new Set([
+      ...Object.keys(categoryTotals),
+      ...Object.keys(probableMap),
+    ]);
+
+    return Array.from(allCategories).map((category) => ({
+      category,
+      actual: categoryTotals[category] || 0,
+      probable: probableMap[category] || 0,
+    }));
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await AxiosInstance.delete(`actual_expanse/${id}/`);
-      setExpanseList(expanseList.filter((item) => item.id !== id));
-    } catch (err) {
-      console.error("Failed to delete income:", err);
-      alert("❌ Failed to delete income.");
-    }
-  };
+  const monthName = new Date(selectedYear, selectedMonth - 1).toLocaleString('default', { month: 'long' });
 
-  const totalActualExpanse = expanseList.reduce(
-    (sum, item) => sum + parseFloat(item.ProbableExpanse),
-    0
-  );
-
+ 
   return (
-    <div className="p-4 max-w-4xl">
-      <h2 className="text-xl font-semibold text-center mb-4">Expanse Report</h2>
+    <div className="p-8 max-w-4xl">
+      <h2 className="text-2xl font-semibold mb-4">Expanse Report</h2>
+      <div className="my-4 flex flex-row gap-4 my-4">
+        {/* Year selector */}
+        <div className="px-2 flex items-center gap-2">
+          <label htmlFor="year" className="font-medium">
+            Select Year:
+          </label>
+          <select
+            id="year"
+            value={selectedYear}
+            onChange={(e) => {
+              setSelectedYear(e.target.value);
+            }}
+            className="border px-4 py-2 rounded"
+          >
+            {years.map((yr) => (
+              <option key={yr} value={yr}>
+                {yr}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Year selector */}
-      <div className="mb-4 px-2 flex items-center gap-2">
-        <label htmlFor="year" className="font-medium">
-          Select Year:
-        </label>
-        <select
-          id="year"
-          value={formData.year}
-          onChange={(e) => {
-            setFormData((prev) => ({
-              ...prev,
-              year: parseInt(e.target.value),
-            }));
-          }}
-          className="border px-4 py-2"
-        >
-          {years.map((yr) => (
-            <option key={yr} value={yr}>
-              {yr}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center gap-2">
+          <label className="font-semibold">Select Month:</label>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(Number(e.target.value))}
+            className="border px-2 py-2 rounded"
+          >
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                {new Date(0, i).toLocaleString("default", { month: "long" })}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="border p-4 rounded-md shadow mb-6"
-      >
-        <label className="block font-medium mb-1" htmlFor="expanseCategory">
-          Expanse Category
-        </label>
-        <select
-          id="expanseCategory"
-          name="expanseCategory"
-          value={formData.expanseCategory || ""}
-          onChange={handleChange}
-          className="block w-full mb-3 px-2 py-1 border rounded"
-          required
-        >
-          <option value="">Select Expense Category</option>
-          <option value="Vokalatnama printing cost">
-            Vokalatnama printing cost
-          </option>
-          <option value="Bailbond printing cost">Bailbond printing cost</option>
-          <option value="Telephone bill">Telephone bill</option>
-          <option value="Electricity bill">Electricity bill</option>
-          <option value="Library maintenance cost">
-            Library maintenance cost
-          </option>
-          <option value="Employee salary">Employee salary</option>
-        </select>
-
-        <label className="block font-medium mb-1" htmlFor="actualExpanse">
-          Expanse Amount(৳)
-        </label>
-        <input
-          type="number"
-          id="actualExpanse"
-          placeholder="Enter Expanse Amount"
-          name="actualExpanse"
-          value={formData.actualExpanse}
-          onChange={handleChange}
-          className="block w-full mb-3 px-2 py-1 border rounded"
-          required
-        />
-
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded mr-2"
-        >
-          {editId ? "Update" : "Save"}
-        </button>
-        <button
-          type="button"
-          onClick={handleClear}
-          className="bg-gray-700 text-white px-4 py-2 rounded"
-        >
-          Clear
-        </button>
-      </form>
-
       <div className="mt-6">
-        <h3 className="text-lg font-medium mb-2">
-          Category-wise Total Expanse
+        <h3 className="text-xl font-medium mb-2">
+          Probable vs Actual Income – {selectedYear} -{monthName}
         </h3>
-        <table className="w-full border text-sm">
+        <table className="table table-bordered">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">Category</th>
-              <th className="border p-2">Total Amount (৳)</th>
+            <tr>
+              <th>Category</th>
+              <th>Actual Expense</th>
+              <th>Probable Expense</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(categoryTotals).map(([category, total]) => (
-              <tr key={category}>
-                <td className="border p-2">{category}</td>
-                <td className="border p-2 text-right">
-                  {total.toLocaleString()}৳
-                </td>
+            {mergedList().map((item, idx) => (
+              <tr key={idx}>
+                <td>{item.category}</td>
+                <td>{item.actual.toFixed(2)}</td>
+                <td>{item.probable.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>

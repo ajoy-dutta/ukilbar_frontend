@@ -4,9 +4,6 @@ import AxiosInstance from "../../../Components/AxiosInstance";
 import { Link } from "react-router-dom";
 
 const FormSale = () => {
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [salesData, setSalesData] = useState([]);
   const [buildingOptions, setBuildingsOptions] = useState([]);
   const [formOptions, setFormOptions] = useState([]);
 
@@ -56,13 +53,19 @@ const FormSale = () => {
     const { name, value } = e.target;
 
     if (name === "form_name") {
-      const parsedForm = JSON.parse(value);
-      console.log("parsedForm", parsedForm.form_name);
+      const form_name = value;
+      const rateObj = formOptions.find((item) => item.form_name === form_name);
+      const rate = rateObj?.form_rate || "";
+
+      console.log("rateObj", rateObj)
+      console.log("form_name", form_name)
+
       setFormData((prev) => ({
         ...prev,
-        form_name: parsedForm.form_name,
-        price: parsedForm.form_rate,
+        form_name: form_name,
+        price: rate,
       }));
+
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -70,6 +73,8 @@ const FormSale = () => {
       }));
     }
   };
+
+  console.log("Form_name", formData.form_name)
 
   const handleSerialChange = (index, field, value) => {
     const updatedSerials = [...formData.form_serials];
@@ -108,12 +113,11 @@ const FormSale = () => {
 
     const payload = {
       ...formData,
-      price: selectedForm.price,
       form_serials: filteredSerials,
     };
 
     try {
-      const response = await AxiosInstance.post("bailbond/", payload);
+      const response = await AxiosInstance.post("form-sale/", payload);
       console.log("Success:", response.data);
       alert("Submitted successfully!");
       handleClear();
@@ -222,9 +226,9 @@ const FormSale = () => {
             >
               <option value="">Select Form</option>
               {formOptions.map((form) => (
-                <option key={form.id} value={JSON.stringify(form)}>
+                <option key={form.id} value={form.form_name}>
                   {form.form_name}
-                </option>
+              </option>
               ))}
             </select>
           </div>
@@ -307,7 +311,7 @@ const FormSale = () => {
               <input
                 name="price"
                 type="text"
-                value={FormData.price}
+                value={formData.price}
                 onChange={handleChange}
                 placeholder="Price"
                 className="border px-2 rounded-md w-full bg-gray-100"

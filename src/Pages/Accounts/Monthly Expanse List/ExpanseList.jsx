@@ -70,8 +70,6 @@ const ExpanseList = () => {
     return allDates.map((date) => grouped[date]);
   };
 
-  //   const rows = getGroupedData();
-  //   const columns = ["trunc_date", ...categories, "total"];
 
   const getTotalRow = (groupedData) => {
     const totals = { trunc_date: "Total", total: 0 };

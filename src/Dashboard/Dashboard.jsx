@@ -914,6 +914,34 @@ const Dashboard = () => {
                       </NavLink>
                     </li>
 
+                     <li>
+                      <NavLink
+                        to="/dashboard/general-income-report"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        General Income Report
+                      </NavLink>
+                    </li>
+
+
+                     <li>
+                      <NavLink
+                        to="/dashboard/welfare-fund-report"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Welfare Fund Report
+                      </NavLink>
+                    </li>
+
+
                     
                   </ul>
                 )}
@@ -1016,6 +1044,33 @@ const Dashboard = () => {
                           Expanse Report
                         </NavLink>
                       </li>
+
+                      <li>
+                        <NavLink
+                          to="/dashboard/general-income-report"
+                          className={({ isActive }) =>
+                            isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                          General Income Report
+                        </NavLink>
+                      </li>
+
+                       <li>
+                        <NavLink
+                          to="/dashboard/welfare-fund-report"
+                          className={({ isActive }) =>
+                            isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white rounded-lg transition-all duration-200"
+                              : "flex items-center gap-2 p-2 text-gray-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          }
+                        >
+                           IWelfare Fund Report
+                        </NavLink>
+                      </li>
+
 
 
                     </ul>
