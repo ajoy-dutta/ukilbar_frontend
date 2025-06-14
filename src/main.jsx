@@ -46,34 +46,70 @@ import AddCategory from './Pages/Configuration/AddCategory.jsx';
 import ExpanseList from './Pages/Accounts/Monthly Expanse List/ExpanseList.jsx';
 import GeneralIncome from './Pages/Accounts/Report/GeneralIncome.jsx';
 import WelfareFund from './Pages/Accounts/Report/WelfareFund.jsx';
+import Root from './Components/Root/Root.jsx';
+import { UserProvider } from './provider/UserProvider.jsx';
+import Home from './Pages/Home/Home.jsx';
+import Committee_list from './Pages/Committee/Committee_list.jsx';
+import Contact from './Pages/Contact/Contact.jsx';
+import Helpline from './Helpline/Helpline.jsx';
+import Media from './Media/Media.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SignIn />,
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/committee",
+        element: <Committee_list />,
+      },
+      {
+        path: "/media",
+        element: <Media />,
+      },
+       {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/helpline",
+        element: <Helpline />,
+      },
+
+      {
+        path: "/signin",
+        element: <SignIn />,
+      },
+
+    ]
   },
+
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute> 
-        <Dashboard/>
+      <ProtectedRoute>
+        <Dashboard />
       </ProtectedRoute>
     ),
     children: [
 
       {
         path: "profile",
-        element:<Profile></Profile>,
+        element: <Profile></Profile>,
       },
 
       {
         path: "formSetup",
-        element:<FormSetup></FormSetup>,
+        element: <FormSetup></FormSetup>,
       },
 
       {
         path: "renter",
-        element:<AddRenter></AddRenter>,
+        element: <AddRenter></AddRenter>,
       },
 
       {
@@ -83,24 +119,24 @@ const router = createBrowserRouter([
 
       {
         path: "addBuilding",
-        element:<AddBuilding></AddBuilding>,
+        element: <AddBuilding></AddBuilding>,
       },
 
       {
         path: "add-category",
-        element:<AddCategory></AddCategory>,
+        element: <AddCategory></AddCategory>,
       },
 
       {
         path: "addBank",
-        element:<AddBank></AddBank>,
+        element: <AddBank></AddBank>,
       },
 
       {
         path: "vokalatnama",
         element: <Vokalotnama></Vokalotnama>,
       },
-      
+
       {
         path: "sale-list",
         element: <SaleList></SaleList>,
@@ -164,17 +200,17 @@ const router = createBrowserRouter([
       {
         path: "electricity-bill-list",
         element: <ElectricityBillList></ElectricityBillList>,
-      }, 
+      },
 
       {
         path: "bank-interest-collect",
         element: <BankInterest></BankInterest>,
-      }, 
+      },
 
       {
         path: "bank-interest-list",
         element: <BankInterestList></BankInterestList>,
-      }, 
+      },
 
       {
         path: "form-sale",
@@ -215,22 +251,22 @@ const router = createBrowserRouter([
       {
         path: "income-report",
         element: <IncomeReport></IncomeReport>,
-      },    
+      },
 
       {
         path: "expanse-report",
         element: <ExpanseReport></ExpanseReport>,
-      },    
+      },
 
       {
         path: "general-income-report",
         element: <GeneralIncome></GeneralIncome>,
-      },  
-      
+      },
+
       {
         path: "welfare-fund-report",
         element: <WelfareFund></WelfareFund>,
-      },    
+      },
 
 
 
@@ -241,10 +277,13 @@ const router = createBrowserRouter([
   }
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode> 
+  <React.StrictMode>
     <Provider store={store}>
+      <UserProvider> {/* 👈 wrap with context */}
         <RouterProvider router={router} />
+      </UserProvider>
     </Provider>
   </React.StrictMode>
+
 
 );

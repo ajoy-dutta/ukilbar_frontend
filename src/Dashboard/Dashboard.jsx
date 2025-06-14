@@ -19,8 +19,7 @@ import { useState } from "react";
 import { FaUserTie } from "react-icons/fa6";
 import { AiFillAccountBook, AiFillProduct } from "react-icons/ai";
 import { HiCurrencyBangladeshi, HiUserGroup } from "react-icons/hi";
-import { IoIosStats } from "react-icons/io";
-import { BiSolidReport } from "react-icons/bi";
+import { CiHome } from "react-icons/ci";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GiReceiveMoney, GiPayMoney  } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
@@ -238,6 +237,25 @@ const Dashboard = () => {
 
             {/* Navigation Links */}
             <div className="mt-2 text-sm">
+                       <li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive
+                      ? `flex items-center ${
+                          isMinimized ? "justify-center" : ""
+                        } gap-2 p-3 bg-blue-950 text-white`
+                      : `flex items-center ${
+                          isMinimized ? "justify-center" : ""
+                        } gap-2 p-3 hover:bg-blue-100`
+                  }
+                  title="Dashboard"
+                >
+                  <CiHome className="text-lg" />
+                  {!isMinimized && "Home"}
+                </NavLink>
+              </li>
+
               <li>
                 <NavLink
                   to="/dashboard"
