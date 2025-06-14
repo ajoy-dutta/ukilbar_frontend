@@ -80,7 +80,7 @@ const CategoryConfig = ({ isOpen, onClose ,categoryData, reportType}) => {
             <select 
             name="category" 
             id="category"
-            className="px-4 py-2"
+            className="px-4 py-2 w-1/2"
             value={formData.category}
             onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })

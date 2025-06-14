@@ -47,7 +47,7 @@ import ExpanseList from './Pages/Accounts/Monthly Expanse List/ExpanseList.jsx';
 import GeneralIncome from './Pages/Accounts/Report/GeneralIncome.jsx';
 import WelfareFund from './Pages/Accounts/Report/WelfareFund.jsx';
 import Root from './Components/Root/Root.jsx';
-import { UserProvider } from './provider/UserProvider.jsx';
+import { UserProvider } from "./Provider/UserProvider.jsx";
 import Home from './Pages/Home/Home.jsx';
 import Committee_list from './Pages/Committee/Committee_list.jsx';
 import Contact from './Pages/Contact/Contact.jsx';

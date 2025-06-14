@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import AxiosInstance from "../../../Components/AxiosInstance";
 import CategoryConfig from "./CategoryConfig";
+import WelfareExpanse from "./WelfareExpanse";
 
 
 const WelfareFund = () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
 
+  const [selectedTab, setSelectedTab] = useState("income");
   const [incomeData, setIncomeData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [groupedData, setGroupedData] = useState([]);
@@ -21,8 +23,10 @@ const WelfareFund = () => {
   const years = Array.from({ length: 11 }, (_, i) => currentYear - i);
 
   useEffect(() => {
-    fetchIncomeData();
-  }, [selectedYear]);
+    if (selectedTab === "income") {
+      fetchIncomeData();
+    }
+  }, [selectedYear, selectedTab]);
 
   const fetchIncomeData = async () => {
     try {
@@ -98,7 +102,30 @@ const WelfareFund = () => {
 
   return (
     <div className="p-8 max-w-4xl">
-      <h2 className="text-2xl font-semibold mb-4">Income Report</h2>
+
+      {/* Tabs */}
+      <div className="flex gap-4 mb-6">
+        <button
+          className={`px-4 py-2 rounded ${selectedTab === "income" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          onClick={() => setSelectedTab("income")}
+        >
+          Welfare Income
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${selectedTab === "expanse" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          onClick={() => setSelectedTab("expanse")}
+        >
+          Welfare Expanse
+        </button>
+      </div>
+
+      {/* Conditional Rendering */}
+      {
+        selectedTab == 'expanse' ? (
+          <WelfareExpanse/>
+        ):(
+      <>
+      <h2 className="text-2xl font-semibold mb-4"> Welfare Income Report</h2>
 
       <div className="my-4 flex gap-4">
         {/* Year selector */}
@@ -183,6 +210,8 @@ const WelfareFund = () => {
             </tbody>
         </table>
       </div>
+      </>
+      )}
     </div>
   );
 };

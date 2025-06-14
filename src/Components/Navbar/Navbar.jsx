@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
-import { useUser } from "../../provider/UserProvider";
+import {useUser} from "../../Provider/UserProvider"
 import BangladeshBarCouncil from "../../assets/Bangladesh-Bar.png";
 
 const Navbar = () => {
