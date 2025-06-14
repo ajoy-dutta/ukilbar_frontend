@@ -16,6 +16,7 @@ const Navbar = () => {
         { to: "/dashboard", label: "Dashboard", auth: true },
         { to: "/", label: "Home" },
         { to: "/committee", label: "Committee List" },
+        { to: "/members", label: "All Members" },
         { to: "/media", label: "Media" },
         { to: "/contact", label: "Contact" },
         { to: "/helpline", label: "Help Line" },

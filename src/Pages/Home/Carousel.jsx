@@ -147,10 +147,11 @@ export const Carousel = () => {
       
     </div>
      <div className="md:w-1/2 overflow-y-auto max-h-[600px] pr-2 text-justify text-gray-800 text-[13px] leading-relaxed space-y-5">
-            
-                    <h1 className="text-[16px] font-extrabold text-center text-cyan-700 border-b-2 border-cyan-500 inline-block">
+            <div className="text-center">
+                    <h1 className="text-[16px]  font-extrabold text-center text-cyan-700 border-b-2 border-cyan-500 inline-block">
           যশোর উকিল বারের ইতিহাস
         </h1>
+        </div>
         <p>
               <span className="text-cyan-700 font-semibold">যশোর উকিল বার</span> বাংলাদেশের অন্যতম প্রাচীন আইনজীবী সমিতি, যার সূচনা ঘটে ব্রিটিশ শাসনামলে। এটি কেবল একটি পেশাগত সংগঠন নয়, বরং এ অঞ্চলের জনগণের ন্যায়বিচারের আশ্রয়স্থল। আইন, সমাজ ও মানবাধিকারের প্রতিটি ক্ষেত্রে যশোর উকিল বার বিশিষ্ট ভূমিকা পালন করে চলেছে।
             </p>

@@ -8,18 +8,23 @@ export default function History() {
       <div className="max-w-6xl mx-auto">
 
         {/* Committee Section */}
-        <section className="py-4">
-          <div className="grid md:grid-cols-2 gap-10">
+        <section className="py-2">
+          <div className="grid md:grid-cols-2 gap-10 ">
             {/* President */}
-            <figure className="flex flex-col items-center text-center border border-[#d8c4b6] rounded-md p-6 shadow-lg bg-white">
+            <figure className="flex flex-col items-center text-center border border-[#d8c4b6] rounded-md p-2 shadow-lg bg-white">
               <img
                 src={president}
                 alt="সভাপতি আইনজীবী আবু মোর্তজা ছোট"
-                className="w-32 h-32 rounded-full border mb-4"
+                className="w-32 h-32 rounded-full border mb-2"
               />
               <figcaption>
-                <h3 className="text-sm font-bold text-gray-800 mb-1">সভাপতি</h3>
-                <p className="text-gray-700 font-semibold mb-4">আইনজীবী আবু মোর্তজা ছোট</p>
+                <h3 className="text-sm font-bold text-gray-800">সভাপতি</h3>
+<div className="flex justify-center items-center my-1">
+  <div className="w-60 h-9 flex items-center justify-center border-2 border-cyan-600 bg-blue-300 rounded-full">
+    <p className="text-gray-700 font-semibold">আইনজীবী আবু মোর্তজা ছোট</p>
+  </div>
+</div>
+
                 <blockquote className="text-gray-600 text-sm italic text-justify px-2">
                   "যশোর উকিল বার শুধু একটি পেশাগত সংগঠন নয়, এটি আমাদের মর্যাদা, আদর্শ এবং দায়িত্ববোধের প্রতীক। আমি বিশ্বাস করি আমাদের ঐতিহ্য রক্ষা করে আগামীর ন্যায়বিচার প্রতিষ্ঠায় আমরা আরও বলিষ্ঠভাবে এগিয়ে যাব।"
                 </blockquote>
@@ -27,15 +32,19 @@ export default function History() {
             </figure>
 
             {/* Secretary */}
-            <figure className="flex flex-col items-center text-center border border-[#d8c4b6] rounded-md p-6 shadow-lg bg-white">
+            <figure className="flex flex-col items-center text-center border border-[#d8c4b6] rounded-md p-2 shadow-lg bg-white">
               <img
                 src={secratory}
                 alt="সাধারণ সম্পাদক আইনজীবী এম.এ গফুর"
-                className="w-32 h-32 rounded-full border mb-4"
+                className="w-32 h-32 rounded-full border mb-2"
               />
               <figcaption>
                 <h3 className="text-sm font-bold text-gray-800 mb-1">সাধারণ সম্পাদক</h3>
-                <p className="text-gray-700 font-semibold mb-4">আইনজীবী এম.এ গফুর</p>
+                <div className="flex justify-center items-center my-1">
+  <div className="w-60 h-9 flex items-center justify-center border-2 border-cyan-600 bg-blue-300 rounded-full">
+    <p className="text-gray-700 font-semibold">আইনজীবী এম.এ গফুর</p>
+  </div>
+</div>
                 <blockquote className="text-gray-600 text-sm italic text-justify px-2">
                   "আমরা একটি ডিজিটাল বার প্রতিষ্ঠার লক্ষ্যে কাজ করে চলেছি, যাতে জনগণের কাছে দ্রুত ও কার্যকর আইনগত সহায়তা পৌঁছানো যায়। আমাদের একতা এবং পেশাগত নিষ্ঠাই আমাদের শক্তি।"
                 </blockquote>
