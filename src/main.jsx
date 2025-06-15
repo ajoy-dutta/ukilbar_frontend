@@ -53,6 +53,7 @@ import Committee_list from './Pages/Committee/Committee_list.jsx';
 import Contact from './Pages/Contact/Contact.jsx';
 import Helpline from './Helpline/Helpline.jsx';
 import Media from './Media/Media.jsx';
+import AddEditMedia from './Media/AddEditMedia.jsx';
 
 const router = createBrowserRouter([
   {
@@ -130,6 +131,11 @@ const router = createBrowserRouter([
       {
         path: "addBank",
         element: <AddBank></AddBank>,
+      },
+
+      {
+        path: "addMedia",
+        element: <AddEditMedia></AddEditMedia>,
       },
 
       {

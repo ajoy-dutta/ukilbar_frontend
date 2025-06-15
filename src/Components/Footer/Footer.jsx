@@ -12,7 +12,7 @@ const Footer = () => {
               <div className="flex items-center justify-center gap-2">
                 <img src={logo} alt="Logo" className="mt-2 w-12 h-12" />
                 <div className="text-xl font-bold text-with-gradient lg:text-xl mt-2">
-                  <NavLink to="/">Jessore Bar Association </NavLink>
+                  <NavLink to="/">Jashore Bar Association </NavLink>
                 </div>
               </div>
             </div>

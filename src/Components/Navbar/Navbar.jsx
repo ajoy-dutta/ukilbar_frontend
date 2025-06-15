@@ -66,7 +66,7 @@ const renderLinks = (isMobile = false) =>
                 <NavLink to="/" className="flex items-center gap-2">
                     <img className="w-10" src={BangladeshBarCouncil} alt="Logo" />
                     <span className="text-xl font-bold whitespace-nowrap hidden md:inline text-with-gradient">
-                        Jessore Bar Association
+                        Jashore Bar Association
                     </span>
                 </NavLink>
 
