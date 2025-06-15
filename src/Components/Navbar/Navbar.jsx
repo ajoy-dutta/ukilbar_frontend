@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "./navbar.css";
 import { NavLink } from "react-router-dom";
-import {useUser} from "../../Provider/UserProvider"
+import { useSelector,useDispatch } from "react-redux";
 import BangladeshBarCouncil from "../../assets/Bangladesh-Bar.png";
+import { logout } from "../../redux/authSlice";
 
 const Navbar = () => {
-    const { user, signOut } = useUser();
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleDropdownToggle = () => {
@@ -62,7 +65,6 @@ const renderLinks = (isMobile = false) =>
                     </button>
                 </div>
 
-                {/* Logo & Title */}
                 <NavLink to="/" className="flex items-center gap-2">
                     <img className="w-10" src={BangladeshBarCouncil} alt="Logo" />
                     <span className="text-xl font-bold whitespace-nowrap hidden md:inline text-with-gradient">
@@ -79,7 +81,9 @@ const renderLinks = (isMobile = false) =>
             {/* Desktop Auth */}
             <div className="hidden lg:flex items-center gap-4 font-serif text-sm whitespace-nowrap">
                 {user ? (
-                    <button onClick={signOut} className="text-black hover:text-cyan-400">
+                    <button onClick={() => {
+                      dispatch(logout())
+                    }} className="text-black hover:text-cyan-400">
                         Sign Out
                     </button>
                 ) : (
@@ -90,19 +94,20 @@ const renderLinks = (isMobile = false) =>
             </div>
 
 
-            {/* Mobile Dropdown */}
             {isDropdownOpen && (
                 <ul className="lg:hidden absolute top-[60px] left-0 w-full bg-slate-100 shadow-md z-[999] px-4 py-2 flex flex-col gap-2 font-serif font-semibold">
                     {renderLinks(true)}
                     {user ? (
                         <li>
-                            <button onClick={signOut} className="hover:text-cyan-400 w-full text-left">
+                            <button onClick={() => {
+                      dispatch(logout())
+                    }} className="hover:text-cyan-400 w-full text-left">
                                 Sign Out
                             </button>
                         </li>
                     ) : (
                         <li>
-                            <NavLink to="/login" onClick={handleDropdownToggle} className="hover:text-cyan-400">
+                            <NavLink to="/signin" onClick={handleDropdownToggle} className="hover:text-cyan-400">
                                 Sign In
                             </NavLink>
                         </li>

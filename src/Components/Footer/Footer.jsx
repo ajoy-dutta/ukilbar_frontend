@@ -22,7 +22,7 @@ const Footer = () => {
               <h3 className="text-xl font-bold">Contact Us</h3>
               <p className="text-gray-300 text-sm sm:text-base mb-2">
                 <strong>Location:</strong> Shahid Sarak Rd, Jashore
-                <br /> <span className="text-sm text-gray-400">Nearest Landmark: Judge Court Mor,Jashore</span>
+                <br /> <span className="text-sm text-gray-400">Nearest Landmark: Judge Court Mor, Jashore</span>
               </p>
               <p className="text-gray-300 text-sm sm:text-base">
                 <strong>Mobile:</strong> 0123456789
@@ -44,11 +44,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-5 border-t border-gray-600 pt-1 text-center">
-          <p className="text-gray-400 text-sm sm:text-base">
+        <div className="mt-2 border-t border-gray-600 text-center">
+          <p className="text-gray-400 text-base ">
             © 2025 All rights reserved.
           </p>
-          <p className="text-gray-400 text-sm sm:text-base">
+          <p className="text-gray-400 text-base">
             Developed by Utshab Technology Ltd.
           </p>
         </div>

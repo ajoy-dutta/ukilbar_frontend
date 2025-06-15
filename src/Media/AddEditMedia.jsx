@@ -134,8 +134,8 @@ export default function AddEditMedia() {
             onChange={handleChange}
             className="w-full border p-2 rounded"
           >
-            <option value="general">General</option>
-            <option value="paper-cut">Paper Cut</option>
+            <option value="general">Photos</option>
+            <option value="paper-cut">Paper Cutting</option>
           </select>
         </div>
 

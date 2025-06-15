@@ -7,8 +7,8 @@ export default function Media() {
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories] = useState([
-    { id: "general", name: "General" },
-    { id: "paper-cut", name: "Paper Cut" },
+    { id: "general", name: "Photos" },
+    { id: "paper-cut", name: "Paper Cutting" },
   ]);
 
   // Split images into chunks of 7
@@ -24,8 +24,8 @@ export default function Media() {
         if (selectedCategory) {
           fetched = fetched.filter((img) => img.type === selectedCategory);
         }
-        fetched.sort((a, b) => b.id - a.id); 
-          
+        fetched.sort((a, b) => b.id - a.id);
+
         const transformed = fetched.map((img) => ({
           id: img.id,
           src: img.image,
@@ -46,10 +46,14 @@ export default function Media() {
   const imageChunks = chunkArray(images);
 
   return (
-    <div className="md:px-10 py-20">
-      <div className="mx-5 flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-blue-800 ">Photo Gallery</h1>
-        <div>
+    <div className="md:px-4 py-6">
+      <div className="mx-4 flex items-center justify-center mb-2">
+
+  <div className="flex-1 text-center">
+    <h1 className="text-2xl font-bold text-blue-800">Photo Gallery</h1>
+  </div>
+
+        <div className="flex justify-end">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -68,7 +72,7 @@ export default function Media() {
       {imageChunks.map((chunk, index) => (
         <div
           key={index}
-          className="relative aspect-[3/4] md:aspect-[3/3] overflow-hidden grid grid-cols-6 grid-rows-6 gap-2 p-4"
+          className="relative aspect-[3/4] md:aspect-[3/3] overflow-hidden grid grid-cols-6 grid-rows-6 gap-2 p-2"
         >
           {chunk.map((img, i) => (
             <div
@@ -90,14 +94,14 @@ export default function Media() {
                             : ""
                 }`}
             >
-            <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            whileHover={{ scale: 1.05, zIndex: 10 }}
-            className="w-full h-full relative flex flex-col"
-            style={{ position: 'relative' }}  // ensure relative positioning so zIndex applies
-          >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                whileHover={{ scale: 1.05, zIndex: 10 }}
+                className="w-full h-full relative flex flex-col"
+                style={{ position: 'relative' }}
+              >
                 <img
                   src={img.src}
                   alt={`Image ${img.id}`}
