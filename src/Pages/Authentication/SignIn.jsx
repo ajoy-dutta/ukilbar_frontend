@@ -7,6 +7,7 @@ import { loginSuccess } from "../../redux/authSlice";
 
 
 const SignIn = () => {
+
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,7 +31,7 @@ const SignIn = () => {
 
       const {user, access } = response.data;
       dispatch(loginSuccess({ user , access }));
-
+      
       alert("Login successful!");
       navigate("/dashboard");
     } catch (error) {

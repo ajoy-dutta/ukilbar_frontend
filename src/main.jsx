@@ -54,6 +54,7 @@ import Contact from './Pages/Contact/Contact.jsx';
 import Helpline from './Helpline/Helpline.jsx';
 import Media from './Media/Media.jsx';
 import MemberList from './Pages/Members/MemberList.jsx';
+import AddEditMedia from './Media/AddEditMedia.jsx';
 
 const router = createBrowserRouter([
   {
@@ -137,6 +138,11 @@ const router = createBrowserRouter([
       {
         path: "addBank",
         element: <AddBank></AddBank>,
+      },
+
+      {
+        path: "addMedia",
+        element: <AddEditMedia></AddEditMedia>,
       },
 
       {

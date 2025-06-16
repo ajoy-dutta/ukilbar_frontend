@@ -32,7 +32,6 @@ export const UserProvider = ({ children }) => {
 
       const response = await AxiosInstance.get('user/');
 
-      console.log("User", response.data);
       setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
 

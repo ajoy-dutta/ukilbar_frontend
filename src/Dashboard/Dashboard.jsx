@@ -377,6 +377,19 @@ const Dashboard = () => {
                         Add Bank
                       </NavLink>
                     </li>
+                      
+                       <li>
+                      <NavLink
+                        to="/dashboard/addMedia"
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center gap-2 p-2 bg-blue-950 text-white"
+                            : "flex items-center gap-2 p-2 hover:bg-blue-100"
+                        }
+                      >
+                        Add Media
+                      </NavLink>
+                    </li>
                   </ul>
                 )}
 
