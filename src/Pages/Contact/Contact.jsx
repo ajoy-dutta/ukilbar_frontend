@@ -62,24 +62,24 @@ export default function Contact() {
           </p>
 
           <div className="space-y-4 text-sm">
-       <div>
-  <h3 className="text-lg font-semibold text-green-700 mb-1">The Office</h3>
-  <p className="flex items-start gap-2">
-    <FaMapMarkerAlt className="text-blue-600 mt-1" />
-    <span>
-      Shahid Sarak Rd, Jashore<br />
-      <span className="text-sm text-gray-600">Nearest Landmark: Judge Court Mor, Jashore</span>
-    </span>
-  </p>
-  <p className="flex items-center gap-2 mt-2">
-    <FaPhoneAlt className="text-blue-600" />
-    02223389807
-  </p>
-  <p className="flex items-center gap-2 mt-2">
-    <FaEnvelope className="text-blue-600" />
-    jashorebar@gmail.com
-  </p>
-</div>
+            <div>
+              <h3 className="text-lg font-semibold text-green-700 mb-1">The Office</h3>
+              <p className="flex items-start gap-2">
+                <FaMapMarkerAlt className="text-blue-600 mt-1" />
+                <span>
+                  Shahid Sarak Rd, Jashore<br />
+                  <span className="text-sm text-gray-600">Nearest Landmark: Judge Court Mor, Jashore</span>
+                </span>
+              </p>
+              <p className="flex items-center gap-2 mt-2">
+                <FaPhoneAlt className="text-blue-600" />
+                02223389807
+              </p>
+              <p className="flex items-center gap-2 mt-2">
+                <FaEnvelope className="text-blue-600" />
+                jashorebar@gmail.com
+              </p>
+            </div>
 
 
             <div className="mt-4">
