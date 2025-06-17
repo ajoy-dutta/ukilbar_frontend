@@ -73,11 +73,11 @@ export default function Contact() {
   </p>
   <p className="flex items-center gap-2 mt-2">
     <FaPhoneAlt className="text-blue-600" />
-    02223389807, 02223389809
+    02223389807
   </p>
   <p className="flex items-center gap-2 mt-2">
     <FaEnvelope className="text-blue-600" />
-    info@barcouncil.gov.bd
+    jashorebar@gmail.com
   </p>
 </div>
 
