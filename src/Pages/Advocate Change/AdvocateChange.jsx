@@ -34,10 +34,14 @@ const AdvocateChange = () => {
 
     // For advocate_id, filter matching suggestions
     if (name === "advocate_id") {
-      const matches = advocates.filter((adv) =>
-        adv.bar_registration_number.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestions(matches);
+      if (value.trim() === "") {
+        setSuggestions([]);
+      } else {
+        const matches = advocates.filter((adv) =>
+          adv.bar_registration_number.toLowerCase().includes(value.toLowerCase())
+        );
+        setSuggestions(matches);
+      }
     }
 
     // Auto-fill advocate name when exact match is selected

@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import AxiosInstance from "../../Components/AxiosInstance";
+import { Link , useLocation} from "react-router-dom";
+
 
 export const AddAdvocate = () => {
+  const { state } = useLocation();
+  const advocateData = state?.advocateData;
+  let isEditMode = Boolean(advocateData);
+
   const [formData, setFormData] = useState({
     advocate_type: "",
     name_english: "",
@@ -63,6 +69,14 @@ export const AddAdvocate = () => {
   useEffect(() => {
     fetchAdvocates();
   }, []);
+
+
+  useEffect(() => {
+    if (isEditMode) {
+      setFormData(advocateData);
+    }
+  }, [advocateData]);
+
 
   const fetchAdvocates = async () => {
     try {
@@ -222,9 +236,18 @@ export const AddAdvocate = () => {
 
   return (
     <div className="p-6 space-y-2 text-sm">
-      <h1 className="font-bold text-lg px-16">
-        {editMode ? "অ্যাডভোকেট সম্পাদনা" : "নতুন অ্যাডভোকেট যোগ করুন"}
-      </h1>
+
+      <div className="mb-4 flex flex-row justify-between">
+          <h1 className="font-bold text-lg px-16">
+          {editMode ? "অ্যাডভোকেট সম্পাদনা" : "নতুন অ্যাডভোকেট যোগ করুন"}
+        </h1>
+          <Link to="/dashboard/advocate-list">
+            <h2 className="bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white px-4 py-2">
+              Go to List
+            </h2>
+          </Link>
+        </div>
+
       <form
         onSubmit={handleSubmit}
         className="space-y-2 px-16 shadow-lg py-4 bg-teal-50 rounded-lg border border-blue-400"
@@ -715,13 +738,14 @@ export const AddAdvocate = () => {
               />
             </div>
             <div>
-              <label>৩০. সদস্য হিসেবে নিবন্ধনের তারিখ</label>
+              <label>৩০. সদস্য হিসেবে নিবন্ধনের তারিখ  <span className="text-red-600 ml-2">*</span></label>
               <input
                 type="date"
                 className="w-full p-1 border border-gray-500 rounded"
                 name="enrollment_date_As_member"
                 value={formData.enrollment_date_As_member}
                 onChange={handleChange}
+                required
               />
             </div>
           </div>
@@ -908,57 +932,6 @@ export const AddAdvocate = () => {
           </button>
         </div>
       </form>
-      {/* Advocates Table */}
-      <div className="mt-4">
-        <h2 className="font-bold mb-1">অ্যাডভোকেট তালিকা</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full border ">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="p-1 border ">নাম</th>
-                <th className="p-1 border ">ফোন</th>
-                <th className="p-1 border ">বার নং</th>
-                <th className="p-1 border ">অ্যাকশন</th>
-              </tr>
-            </thead>
-            <tbody>
-              {advocates.map((advocate) => (
-                <tr key={advocate.id} className="border ">
-                  <td className="p-1 border ">{advocate.name_bengali}</td>
-                  <td className="p-1 border ">{advocate.phone}</td>
-                  <td className="p-1 border ">
-                    {advocate.bar_registration_number}
-                  </td>
-                  <td className="p-1 borde space-x-1">
-                    <button
-                      onClick={() => {
-                        setFormData(advocate);
-                        setEditMode(true);
-                        setCurrentId(advocate.id);
-                      }}
-                      className="px-2 py-0.5 bg-yellow-100 rounded"
-                    >
-                      এডিট
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (window.confirm("আপনি কি নিশ্চিত?")) {
-                          AxiosInstance.delete(
-                            `advocates/${advocate.id}/`
-                          ).then(() => fetchAdvocates());
-                        }
-                      }}
-                      className="px-2 py-0.5 bg-red-100 rounded"
-                    >
-                      ডিলিট
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   );
 };

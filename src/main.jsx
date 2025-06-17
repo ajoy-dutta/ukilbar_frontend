@@ -55,6 +55,7 @@ import Helpline from './Helpline/Helpline.jsx';
 import Media from './Media/Media.jsx';
 import MemberList from './Pages/Members/MemberList.jsx';
 import AddEditMedia from './Media/AddEditMedia.jsx';
+import AdvocateList from './Pages/Configuration/AdvocateList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -126,6 +127,11 @@ const router = createBrowserRouter([
       },
 
       {
+        path: "Advocate-list",
+        element: <AdvocateList></AdvocateList>,
+      },
+
+      {
         path: "addBuilding",
         element: <AddBuilding></AddBuilding>,
       },
@@ -162,6 +168,11 @@ const router = createBrowserRouter([
 
       {
         path: "advocate-all-fees",
+        element: <AdvocateFees></AdvocateFees>,
+      },
+
+      {
+        path: "advocate-all-fee-list",
         element: <AdvocateFees></AdvocateFees>,
       },
 
