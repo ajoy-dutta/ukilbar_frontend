@@ -1,57 +1,68 @@
 import { NavLink } from "react-router-dom";
+import { FaFacebookF, FaTwitter, FaYoutube, FaLinkedinIn, FaGooglePlusG } from "react-icons/fa";
 import logo from "../../assets/Bangladesh-Bar.png";
+
 const Footer = () => {
   return (
-    <footer className="bg-[#213555] text-white py-0">
-      <div className="container mx-auto px-4 md:px-5">
-        {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-stretch items-start">
-          {/* Logo and Heading Section */}
-          <div className="grid grid-rows-1 gap-3">
-            <div className="flex items-start">
-              <div className="flex items-center justify-center gap-2">
-                <img src={logo} alt="Logo" className="mt-2 w-12 h-12" />
-                <div className="text-xl font-bold text-with-gradient lg:text-xl mt-2">
-                  <NavLink to="/">Jashore Bar Association </NavLink>
-                </div>
-              </div>
-            </div>
+    <footer className="bg-slate-100 text-slate-800 pt-6 pb-2 text-sm font-sans">
+      {/* Header Label */}
+      <div className="bg-blue-600 text-white w-fit px-4 py-1 font-bold text-lg ml-6 rounded-t">
+        Get in Touch!
+      </div>
 
-
-            <div className="text-left">
-              <h3 className="text-xl font-bold">Contact Us</h3>
-              <p className="text-gray-300 text-sm sm:text-base mb-2">
-                <strong>Location:</strong> Shahid Sarak Rd, Jashore
-                <br /> <span className="text-sm text-gray-400">Nearest Landmark: Judge Court Mor, Jashore</span>
-              </p>
-              <p className="text-gray-300 text-sm sm:text-base">
-                <strong>Mobile:</strong> 0123456789
-              </p>
-            </div>
-          </div>
-          {/* Google Map Section */}
-          <div className="md:col-span-1 mt-1">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3668.1874515707204!2d89.20769047497876!3d23.163357607816465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ff11f38516a8c7%3A0x348aecb7c6bd6899!2z4Kav4Ka24KeL4KawIOCmnOCnh-CmsuCmviDgpobgpofgpqjgppzgp4Dgpqzgp4Ag4Ka44Kau4Ka_4Kak4Ka_IOCmreCmrOCmqC0x!5e0!3m2!1sen!2sbd!4v1749899360454!5m2!1sen!2sbd"              width="100%"
-              height="200"
-              allowFullScreen=""
-              loading="lazy"
-              className="rounded-lg shadow-lg"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-
-          {/* Contact Section */}
-        </div>
-
-        {/* Bottom Section */}
-        <div className="mt-2 border-t border-gray-600 text-center">
-          <p className="text-gray-400 text-base ">
-            © 2025 All rights reserved.
-          </p>
-          <p className="text-gray-400 text-base">
-            Developed by Utshab Technology Ltd.
+      {/* Main Footer Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 py-6 bg-slate-300 text-sm">
+        {/* Contact Us */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2 text-blue-700">Contact Us</h3>
+          <p><strong>📍 Address:</strong> <br />
+  <span>
+      Shahid Sarak Rd, Jashore<br />
+      <span className="text-sm text-gray-600">Nearest Landmark: Judge Court Mor, Jashore</span>
+    </span>          </p>
+          <p className="mt-2"><strong>📞 Phone:</strong> 02223389807, 02223389809</p>
+          <p className="mt-2"><strong>✉️ Email:</strong> info@barcouncil.gov.bd</p>
+          <p className="mt-2">
+            <strong>🕒 Working Days/Hours:</strong><br />
+            Sunday–Thursday (Govt. Office Hour)<br />
+            Friday, Saturday & Govt. Holidays Closed
           </p>
         </div>
+
+        {/* Follow Us */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2 text-blue-700">Follow Us</h3>
+          <div className="flex space-x-3 text-white text-base">
+            <a href="#"><FaFacebookF className="bg-blue-800 p-1 rounded-full w-7 h-7" /></a>
+            <a href="#"><FaTwitter className="bg-blue-500 p-1 rounded-full w-7 h-7" /></a>
+            <a href="#"><FaYoutube className="bg-red-600 p-1 rounded-full w-7 h-7" /></a>
+            <a href="#"><FaLinkedinIn className="bg-blue-700 p-1 rounded-full w-7 h-7" /></a>
+            <a href="#"><FaGooglePlusG className="bg-gray-600 p-1 rounded-full w-7 h-7" /></a>
+          </div>
+        </div>
+
+        {/* Important Links */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2 text-blue-700">Important Links</h3>
+          <ul className="space-y-1 text-blue-900 font-medium list-disc list-inside">
+            <li><a href="#">Office of the Hon’ble President</a></li>
+            <li><a href="#">Office of the Hon’ble Prime Minister</a></li>
+            <li><a href="#">Supreme Court of Bangladesh</a></li>
+            <li><a href="#">Law and Justice Division</a></li>
+            <li><a href="#">Bangladesh Parliament</a></li>
+            <li><a href="#">Legislative & Parliamentary Affairs Division</a></li>
+            <li><a href="#">Laws of Bangladesh</a></li>
+            <li><a href="#">Bangladesh Forms</a></li>
+            <li><a href="#">Bangladesh National Portal</a></li>
+            <li><a href="#">Bangladesh Railway</a></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Footer Bottom */}
+      <div className="bg-slate-400 text-center text-slate-700 py-2 text-sm">
+        <p>© 2025 All rights reserved.</p>
+        <p>Developed by Utshab Technology Ltd.</p>
       </div>
     </footer>
   );
