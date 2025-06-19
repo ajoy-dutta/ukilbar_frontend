@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { logout } from "../../redux/authSlice";
+import { fetchAdvocates } from "../../redux/advocateSlice";
 import LeftLogo from "../../assets/ukil_bar.jpg";
 import { FaUsers, FaUserTie, FaUserCheck, FaComments } from "react-icons/fa";
 import { IoMdPhotos } from "react-icons/io";
@@ -11,6 +12,11 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+  useEffect(() => {
+    dispatch(fetchAdvocates());
+  }, [dispatch]);
 
   const navLinks = [
     { to: "/", label: "Home" },

@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import AxiosInstance from "../../Components/AxiosInstance";
+import { useSelector } from 'react-redux';
 
 const MemberList = () => {
+  const advocatesList = useSelector((state) => state.advocate.advocates);
   const [advocates, setAdvocates] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState("all");
 
-  useEffect(() => {
-    const fetchAdvocates = async () => {
-      try {
-        const response = await AxiosInstance.get("/advocates/");
-        setAdvocates(response.data);
-        setFiltered(response.data);
-      } catch (error) {
-        console.error("Error fetching advocates", error);
-      }
-    };
-    fetchAdvocates();
-  }, []);
 
-  console.log("Advocates", advocates)
+  useEffect(() => {
+    if (advocatesList?.length > 0) {
+      const sorted = [...advocatesList].sort((a, b) =>
+        (a.bar_registration_number || '').localeCompare(b.bar_registration_number || '', undefined, { numeric: true })
+      );
+      setAdvocates(sorted);
+    }
+  }, [advocatesList]);
+
+
+
 
   useEffect(() => {
     if (filter === "all") {
@@ -63,18 +63,27 @@ const MemberList = () => {
               key={index}
               className="flex flex-col md:flex-row items-center justify-between font-serif border border-blue-200 p-4 rounded shadow-sm bg-white"
             >
-              {/* Advocate Image */}
-              <div className="w-32 h-32 mb-4 md:mb-0 md:mr-6 shrink-0 border border-[#d8c4b6] rounded-full overflow-hidden">
-                {advocate.photo ? (
-                  <img
-                    src={advocate.photo}
-                    alt="Advocate"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-300" />
-                )}
-              </div>
+            
+
+        <div className="flex flex-col items-center">
+            <div className="text-sm font-bold text-gray-700 mb-1">{index + 1}</div>
+
+            {/* Advocate Image */}
+            <div className="w-32 h-32 md:mb-0 md:mr-2 shrink-0 border border-[#d8c4b6] rounded-full overflow-hidden">
+              {advocate.photo ? (
+                <img
+                  src={advocate.photo}
+                  alt="Advocate"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-300" />
+              )}
+            </div>
+          </div>
+
+
+
 
               {/* Advocate Info Table */}
               <div className="flex-1 w-full">

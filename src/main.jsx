@@ -56,6 +56,7 @@ import Media from './Media/Media.jsx';
 import MemberList from './Pages/Members/MemberList.jsx';
 import AddEditMedia from './Media/AddEditMedia.jsx';
 import AdvocateList from './Pages/Configuration/AdvocateList.jsx';
+import FeeList from './Pages/Advocate all Fees/FeeList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -173,7 +174,7 @@ const router = createBrowserRouter([
 
       {
         path: "advocate-all-fee-list",
-        element: <AdvocateFees></AdvocateFees>,
+        element: <FeeList></FeeList>,
       },
 
       {

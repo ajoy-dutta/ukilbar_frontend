@@ -61,14 +61,9 @@ export const AddAdvocate = () => {
     gender: "",
   });
 
-  const [advocates, setAdvocates] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
-
-  // Fetch data
-  useEffect(() => {
-    fetchAdvocates();
-  }, []);
+  const [sameAsCurrent, setSameAsCurrent] = useState(false);
 
 
   useEffect(() => {
@@ -77,15 +72,6 @@ export const AddAdvocate = () => {
     }
   }, [advocateData]);
 
-
-  const fetchAdvocates = async () => {
-    try {
-      const res = await AxiosInstance.get("advocates/");
-      setAdvocates(res.data);
-    } catch (err) {
-      console.error("ডেটা লোড করতে ব্যর্থ:", err);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -655,22 +641,56 @@ export const AddAdvocate = () => {
           )}
         </div>
 
-        {/* অংশ ৫: ঠিকানা তথ্য */}
+     {/* অংশ ৫: ঠিকানা তথ্য */}
         <div className="border p-1 rounded">
           <h2 className="font-semibold mb-1">ঠিকানা তথ্য</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
-            <div>
+          <div className="flex flex-col md:flex-row gap-2 items-start">
+            
+            {/* বর্তমান ঠিকানা */}
+            <div className="flex-1">
               <label>২৪. বর্তমান ঠিকানা</label>
               <textarea
                 className="w-full p-1 border border-gray-500 rounded"
                 name="current_address"
                 value={formData.current_address}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  if (sameAsCurrent) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      permanent_address: e.target.value,
+                    }));
+                  }
+                }}
                 placeholder="বর্তমান ঠিকানা লিখুন"
                 rows="2"
               />
             </div>
-            <div>
+
+            {/* ঐ checkbox */}
+            <div className="flex flex-col justify-center items-start pt-5">
+              <label className="inline-flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={sameAsCurrent}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setSameAsCurrent(checked);
+                    if (checked) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        permanent_address: prev.current_address,
+                      }));
+                    }
+                  }}
+                />
+                <span>ঐ</span>
+              </label>
+              <span className="text-sm text-gray-500">(same as present address)</span>
+            </div>
+
+            {/* স্থায়ী ঠিকানা */}
+            <div className="flex-1">
               <label>২৫. স্থায়ী ঠিকানা</label>
               <textarea
                 className="w-full p-1 border border-gray-500 rounded"
@@ -683,6 +703,8 @@ export const AddAdvocate = () => {
             </div>
           </div>
         </div>
+
+
 
         {/* অংশ ৬: যোগাযোগ তথ্য */}
         <div className="border p-1 rounded">
