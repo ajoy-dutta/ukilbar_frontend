@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AxiosInstance from "../../Components/AxiosInstance";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 const MemberList = () => {
   const advocatesList = useSelector((state) => state.advocate.advocates);
@@ -8,18 +8,18 @@ const MemberList = () => {
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState("all");
 
-
   useEffect(() => {
     if (advocatesList?.length > 0) {
       const sorted = [...advocatesList].sort((a, b) =>
-        (a.bar_registration_number || '').localeCompare(b.bar_registration_number || '', undefined, { numeric: true })
+        (a.enrollment_date_As_member || "").localeCompare(
+          b.enrollment_date_As_member || "",
+          undefined,
+          { numeric: true }
+        )
       );
       setAdvocates(sorted);
     }
   }, [advocatesList]);
-
-
-
 
   useEffect(() => {
     if (filter === "all") {
@@ -31,7 +31,7 @@ const MemberList = () => {
       setFiltered(filteredData);
     }
   }, [filter, advocates]);
-// bg-[#f5efe9]
+  // bg-[#f5efe9]
   return (
     <div className="bg-teal-50">
       <div className="py-10 px-4 md:px-12">
@@ -57,48 +57,61 @@ const MemberList = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-6 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-6 py-4">
           {filtered.map((advocate, index) => (
             <div
               key={index}
               className="flex flex-col md:flex-row items-center justify-between font-serif border border-blue-200 p-4 rounded shadow-sm bg-white"
             >
-            
+              <div className="flex flex-col items-center">
+                <div className="text-sm font-bold text-gray-700 mb-1">
+                  {index + 1}
+                </div>
 
-        <div className="flex flex-col items-center">
-            <div className="text-sm font-bold text-gray-700 mb-1">{index + 1}</div>
-
-            {/* Advocate Image */}
-            <div className="w-32 h-32 md:mb-0 md:mr-2 shrink-0 border border-[#d8c4b6] rounded-full overflow-hidden">
-              {advocate.photo ? (
-                <img
-                  src={advocate.photo}
-                  alt="Advocate"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-300" />
-              )}
-            </div>
-          </div>
-
-
-
+                {/* Advocate Image */}
+                <div className="w-32 h-32 md:mb-0 md:mr-2 shrink-0 border border-[#d8c4b6] rounded-full overflow-hidden">
+                  {advocate.photo ? (
+                    <img
+                      src={advocate.photo}
+                      alt="Advocate"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-300" />
+                  )}
+                </div>
+              </div>
 
               {/* Advocate Info Table */}
               <div className="flex-1 w-full">
                 <table className="table-auto w-full text-sm">
                   <tbody>
                     <tr>
-                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] w-1/3">
-                        Name
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] w-1/3 whitespace-nowrap">
+                        Name(bengali)
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">
-                        {advocate.name_english} ({advocate.name_bengali})
+                        {advocate.name_bengali}
                       </td>
                     </tr>
                     <tr>
-                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6]">
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] w-1/3 whitespace-nowrap">
+                        Name(english)
+                      </td>
+                      <td className="text-gray-800 px-2 border border-[#d8c4b6]">
+                        {advocate.name_english}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] w-1/3">
+                        BBC No.
+                      </td>
+                      <td className="text-gray-800 px-2 border border-[#d8c4b6]">
+                        {advocate.bar_registration_number}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] whitespace-nowrap">
                         Father's Name
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">
@@ -106,7 +119,7 @@ const MemberList = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6]">
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] whitespace-nowrap">
                         Present Address
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">
@@ -114,7 +127,7 @@ const MemberList = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6]">
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] whitespace-nowrap">
                         Date of Joining
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">
@@ -130,7 +143,7 @@ const MemberList = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6]">
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] whitespace-nowrap">
                         Blood Group
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">
@@ -138,7 +151,7 @@ const MemberList = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6]">
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] whitespace-nowrap">
                         Date of Birth
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">

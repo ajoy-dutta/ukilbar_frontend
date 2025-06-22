@@ -298,15 +298,24 @@ export const AddAdvocate = () => {
                 required
               />
             </div>
-            <div>
-              <label>৫. ছবি</label>
+           <div>
+            <label>৫. ছবি</label>
+            <div className="flex items-center gap-4">
               <input
                 type="file"
-                className="w-full"
+                className="w-full md:w-auto"
                 onChange={handleFileChange}
                 accept="image/*"
               />
+              {formData.photo && (
+                <img
+                  src={URL.createObjectURL(formData.photo)}
+                  alt="Preview"
+                  className="w-12 h-12` object-cover border rounded"
+                />
+              )}
             </div>
+          </div>
           </div>
         </div>
 

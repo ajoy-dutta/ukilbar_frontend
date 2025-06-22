@@ -57,6 +57,8 @@ import MemberList from './Pages/Members/MemberList.jsx';
 import AddEditMedia from './Media/AddEditMedia.jsx';
 import AdvocateList from './Pages/Configuration/AdvocateList.jsx';
 import FeeList from './Pages/Advocate all Fees/FeeList.jsx';
+import Add_Commitee from './Pages/Configuration/Add_Commitee.jsx';
+import PositionList from './Pages/Configuration/PositionList.jsx';
 
 const router = createBrowserRouter([
   {
@@ -81,10 +83,12 @@ const router = createBrowserRouter([
         path: "/media",
         element: <Media />,
       },
-       {
+
+      {
         path: "/contact",
         element: <Contact />,
       },
+
       {
         path: "/helpline",
         element: <Helpline />,
@@ -150,6 +154,16 @@ const router = createBrowserRouter([
       {
         path: "addMedia",
         element: <AddEditMedia></AddEditMedia>,
+      },
+
+      {
+        path: "addCommittee",
+        element: <Add_Commitee></Add_Commitee>,
+      },
+
+      {
+        path: "config-position",
+        element: <PositionList></PositionList>,
       },
 
       {
