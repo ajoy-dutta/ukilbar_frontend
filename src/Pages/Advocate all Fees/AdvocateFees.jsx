@@ -3,11 +3,13 @@ import AxiosInstance from "../../Components/AxiosInstance";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import EntryFeeForm from "./EntryFee";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 const AdvocateFees = () => {
   const { state } = useLocation();
   const FeeData = state?.FeeData;
   let isEditMode = Boolean(FeeData);
+  const [phone, setPhone] = useState("");
 
 
   const [formData, setFormData] = useState({
@@ -66,6 +68,7 @@ const AdvocateFees = () => {
   const navigate = useNavigate();
   const [showEntryForm, setShowEntryForm] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [suggestions2, setSuggestions2] = useState([]);
 
 
 
@@ -201,25 +204,55 @@ const AdvocateFees = () => {
         setSuggestions(matches);
       }
     }
-    // Auto-fill advocate name when exact match is selected
-    const matchedAdv = advocates.find(
+
+    else if (name === "phone") {
+      if (value.trim() === "") {
+        setSuggestions([]);
+      }else{
+      setPhone(value)
+      const matches = advocates.filter((adv) =>
+        adv.phone.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions2(matches);
+     }
+    }
+
+    // Auto-fill advocate info when exact id is selected
+    const matchedAdvocate = advocates.find(
       (adv) => adv.bar_registration_number === value
     );
-    if (matchedAdv) {
+    if (matchedAdvocate) {
       setFormData((prev) => ({
         ...prev,
-        advocate_id: matchedAdv.bar_registration_number,
+        advocate_id: matchedAdvocate.bar_registration_number,
       }));
+      setPhone(matchedAdvocate.phone)
       setSuggestions([]); // hide suggestions
+    }
+
+
+    // Auto-fill advocate info when exact Phone number is selected
+    const matchedAdvocate2 = advocates.find(
+      (adv) => adv.phone === value
+    );
+    if (matchedAdvocate2) {
+      setFormData((prev) => ({
+        ...prev,
+        advocate_id: matchedAdvocate2.bar_registration_number,
+      }));
+       setPhone(matchedAdvocate2.phone)
+      setSuggestions2([]); // hide suggestions
     }
   };
 
-  const handleSuggestionClick = (bar_registration_number, name) => {
+  const handleSuggestionClick = (bar_registration_number,phone) => {
     setFormData((prev) => ({
       ...prev,
       advocate_id: bar_registration_number,
     }));
+    setPhone(phone)
     setSuggestions([]);
+    setSuggestions2([]);
   };
 
   const handleSubmit = async (e) => {
@@ -408,16 +441,22 @@ const AdvocateFees = () => {
               <label className="block text-gray-700 text-sm font-semibold">
                 Advocate ID <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="advocate_id"
-                value={formData.advocate_id}
-                onChange={handleChange}
-                className="shadow appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Type or select advocate ID"
-                autoComplete="off"
-                required
-              />
+
+               <div className="relative">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                  </span>
+                  <input
+                    type="text"
+                    name="advocate_id"
+                    value={formData.advocate_id}
+                    onChange={handleChange}
+                    className="shadow  pl-8 pr-2 appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="Type or select advocate ID"
+                    autoComplete="off"
+                    required
+                  />
+              </div>
               {suggestions.length > 0 && (
                 <ul className="absolute z-10 bg-white border border-gray-400 border  mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
                   {suggestions.map((adv) => (
@@ -426,7 +465,7 @@ const AdvocateFees = () => {
                       onClick={() =>
                         handleSuggestionClick(
                           adv.bar_registration_number,
-                          adv.name_english
+                          adv.phone
                         )
                       }
                       className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
@@ -437,6 +476,49 @@ const AdvocateFees = () => {
                 </ul>
               )}
             </div>
+
+
+            {/* Advocate Phone Number (typeable & selectable) */}
+            <div className="relative">
+              <label className="block text-gray-700 text-sm font-semibold">
+                Advocate Phone<span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                </span>
+                <input
+                  type="text"
+                  name="phone"
+                  value={phone}
+                  onChange={handleChange}
+                  className="shadow  pl-8 pr-2 appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Type or select Phone number"
+                  autoComplete="off"
+                  required
+                />
+              </div>
+              {suggestions2.length > 0 && (
+                <ul className="absolute z-10 bg-white border border-gray-400 border  mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
+                  {suggestions2.map((adv) => (
+                    <li
+                      key={adv.id}
+                      onClick={() =>
+                        handleSuggestionClick(
+                          adv.bar_registration_number,
+                          adv.phone
+                        )
+                      }
+                      className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                    >
+                      {adv.phone}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+
             {selectedAdvocate && (
               <>
                 <div>
@@ -445,7 +527,7 @@ const AdvocateFees = () => {
                   </label>
                   <input
                     type="text"
-                    value={selectedAdvocate.name_bengali}
+                    value={selectedAdvocate.name_english}
                     readOnly
                     className="bg-sky-50 border border-gray-400 rounded py-1 px-3"
                   />

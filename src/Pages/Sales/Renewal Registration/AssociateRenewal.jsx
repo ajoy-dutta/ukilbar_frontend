@@ -4,13 +4,19 @@ import { useState, useEffect } from "react";
 import './index.css'
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 
 const AssociateRenewal = () =>{
  const  { state } = useLocation();
  const renewalData = state?.renewalData;
  const isEditMode = Boolean(renewalData);
-
+ const [suggestions, setSuggestions] = useState([]);
+ const advocates = useSelector((state) => state.advocate.advocates);
+ const [phone, setPhone] = useState("");
+ const [suggestions2, setSuggestions2] = useState([]);
+ 
 
  const [formData, setFormData] = useState({
     receipt_no: "",
@@ -45,7 +51,70 @@ const AssociateRenewal = () =>{
         parseFloat(updatedData.book_rate || 0) +
         parseFloat(updatedData.renewal_fee || 0);
         setFormData(updatedData);
-   };
+
+        // For advocate_id, filter matching suggestions
+        if (name === "advocate_id") {
+            if (value.trim() === "") {
+            setSuggestions([]);
+            }else{
+                const matches = advocates.filter((adv) =>
+                adv.bar_registration_number.toLowerCase().includes(value.toLowerCase())
+            );
+            setSuggestions(matches);
+           }
+        }
+
+         else if (name === "phone") {
+            if (value.trim() === "") {
+                setSuggestions([]);
+            }else{
+            setPhone(value)
+            const matches = advocates.filter((adv) =>
+                adv.phone.toLowerCase().includes(value.toLowerCase()));
+            setSuggestions2(matches);
+            }
+        }
+
+        // Auto-fill advocate name when exact match is selected
+        const matchedAdv = advocates.find(
+        (adv) => adv.bar_registration_number === value
+        );
+        if (matchedAdv) {
+        setFormData((prev) => ({
+            ...prev,
+            advocate_id: matchedAdv.bar_registration_number,
+            advocate_name: matchedAdv.name_english,
+        }));
+        setPhone(matchedAdv.phone)
+        setSuggestions([]);
+        }
+
+        // Auto-fill advocateInfo when exact phone match is selected
+        const matchedAdvocate1 = advocates.find(
+        (adv) => adv.phone === value
+        );
+        if (matchedAdvocate1) {
+        setFormData((prev) => ({
+            ...prev,
+            advocateId: matchedAdvocate1.bar_registration_number,
+            advocate_name: matchedAdvocate1.name_english,
+        }));
+        setPhone(matchedAdvocate1.phone)
+        setSuggestions2([]); // hide suggestions
+        }
+    };
+
+
+    const handleSuggestionClick = (bar_registration_number, name,phone) => {
+        setFormData((prev) => ({
+        ...prev,
+        advocate_id: bar_registration_number,
+        advocate_name: name,
+        }));
+        setPhone(phone)
+        setSuggestions([]);
+        setSuggestions2([]);
+    };
 
 
     const handleSubmit = async (e) => {
@@ -159,23 +228,7 @@ const AssociateRenewal = () =>{
         />
         </div>
 
-        {/* <div>
-        <label className="text-sm font-semibold">
-            Year <span className="text-red-500">*</span>
-        </label>
-        <select
-            name="year"
-            onChange={handleChange}
-            value={formData.year}
-            className="input required"
-        >
-            <option value="">--- Select Year ---</option>
-            {[...Array(50)].map((_, i) => {
-            const year = 2000 - i;
-            return <option key={year}>{year}</option>;
-            })}
-        </select>
-        </div> */}
+        
 
         <div>
         <label className="text-sm font-semibold">
@@ -194,31 +247,68 @@ const AssociateRenewal = () =>{
         <label className="text-sm font-semibold">
             Advocate ID <span className="text-red-500">*</span>
         </label>
-        <input
-            name="advocate_id"
-            onChange={handleChange}
-            value={formData.advocate_id}
-            className="input required"
-            placeholder="Enter advocate ID"
-        />
+
+        <div className="relative">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+            </span>
+            <input
+                name="advocate_id"
+                onChange={handleChange}
+                value={formData.advocate_id}
+                className="shadow  pl-8 pr-2 appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 
+                text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter advocate ID"
+            />
+        </div>
+        {suggestions.length > 0 && (
+            <ul className="absolute z-10 bg-white border border-gray-300 mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
+            {suggestions.map((adv) => (
+                <li
+                key={adv.id}
+                onClick={() => handleSuggestionClick(adv.bar_registration_number, adv.name_english, adv.phone)}
+                className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                >
+                {adv.bar_registration_number} 
+                </li>
+            ))}
+            </ul>
+        )}
         </div>
 
-        {/* <div>
-        <label className="text-sm font-semibold">
-            Type <span className="text-red-500">*</span>
-        </label>
-        <select
-            name="type"
-            onChange={handleChange}
-            value={formData.type}
-            className="input required"
-            required
-        >
-            <option value="">--- Select Type ---</option>
-            <option value="New">New</option>
-            <option value="Old">Old</option>
-        </select>
-        </div> */}
+
+      
+        {/* Advocate Phone Number (typeable & selectable) */}
+        <div className="relative">
+            <label className="block text-gray-700 text-sm font-semibold">Advocate Phone</label>
+            <div className="relative">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                </span>
+                <input
+                    name="phone"
+                    type="text"
+                    value={phone}
+                    onChange={handleChange}
+                    placeholder="Enter Phone Number"
+                    className="shadow  pl-8 pr-2 appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 
+                               text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+            </div>
+            {suggestions2.length > 0 && (
+            <ul className="absolute z-10 bg-white border border-gray-400 border  mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
+                {suggestions2.map((adv) => (
+                <li
+                    key={adv.id}
+                    onClick={() => handleSuggestionClick(adv.bar_registration_number, adv.name_english, adv.phone)}
+                    className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                >
+                    {adv.phone}
+                </li>
+                ))}
+            </ul>
+            )}
+        </div>
 
         <div>
         <label className="text-sm font-semibold">Entry Fee</label>

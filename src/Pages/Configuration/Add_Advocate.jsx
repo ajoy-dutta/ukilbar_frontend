@@ -61,10 +61,7 @@ export const AddAdvocate = () => {
     gender: "",
   });
 
-  const [editMode, setEditMode] = useState(false);
-  const [currentId, setCurrentId] = useState(null);
   const [sameAsCurrent, setSameAsCurrent] = useState(false);
-
 
   useEffect(() => {
     if (isEditMode) {
@@ -150,8 +147,8 @@ export const AddAdvocate = () => {
     });
 
     try {
-      if (editMode) {
-        await AxiosInstance.put(`advocates/${currentId}/`, formDataToSend);
+      if (isEditMode) {
+        await AxiosInstance.put(`advocates/${advocateData.id}/`, formDataToSend);
       } else {
         await AxiosInstance.post("advocates/", formDataToSend);
       }
@@ -216,8 +213,7 @@ export const AddAdvocate = () => {
       death_date: "",
       remarks: "",
     });
-    setEditMode(false);
-    setCurrentId(null);
+   isEditMode = false;
   };
 
   return (
@@ -225,7 +221,7 @@ export const AddAdvocate = () => {
 
       <div className="mb-4 flex flex-row justify-between">
           <h1 className="font-bold text-lg px-16">
-          {editMode ? "অ্যাডভোকেট সম্পাদনা" : "নতুন অ্যাডভোকেট যোগ করুন"}
+          {isEditMode ? "অ্যাডভোকেট সম্পাদনা" : "নতুন অ্যাডভোকেট যোগ করুন"}
         </h1>
           <Link to="/dashboard/advocate-list">
             <h2 className="bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500 hover:text-white px-4 py-2">
@@ -952,7 +948,7 @@ export const AddAdvocate = () => {
             type="submit"
             className="px-3 py-1 bg-blue-600 text-white rounded"
           >
-            {editMode ? "আপডেট করুন" : "সংরক্ষণ করুন"}
+            {isEditMode ? "আপডেট করুন" : "সংরক্ষণ করুন"}
           </button>
           <button
             type="button"
