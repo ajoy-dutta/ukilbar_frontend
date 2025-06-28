@@ -379,7 +379,6 @@ const AdvocateFees = () => {
       to_year: new Date().getFullYear(),
       monthly_fee: "",
       total_monthly_amount: "",
-      monthly_payment_type: "",
       monthly_payment_type: "cash",
       remarks2: "",
 
