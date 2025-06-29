@@ -21,6 +21,8 @@ const MemberList = () => {
     }
   }, [advocatesList]);
 
+  console.log(advocates)
+
   useEffect(() => {
     if (filter === "all") {
       setFiltered(advocates);
@@ -61,7 +63,7 @@ const MemberList = () => {
           {filtered.map((advocate, index) => (
             <div
               key={index}
-              className="flex flex-col md:flex-row items-center justify-between font-serif border border-blue-200 p-4 rounded shadow-sm bg-white"
+              className="flex flex-col md:flex-col items-center justify-between font-serif border border-blue-200 p-4 rounded shadow-sm bg-white"
             >
               <div className="flex flex-col items-center">
                 <div className="text-sm font-bold text-gray-700 mb-1">
@@ -69,7 +71,7 @@ const MemberList = () => {
                 </div>
 
                 {/* Advocate Image */}
-                <div className="w-32 h-32 md:mb-0 md:mr-2 shrink-0 border border-[#d8c4b6] rounded-full overflow-hidden">
+                <div className="w-32 h-32 mb-2 shrink-0 border border-[#d8c4b6] rounded-full overflow-hidden">
                   {advocate.photo ? (
                     <img
                       src={advocate.photo}

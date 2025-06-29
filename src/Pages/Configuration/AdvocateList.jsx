@@ -3,26 +3,16 @@ import AxiosInstance from "../../Components/AxiosInstance";
 import { FaEdit, FaTrash, FaFilePdf, FaInfoCircle, FaPrint } from "react-icons/fa";
 import { IoArrowBackSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 const AdvocateList = () => {
-  const [advocates, setAdvocates] = useState([]);
+  // const [advocates, setAdvocates] = useState([]);
   const [selectedAdvocate, setSelectedAdvocate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const advocates = useSelector((state) => state.advocate.advocates);
 
-  const fetchAdvocates = async () => {
-    try {
-      const response = await AxiosInstance.get("/advocates/");
-      setAdvocates(response.data);
-    } catch (error) {
-      console.error("Error fetching advocates:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAdvocates();
-  }, []);
-
+ 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this advocate?")) {
       try {
