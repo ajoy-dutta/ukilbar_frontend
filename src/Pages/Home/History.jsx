@@ -39,12 +39,9 @@ export default function History() {
                   <h3 className="text-sm font-bold text-gray-800">{member.committee_position}</h3>
                   <div className="flex justify-center items-center my-1">
                     <div className="w-60 h-9 flex items-center justify-center border-2 border-cyan-600 bg-blue-300 rounded-full">
-                      <p className="text-gray-700 font-semibold">{member.name}</p>
+                      <p className="text-gray-700 font-semibold">{member.advocate.name_english}</p>
                     </div>
                   </div>
-                  <blockquote className="text-gray-600 text-sm italic text-justify px-2">
-                    "{member.quote}"
-                  </blockquote>
                 </figcaption>
               </figure>
             ))}

@@ -6,7 +6,10 @@ export default function Committee_list() {
   const [filteredList, setFilteredList] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-  const years = Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - i);
+  const years = Array.from(
+    { length: 11 },
+    (_, i) => new Date().getFullYear() - i
+  );
 
   const fetchCommitteeList = async () => {
     try {
@@ -21,8 +24,17 @@ export default function Committee_list() {
     fetchCommitteeList();
   }, []);
 
+  const groupedByPosition = filteredList.reduce((acc, item) => {
+    const position = item.committee_position || "Other";
+    if (!acc[position]) acc[position] = [];
+    acc[position].push(item);
+    return acc;
+  }, {});
+
   useEffect(() => {
-    const filtered = committeeList.filter((item) => Number(item.year) === Number(selectedYear));
+    const filtered = committeeList.filter(
+      (item) => Number(item.year) === Number(selectedYear)
+    );
     setFilteredList(filtered);
   }, [selectedYear, committeeList]);
 
@@ -46,35 +58,72 @@ export default function Committee_list() {
         </select>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white text-sm border rounded shadow">
-          <thead className="bg-gray-100 text-left">
+      <div className="overflow-x-auto border rounded shadow-md mt-6 p-4 bg-white">
+        <h2 className="text-center text-lg md:text-xl font-bold mb-4 text-gray-800">
+          Executive Committee {selectedYear} — Jashore District Lawyers
+          Association
+        </h2>
+
+        <table className="min-w-full border-collapse">
+          <thead className="bg-gray-200 text-gray-700">
             <tr>
-              <th className="p-2 border">SL</th>
-              <th className="p-2 border">Name</th>
-              <th className="p-2 border">Phone</th>
-              <th className="p-2 border">Bar Registration</th>
-              <th className="p-2 border">Position</th>
+              <th className="border p-3 text-center text-sm font-semibold">
+                Position
+              </th>
+              <th className="border p-3 text-center text-sm font-semibold">
+                SL No.
+              </th>
+              <th className="border p-3 text-center text-sm font-semibold">
+                Advocate Name
+              </th>
+              <th className="border p-3 text-center text-sm font-semibold">
+                Mobile Number
+              </th>
             </tr>
           </thead>
-          <tbody>
-            {filteredList.length === 0 ? (
+          <tbody className="divide-y divide-gray-100">
+            {Object.keys(groupedByPosition).length === 0 ? (
               <tr>
-                <td className="p-2 border text-center" colSpan={6}>
+                <td
+                  className="border p-3 text-center text-gray-500"
+                  colSpan={4}
+                >
                   No committee found for {selectedYear}.
                 </td>
               </tr>
             ) : (
-              filteredList.map((member, index) => (
-                <tr key={member.id}>
-                  <td className="p-2 border">{index + 1}</td>
-                  <td className="p-2 border">{member.name}</td>
-                  <td className="p-2 border">{member.phone}</td>
-                  <td className="p-2 border">{member.bar_registration_number}</td>
-                  <td className="p-2 border">{member.committee_position}</td>
-                </tr>
-              ))
+              Object.entries(groupedByPosition).map(([position, members]) =>
+                members.map((member, index) => {
+                  const isPresident = position.toLowerCase() === "president";
+                  const isSecretary = position.toLowerCase() === "secretary";
+
+                  return (
+                    <tr
+                      key={member.id}
+                      className={`
+                  hover:bg-gray-50 transition
+                  ${
+                    isPresident ? "bg-green-50 border-l-4 border-green-500" : ""
+                  }
+                  ${isSecretary ? "bg-blue-50 border-l-4 border-blue-500" : ""}
+                `}
+                    >
+                      <td className="border p-3 text-center font-medium">
+                        {isPresident && (
+                          <span className="text-green-700">⭐ {position}</span>
+                        )}
+                        {isSecretary && (
+                          <span className="text-blue-700">⭐ {position}</span>
+                        )}
+                        {!isPresident && !isSecretary && position}
+                      </td>
+                      <td className="border p-3 text-center">{index + 1}</td>
+                      <td className="border p-3 text-center">{member.advocate.name_english}</td>
+                      <td className="border p-3 text-center">{member.phone}</td>
+                    </tr>
+                  );
+                })
+              )
             )}
           </tbody>
         </table>

@@ -7,6 +7,7 @@ export const AddAdvocate = () => {
   const { state } = useLocation();
   const advocateData = state?.advocateData;
   let isEditMode = Boolean(advocateData);
+  const [existingPhoto, setExistingPhoto] = useState(null);
 
   const [formData, setFormData] = useState({
     advocate_type: "",
@@ -64,10 +65,15 @@ export const AddAdvocate = () => {
   const [sameAsCurrent, setSameAsCurrent] = useState(false);
 
   useEffect(() => {
-    if (isEditMode) {
-      setFormData(advocateData);
-    }
-  }, [advocateData]);
+  if (isEditMode && advocateData) {
+    setFormData({
+      ...advocateData,
+      photo: null 
+    });
+    setExistingPhoto(advocateData.photo || null);
+  }
+}, [advocateData]);
+
 
 
   const handleChange = (e) => {
@@ -146,15 +152,17 @@ export const AddAdvocate = () => {
       if (val !== null) formDataToSend.append(key, val);
     });
 
+    console.log(formData)
+
     try {
       if (isEditMode) {
         await AxiosInstance.put(`advocates/${advocateData.id}/`, formDataToSend);
+        alert("Advocate Updated Successfully");
       } else {
         await AxiosInstance.post("advocates/", formDataToSend);
+        alert("Advocate Added Successfully");
       }
-      alert("Advocate Added Successfully");
       resetForm();
-      fetchAdvocates();
     } catch (err) {
       console.error("সংরক্ষণে সমস্যা:", err);
     }
@@ -214,6 +222,7 @@ export const AddAdvocate = () => {
       remarks: "",
     });
    isEditMode = false;
+   setExistingPhoto(null);
   };
 
   return (
@@ -234,86 +243,109 @@ export const AddAdvocate = () => {
         onSubmit={handleSubmit}
         className="space-y-2 px-16 shadow-lg py-4 bg-teal-50 rounded-lg border border-blue-400"
       >
-        {/* Section 1: Basic Information */}
-        <div className="border p-1 rounded">
-          <h2 className="font-semibold mb-1">প্রাথমিক তথ্য</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-            <div>
-              <label>
-                ১. বার রেজিস্ট্রেশন নম্বর{" "}
-                <span className="text-red-600 ml-2">*</span>
-              </label>
-              <input
-                className="w-full p-1 border border-gray-500 rounded"
-                name="bar_registration_number"
-                value={formData.bar_registration_number}
-                onChange={handleChange}
-                placeholder="বার রেজিস্ট্রেশন নম্বর লিখুন"
-                required
-              />
+      {/* Section 1: Basic Information */}
+      <div className="border p-2 rounded">
+        <h2 className="font-semibold mb-2">প্রাথমিক তথ্য</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Left Part - 75% */}
+          <div className="md:col-span-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div>
+                <label>
+                  ১. বার রেজিস্ট্রেশন নম্বর <span className="text-red-600 ml-1">*</span>
+                </label>
+                <input
+                  className="w-full p-1 border border-gray-500 rounded"
+                  name="bar_registration_number"
+                  value={formData.bar_registration_number}
+                  onChange={handleChange}
+                  placeholder="বার রেজিস্ট্রেশন নম্বর লিখুন"
+                  required
+                />
+              </div>
+              <div>
+                <label>
+                  ২. অ্যাডভোকেট ধরন <span className="text-red-600 ml-1">*</span>
+                </label>
+                <select
+                  className="w-full p-1 border border-gray-500 rounded"
+                  name="advocate_type"
+                  value={formData.advocate_type}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">নির্বাচন করুন</option>
+                  <option value="old">Old</option>
+                  <option value="new">New</option>
+                </select>
+              </div>
+              <div>
+                <label>
+                  ৩. নাম (ইংরেজি) <span className="text-red-600 ml-1">*</span>
+                </label>
+                <input
+                  className="w-full p-1 border border-gray-500 rounded"
+                  name="name_english"
+                  value={formData.name_english}
+                  onChange={handleChange}
+                  placeholder="ইংরেজিতে নাম লিখুন"
+                  required
+                />
+              </div>
+              <div>
+                <label>
+                  ৪. নাম (বাংলা) <span className="text-red-600 ml-1">*</span>
+                </label>
+                <input
+                  className="w-full p-1 border border-gray-500 rounded"
+                  name="name_bengali"
+                  value={formData.name_bengali}
+                  onChange={handleChange}
+                  placeholder="বাংলায় নাম লিখুন"
+                  required
+                />
+              </div>
             </div>
-            <div>
-              <label>
-                ২. অ্যাডভোকেট ধরন<span className="text-red-600 ml-2">*</span>
-              </label>
-              <select
-                className="w-full p-1 border border-gray-500 rounded"
-                name="advocate_type"
-                value={formData.advocate_type}
-                onChange={handleChange}
-                required
-              >
-                <option value="">নির্বাচন করুন</option>
-                <option value="old">Old</option>
-                <option value="new">New</option>
-              </select>
-            </div>
-            <div>
-              <label>
-                ৩. নাম (ইংরেজি)<span className="text-red-600 ml-2">*</span>
-              </label>
-              <input
-                className="w-full p-1 border border-gray-500  rounded"
-                name="name_english"
-                value={formData.name_english}
-                onChange={handleChange}
-                placeholder="ইংরেজিতে নাম লিখুন"
-                required
-              />
-            </div>
-            <div>
-              <label>
-                ৪. নাম (বাংলা)<span className="text-red-600 ml-2">*</span>
-              </label>
-              <input
-                className="w-full p-1 border border-gray-500 rounded"
-                name="name_bengali"
-                value={formData.name_bengali}
-                onChange={handleChange}
-                placeholder="বাংলায় নাম লিখুন"
-                required
-              />
-            </div>
-           <div>
-            <label>৫. ছবি</label>
-            <div className="flex items-center gap-4">
+          </div>
+
+          {/* Right Part - 25% */}
+          <div className="md:col-span-1">
+            <label className="block">৫. ছবি</label>
+            <div className="flex flex-col items-center border border-gray-300 rounded p-2 bg-gray-50">
+              {existingPhoto && (
+                <div className="">
+                  <img
+                    src={existingPhoto}
+                    alt="Current Advocate Photo"
+                    className="w-24 h-24 rounded-full object-cover border"
+                  />
+                  <p className="text-xs text-center text-gray-500 py-1">present image</p>
+                </div>
+              )}
+
+              {formData.photo && (
+                <div className="">
+                  <img
+                    src={URL.createObjectURL(formData.photo)}
+                    alt="Preview"
+                    className="w-24 h-24 rounded-full object-cover border"
+                  />
+                  <p className="text-xs text-center text-gray-500 py-1">preview image</p>
+                </div>
+              )}
+
               <input
                 type="file"
-                className="w-full md:w-auto"
+                name="photo"
                 onChange={handleFileChange}
-                accept="image/*"
+                className="border rounded px-2 w-full"
               />
-              {formData.photo && (
-                <img
-                  src={URL.createObjectURL(formData.photo)}
-                  alt="Preview"
-                  className="w-12 h-12` object-cover border rounded"
-                />
-              )}
             </div>
           </div>
-          </div>
         </div>
+      </div>
+
 
         {/* Section 2: Family Information */}
         <div className="border p-1 rounded">
