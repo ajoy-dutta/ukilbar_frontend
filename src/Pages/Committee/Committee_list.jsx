@@ -39,7 +39,7 @@ export default function Committee_list() {
   }, [selectedYear, committeeList]);
 
   return (
-    <div className="p-4 max-w-5xl mx-auto">
+    <div className="p-4 max-w-5xl mx-auto font-serif">
       <h2 className="text-xl font-semibold mb-4">Committee List</h2>
 
       {/* Year filter */}
@@ -48,7 +48,7 @@ export default function Committee_list() {
         <select
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
-          className="border px-3 py-1 rounded border-gray-600"
+          className="border px-3 py-1 rounded border-gray-400"
         >
           {years.map((year) => (
             <option key={year} value={year}>
@@ -58,74 +58,73 @@ export default function Committee_list() {
         </select>
       </div>
 
-      <div className="overflow-x-auto border rounded shadow-md mt-6 p-4 bg-white">
+      <div className="overflow-x-auto flex flex-col items-center border border-zinc-300 rounded shadow-md mt-6 p-4 bg-white">
         <h2 className="text-center text-lg md:text-xl font-bold mb-4 text-gray-800">
           Executive Committee {selectedYear} — Jashore District Lawyers
           Association
         </h2>
 
-        <table className="min-w-full border-collapse">
+        <table className="w-3/4 border-collapse mb-4">
           <thead className="bg-gray-200 text-gray-700">
-            <tr>
-              <th className="border p-3 text-center text-sm font-semibold">
+            <tr className="text-base">
+              <th className="border w-40 border-zinc-400 p-3 text-center font-semibold">
                 Position
               </th>
-              <th className="border p-3 text-center text-sm font-semibold">
+              <th className="border w-20 border-zinc-400 p-3 text-center font-semibold">
                 SL No.
               </th>
-              <th className="border p-3 text-center text-sm font-semibold">
+              <th className="border border-zinc-400 p-3 text-center font-semibold">
                 Advocate Name
               </th>
-              <th className="border p-3 text-center text-sm font-semibold">
+              <th className="border border-zinc-400 p-3 w-40 text-center font-semibold">
                 Mobile Number
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {Object.keys(groupedByPosition).length === 0 ? (
-              <tr>
-                <td
-                  className="border p-3 text-center text-gray-500"
-                  colSpan={4}
-                >
-                  No committee found for {selectedYear}.
-                </td>
-              </tr>
-            ) : (
-              Object.entries(groupedByPosition).map(([position, members]) =>
-                members.map((member, index) => {
-                  const isPresident = position.toLowerCase() === "president";
-                  const isSecretary = position.toLowerCase() === "secretary";
+        <tbody className="divide-y divide-gray-100">
+          {Object.keys(groupedByPosition).length === 0 ? (
+            <tr>
+              <td className="border p-3 text-center text-gray-500" colSpan={4}>
+                No committee found for {selectedYear}.
+              </td>
+            </tr>
+          ) : (
+            Object.entries(groupedByPosition).map(([position, members]) =>
+              members.map((member, index) => {
+                const isPresident = position.toLowerCase() === "president";
+                const isSecretary = position.toLowerCase() === "secretary";
+                const highlightClass =
+                  isPresident
+                    ? "bg-green-50 border border-zinc-400"
+                    : isSecretary
+                    ? "bg-blue-50 border border-zinc-400"
+                    : "";
 
-                  return (
-                    <tr
-                      key={member.id}
-                      className={`
-                  hover:bg-gray-50 transition
-                  ${
-                    isPresident ? "bg-green-50 border-l-4 border-green-500" : ""
-                  }
-                  ${isSecretary ? "bg-blue-50 border-l-4 border-blue-500" : ""}
-                `}
-                    >
-                      <td className="border p-3 text-center font-medium">
-                        {isPresident && (
-                          <span className="text-green-700">⭐ {position}</span>
-                        )}
-                        {isSecretary && (
-                          <span className="text-blue-700">⭐ {position}</span>
-                        )}
+                return (
+                  <tr
+                    key={member.id}
+                    className={`hover:bg-gray-50 transition ${highlightClass}`}
+                  >
+                    {index === 0 && (
+                      <td
+                        className="border border-zinc-400 p-3 text-center font-semibold align-middle"
+                        rowSpan={members.length}
+                      >
+                        {isPresident && <span className="text-green-700 ">{position}</span>}
+                        {isSecretary && <span className="text-blue-700 ">{position}</span>}
                         {!isPresident && !isSecretary && position}
                       </td>
-                      <td className="border p-3 text-center">{index + 1}</td>
-                      <td className="border p-3 text-center">{member.advocate.name_english}</td>
-                      <td className="border p-3 text-center">{member.phone}</td>
-                    </tr>
-                  );
-                })
-              )
-            )}
-          </tbody>
+                    )}
+                    <td className="border border-zinc-400 w-20 p-3 text-center">{index + 1}</td>
+                    <td className="border border-zinc-400 p-3 px-4 text-left text-gray-700 font-semibold">{member.advocate?.name_english}</td>
+                    <td className="border border-zinc-400 p-3 text-center">{member.phone}</td>
+                  </tr>
+                );
+              })
+            )
+          )}
+        </tbody>
+
         </table>
       </div>
     </div>

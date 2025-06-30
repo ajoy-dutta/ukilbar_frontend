@@ -10,6 +10,7 @@ const AdvocateFees = () => {
   const FeeData = state?.FeeData;
   let isEditMode = Boolean(FeeData);
   const [phone, setPhone] = useState("");
+  const[total, setTotal] = useState("");
 
 
   const [formData, setFormData] = useState({
@@ -175,6 +176,8 @@ const AdvocateFees = () => {
     fetchAdvocates();
   }, []);
 
+
+
   useEffect(() => {
     const selected = advocates.find(
       (a) => String(a.bar_registration_number) === String(formData.advocate_id)
@@ -182,7 +185,8 @@ const AdvocateFees = () => {
     setSelectedAdvocate(selected || null);
   }, [formData.advocate_id, advocates]);
 
-  console.log("selectedAdvocate", selectedAdvocate);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -207,7 +211,7 @@ const AdvocateFees = () => {
 
     else if (name === "phone") {
       if (value.trim() === "") {
-        setSuggestions([]);
+        setSuggestions2([]);
       }else{
       setPhone(value)
       const matches = advocates.filter((adv) =>
@@ -225,10 +229,13 @@ const AdvocateFees = () => {
       setFormData((prev) => ({
         ...prev,
         advocate_id: matchedAdvocate.bar_registration_number,
+
       }));
       setPhone(matchedAdvocate.phone)
       setSuggestions([]); // hide suggestions
     }
+
+    console.log("matchedAdvocate", matchedAdvocate)
 
 
     // Auto-fill advocate info when exact Phone number is selected
@@ -398,8 +405,62 @@ const AdvocateFees = () => {
     });
   };
 
+
+
+  const calculateGrandTotal = (data) => {
+    const getNumber = (value) => parseFloat(value) || 0;
+
+    return (
+      getNumber(data.rent_amount) +
+      getNumber(data.entry_fee) +
+      getNumber(data.total_monthly_amount) +
+      getNumber(data.total_amount) );
+  };
+
+
+  useEffect(() => {
+    const total = calculateGrandTotal(formData);
+    setTotal(total);
+
+  }, [
+    formData.rent_amount,
+    formData.entry_fee,
+    formData.total_monthly_amount,
+    formData.total_amount]
+  );
+
+
+
+
+  const calculateTotal = () => {
+    const toNum = (val) => parseFloat(val) || 0;
+
+    return (
+      toNum(formData.yearly_fee) +
+      toNum(formData.yearly_delay_fee) +
+      toNum(formData.benevolent_fund_fee) +
+      toNum(formData.benevolent_delay_fee) +
+      toNum(formData.relief_fund_fee)
+    );
+  };
+
+  useEffect(() => {
+    const total = calculateTotal();
+    setFormData((prev) => ({
+      ...prev,
+      total_amount: total
+    }));
+  }, [
+    formData.yearly_fee,
+    formData.yearly_delay_fee,
+    formData.benevolent_fund_fee,
+    formData.benevolent_delay_fee,
+    formData.relief_fund_fee
+  ]);
+
+
   return (
-    <div className="container mx-auto p-4 px-8 ">
+    <div className="container mx-auto p-4 px-8 font-serif">
       <div className="mb-4 flex flex-row justify-between">
         <h1 className="font-bold text-lg px-4">
           {isEditMode ? "Edit Fee" : "Add A New Fee"}
@@ -420,7 +481,7 @@ const AdvocateFees = () => {
             Basic Info
           </h1>
           {/* Collection Date */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
             <div className="">
               <label className="block text-gray-700 text-sm font-semibold">
                 Collection Date
@@ -434,6 +495,19 @@ const AdvocateFees = () => {
                 required
               />
             </div>
+
+
+            <div className="">
+                <label className="block text-gray-700 text-sm font-bold">
+                  Grand Total
+                </label>
+                <input
+                  type="text"
+                  value={total}
+                  className="shadow font-semibold appearance-none border border-gray-400 bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  disabled
+                />
+              </div>
 
             {/* Advocate ID (typeable & selectable) */}
             <div className="relative">
@@ -450,9 +524,8 @@ const AdvocateFees = () => {
                     name="advocate_id"
                     value={formData.advocate_id}
                     onChange={handleChange}
-                    className="shadow  pl-8 pr-2 appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow  pl-8 pr-2 border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Type or select advocate ID"
-                    autoComplete="off"
                     required
                   />
               </div>
@@ -528,7 +601,7 @@ const AdvocateFees = () => {
                     type="text"
                     value={selectedAdvocate.name_english}
                     readOnly
-                    className="bg-sky-50 border border-gray-400 rounded py-1 px-3"
+                    className="bg-sky-50 border border-gray-400 rounded  px-2"
                   />
                 </div>
 
@@ -540,7 +613,7 @@ const AdvocateFees = () => {
                     type="text"
                     value={selectedAdvocate.father_name}
                     readOnly
-                    className="bg-sky-50 border border-gray-400 rounded py-1 px-3"
+                    className="bg-sky-50 border border-gray-400 rounded  px-2"
                   />
                 </div>
 
@@ -552,7 +625,7 @@ const AdvocateFees = () => {
                     type="text"
                     value={selectedAdvocate.enrollment_date_As_member}
                     readOnly
-                    className="bg-sky-50 border border-gray-400 rounded py-1 px-3"
+                    className="bg-sky-50 border border-gray-400 rounded  px-2"
                   />
                 </div>
               </>
@@ -1027,8 +1100,9 @@ const AdvocateFees = () => {
                   name="total_amount"
                   value={formData.total_amount}
                   onChange={handleChange}
-                  className="shadow appearance-none border border-gray-400 bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border border-gray-400 bg-sky-50 rounded w-full py-1 px-3 font-semibold text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
+
               </div>
 
               <div className="mb-0">

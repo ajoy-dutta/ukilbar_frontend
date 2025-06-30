@@ -274,6 +274,7 @@ const FeeList = () => {
                 <th className="p-2 border">Bar Association Fee</th>
                 <th className="p-2 border">Monthly Fee</th>
                 <th className="p-2 border">Entry Fee</th>
+                <th className="p-2 border">Total</th>
                 <th className="p-2 border">Actions</th>
                 <th className="p-2 border">Invoice</th>
               </tr>
@@ -283,6 +284,13 @@ const FeeList = () => {
                 const advocateObj = advocates.find(
                   (adv) => adv.bar_registration_number === fee.advocate_id
                 );
+
+                const rentTotal = fee.rentcollection_set?.reduce((sum, item) => sum + (parseFloat(item.rent_amount) || 0), 0) || 0;
+                const barTotal = fee.barassociationfee_set?.reduce((sum, item) => sum + (parseFloat(item.total_amount) || 0), 0) || 0;
+                const monthlyTotal = fee.monthlyfee_set?.reduce((sum, item) => sum + (parseFloat(item.total_monthly_amount) || 0), 0) || 0;
+                const entryTotal = fee.entryfee_set?.reduce((sum, item) => sum + (parseFloat(item.entry_fee) || 0), 0) || 0;
+
+                const grandTotal = rentTotal + barTotal + monthlyTotal + entryTotal;
 
                 return (
                   <tr key={fee.id} className="border-t hover:bg-gray-50">
@@ -322,6 +330,11 @@ const FeeList = () => {
                             .join(", ")
                         : "—"}
                     </td>
+
+                    <td className="p-2 border text-right font-bold">
+                      {grandTotal}
+                    </td>
+
                     <td className="p-2 border space-x-2">
                       <button
                         onClick={() => handleEdit(fee)}

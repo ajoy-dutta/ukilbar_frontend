@@ -313,7 +313,7 @@ export const AddAdvocate = () => {
           <div className="md:col-span-1">
             <label className="block">৫. ছবি</label>
             <div className="flex flex-col items-center border border-gray-300 rounded p-2 bg-gray-50">
-              {existingPhoto && (
+              {existingPhoto && !formData.photo && (
                 <div className="">
                   <img
                     src={existingPhoto}
