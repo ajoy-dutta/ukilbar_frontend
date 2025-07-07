@@ -4,13 +4,95 @@ import { FaEdit, FaTrash, FaFilePdf, FaInfoCircle, FaPrint } from "react-icons/f
 import { IoArrowBackSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 const AdvocateList = () => {
-  // const [advocates, setAdvocates] = useState([]);
+  const [advocates, setAdvocates] = useState([]);
   const [selectedAdvocate, setSelectedAdvocate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const advocates = useSelector((state) => state.advocate.advocates);
+  const advocateList = useSelector((state) => state.advocate.advocates);
+  const[suggestions, setSuggestions] = useState([]);
+  const[suggestions2, setSuggestions2] = useState([]);
+  const[advocateId, setAdvocateId] = useState(null);
+  const[phone, setPhone] = useState(null);
+  
+
+  useEffect(() => {
+    if (advocateList && advocateList.length > 0) {
+      const sortedList = [...advocateList].sort((a, b) => {
+        return Number(a.bar_registration_number) - Number(b.bar_registration_number);
+      });
+      setAdvocates(sortedList);
+    }
+  }, [advocateList]);
+
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // For advocate_id, filter matching suggestions
+    if (name === "advocate_id") {
+      if (value.trim() === "") {
+        setSuggestions([]);
+      } else {
+        const matches = advocates.filter((adv) =>
+          adv.bar_registration_number
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        );
+        setSuggestions(matches);
+      }
+    }
+
+    else if (name === "phone") {
+      if (value.trim() === "") {
+        setSuggestions2([]);
+      }else{
+      setPhone(value)
+      const matches = advocates.filter((adv) =>
+        adv.phone.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions2(matches);
+     }
+    }
+
+    // Auto-fill advocate info when exact id is selected
+    const matchedAdvocate = advocates.find(
+      (adv) => adv.bar_registration_number === value
+    );
+    if (matchedAdvocate) {
+      setAdvocates([matchedAdvocate]);
+      setSuggestions([]); // hide suggestions
+    }
+
+    console.log("matchedAdvocate", matchedAdvocate)
+
+
+    // Auto-fill advocate info when exact Phone number is selected
+    const matchedAdvocate2 = advocates.find(
+      (adv) => adv.phone === value
+    );
+    if (matchedAdvocate2) {
+      setAdvocates([matchedAdvocate2]);
+      setSuggestions2([]); // hide suggestions
+    }
+  };
+
+  const handleSuggestionClick = (bar_registration_number,phone) => {
+    setSuggestions([]);
+    setSuggestions2([]);
+
+    setAdvocateId(bar_registration_number);
+    setPhone(phone);
+
+    const filtered = advocateList.filter(
+      (advocate) =>
+        advocate.bar_registration_number === bar_registration_number
+    );
+    setAdvocates(filtered);
+  };
 
  
   const handleDelete = async (id) => {
@@ -99,6 +181,91 @@ const AdvocateList = () => {
         <span className="text-sm font-medium">Back</span>
       </button>
 
+
+    <div className="mb-4 mt-4 flex flex-row justify-left gap-4">
+    {/* Advocate ID (typeable & selectable) */}
+        <div className="relative">
+          <label className="block text-gray-700 text-sm font-semibold">
+            Advocate ID <span className="text-red-500">*</span>
+          </label>
+
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+              </span>
+              <input
+                type="text"
+                name="advocate_id"
+                value={advocateId}
+                onChange={(e)=>{handleChange(e),setAdvocateId(e.target.value)}}
+                className="shadow  pl-8 pr-2 border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Type or select advocate ID"
+                required
+              />
+          </div>
+          {suggestions.length > 0 && (
+            <ul className="absolute z-10 bg-white border border-gray-400 border  mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
+              {suggestions.map((adv) => (
+                <li
+                  key={adv.id}
+                  onClick={() =>
+                    handleSuggestionClick(
+                      adv.bar_registration_number,
+                      adv.phone
+                    )
+                  }
+                  className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                >
+                  {adv.bar_registration_number}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Advocate Phone Number (typeable & selectable) */}
+        <div className="relative">
+          <label className="block text-gray-700 text-sm font-semibold">
+            Advocate Phone<span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+            </span>
+            <input
+              type="text"
+              name="phone"
+              value={phone}
+              onChange={(e)=>{handleChange(e),setPhone(e.target.value)}}
+              className="shadow  pl-8 pr-2 appearance-none border border-gray-400  bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Type or select Phone number"
+              autoComplete="off"
+              required
+            />
+          </div>
+          {suggestions2.length > 0 && (
+            <ul className="absolute z-10 bg-white border border-gray-400 border  mt-1 w-full max-h-40 overflow-y-auto shadow-md rounded">
+              {suggestions2.map((adv) => (
+                <li
+                  key={adv.id}
+                  onClick={() =>
+                    handleSuggestionClick(
+                      adv.bar_registration_number,
+                      adv.phone
+                    )
+                  }
+                  className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                >
+                  {adv.phone}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+      </div>
+
+
       <h2 className="text-xl font-bold mb-4">Advocate List</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full border text-sm">
@@ -115,7 +282,7 @@ const AdvocateList = () => {
             </tr>
           </thead>
           <tbody>
-            {advocates.map((adv, index) => (
+            {advocates?.map((adv, index) => (
               <tr key={adv.id} className="text-center">
                 <td className="border px-2 py-1">{index + 1}</td>
                 <td className="border px-2 py-1">{adv.name_english}</td>

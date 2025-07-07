@@ -11,15 +11,16 @@ const MemberList = () => {
   useEffect(() => {
     if (advocatesList?.length > 0) {
       const sorted = [...advocatesList].sort((a, b) =>
-        (a.enrollment_date_As_member || "").localeCompare(
-          b.enrollment_date_As_member || "",
+        (a.bar_registration_number || "").localeCompare(
+          b.bar_registration_number || "",
           undefined,
-          { numeric: true }
+          { numeric: true, sensitivity: 'base' }
         )
       );
       setAdvocates(sorted);
     }
   }, [advocatesList]);
+
 
   console.log(advocates)
 
@@ -33,7 +34,6 @@ const MemberList = () => {
       setFiltered(filteredData);
     }
   }, [filter, advocates]);
-  // bg-[#f5efe9]
   return (
     <div className="bg-teal-50">
       <div className="py-10 px-4 md:px-12">
@@ -110,6 +110,14 @@ const MemberList = () => {
                       </td>
                       <td className="text-gray-800 px-2 border border-[#d8c4b6]">
                         {advocate.bar_registration_number}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="bg-[#d8c4b6] text-right text-gray-600 px-2 border border-[#d8c4b6] w-1/3">
+                        Enrollment Date
+                      </td>
+                      <td className="text-gray-800 px-2 border border-[#d8c4b6]">
+                        {advocate.enrollment_date_As_lawyer}
                       </td>
                     </tr>
                     <tr>
