@@ -57,27 +57,6 @@ const AdvocateList = () => {
       setSuggestions2(matches);
      }
     }
-
-    // Auto-fill advocate info when exact id is selected
-    const matchedAdvocate = advocates.find(
-      (adv) => adv.bar_registration_number === value
-    );
-    if (matchedAdvocate) {
-      setAdvocates([matchedAdvocate]);
-      setSuggestions([]); // hide suggestions
-    }
-
-    console.log("matchedAdvocate", matchedAdvocate)
-
-
-    // Auto-fill advocate info when exact Phone number is selected
-    const matchedAdvocate2 = advocates.find(
-      (adv) => adv.phone === value
-    );
-    if (matchedAdvocate2) {
-      setAdvocates([matchedAdvocate2]);
-      setSuggestions2([]); // hide suggestions
-    }
   };
 
   const handleSuggestionClick = (bar_registration_number,phone) => {
