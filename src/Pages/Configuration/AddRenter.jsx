@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AxiosInstance from "../../Components/AxiosInstance";
 
 export const AddRenter = () => {
@@ -11,6 +11,8 @@ export const AddRenter = () => {
         phone: '',
         category: '',
         remarks: '',
+        from_date:'',
+        to_date:'',
         building_name: '',
         floor_no: '',
         room_no: '',
@@ -19,7 +21,6 @@ export const AddRenter = () => {
     const [currentRenterId, setCurrentRenterId] = useState(null);
     const navigate = useNavigate();
 
-    // Fetch buildings and renters on component mount
     useEffect(() => {
         fetchBuildings();
         fetchRenters();
@@ -71,6 +72,8 @@ export const AddRenter = () => {
             renter_name: renter.renter_name,
             address: renter.address,
             phone: renter.phone,
+            from_date:renter.from_date,
+            to_date:renter.to_date,
             category: renter.category,
             remarks: renter.remarks,
             building_name: renter.building_name.id,
@@ -82,7 +85,7 @@ export const AddRenter = () => {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('আপনি কি এই ভাড়াটিয়াকে মুছে ফেলতে চান?')) {
+        if (window.confirm('Are you sure you want to delete this renter?')) {
             try {
                 await AxiosInstance.delete(`renters/${id}/`);
                 fetchRenters();
@@ -97,6 +100,8 @@ export const AddRenter = () => {
             renter_name: '',
             address: '',
             phone: '',
+            from_date:'',
+            to_date:'',
             category: '',
             remarks: '',
             building_name: '',
@@ -110,15 +115,15 @@ export const AddRenter = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4 mx-4 text-gray-800">
-                {currentRenterId ? 'ভাড়াটিয়া সম্পাদনা করুন' : 'নতুন ভাড়াটিয়া যোগ করুন'}
+                {currentRenterId ? 'Edit Renter' : 'Add New Renter'}
             </h1>
             
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Renter Information */}
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="renter_name">
-                            ভাড়াটিয়ার নাম
+
+                    <div>
+                        <label className="block text-gray-700  font-bold" htmlFor="renter_name">
+                            Renter Name
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -127,14 +132,14 @@ export const AddRenter = () => {
                             type="text"
                             value={formData.renter_name}
                             onChange={handleChange}
-                            placeholder="ভাড়াটিয়ার পুরো নাম লিখুন"
+                            placeholder="Enter full renter name"
                             required
                         />
                     </div>
 
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="phone">
-                            ফোন নম্বর
+                    <div>
+                        <label className="block text-gray-700 font-bold" htmlFor="phone">
+                            Phone Number
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -143,14 +148,14 @@ export const AddRenter = () => {
                             type="text"
                             value={formData.phone}
                             onChange={handleChange}
-                            placeholder="০১XXXXXXXX"
+                            placeholder="e.g. 01XXXXXXXX"
                             required
                         />
                     </div>
 
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="address">
-                            ঠিকানা
+                    <div>
+                        <label className="block text-gray-700 font-bold" htmlFor="address">
+                            Address
                         </label>
                         <textarea
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -158,14 +163,14 @@ export const AddRenter = () => {
                             name="address"
                             value={formData.address}
                             onChange={handleChange}
-                            placeholder="বিস্তারিত ঠিকানা লিখুন"
+                            placeholder="Enter detailed address"
                             required
                         />
                     </div>
 
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="category">
-                            ক্যাটাগরি
+                    <div>
+                        <label className="block text-gray-700 font-bold" htmlFor="category">
+                            Category
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -174,14 +179,13 @@ export const AddRenter = () => {
                             type="text"
                             value={formData.category}
                             onChange={handleChange}
-                            placeholder="ভাড়াটিয়ার ধরন (ব্যবসায়ী/অফিস/অন্যান্য)"
+                            placeholder="Type (Chamber/Business/Office/Other)"
                         />
                     </div>
 
-                    {/* Building Information */}
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="building_name">
-                            বিল্ডিং নির্বাচন করুন
+                    <div>
+                        <label className="block text-gray-700  font-bold" htmlFor="building_name">
+                            Select Building
                         </label>
                         <select
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -191,7 +195,7 @@ export const AddRenter = () => {
                             onChange={handleChange}
                             required
                         >
-                            <option value="">বিল্ডিং নির্বাচন করুন</option>
+                            <option value="">Select Building</option>
                             {buildings.map(building => (
                                 <option key={building.id} value={building.id}>
                                     {building.building_name}
@@ -200,9 +204,9 @@ export const AddRenter = () => {
                         </select>
                     </div>
 
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="floor_no">
-                            ফ্লোর নম্বর
+                    <div>
+                        <label className="block text-gray-700  font-bold" htmlFor="floor_no">
+                            Floor Number
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -211,14 +215,14 @@ export const AddRenter = () => {
                             type="text"
                             value={formData.floor_no}
                             onChange={handleChange}
-                            placeholder="যেমন: ৩য় তলা"
+                            placeholder="e.g. 3rd Floor"
                             required
                         />
                     </div>
 
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="room_no">
-                            রুম নম্বর
+                    <div>
+                        <label className="block text-gray-700  font-bold" htmlFor="room_no">
+                            Room Number
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -227,14 +231,42 @@ export const AddRenter = () => {
                             type="text"
                             value={formData.room_no}
                             onChange={handleChange}
-                            placeholder="যেমন: ৩০১"
+                            placeholder="e.g. 301"
                             required
                         />
                     </div>
 
-                    <div className="">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="rent_amount">
-                            ভাড়ার পরিমাণ
+                    <div className="mb-2">
+                    <label htmlFor="from_date" className="block text-sm font-medium text-gray-800 mb-1">
+                         From Date
+                    </label>
+                    <input
+                        type="date"
+                        id="from_date"
+                        name="from_date"
+                        value={formData.from_date}
+                        onChange={handleChange}
+                        className="border p-2 w-full mb-2"
+                    />
+                    </div>
+
+                    <div className="mb-2">
+                    <label htmlFor="to_date" className="block text-sm font-medium text-gray-800 mb-1">
+                        End Date
+                    </label>
+                    <input
+                        type="date"
+                        id="to_date"
+                        name="to_date"
+                        value={formData.to_date}
+                        onChange={handleChange}
+                        className="border p-2 w-full mb-2"
+                    />
+                    </div>
+
+                    <div>
+                        <label className="block text-gray-700 font-bold" htmlFor="rent_amount">
+                            Rent Amount
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -244,14 +276,14 @@ export const AddRenter = () => {
                             step="0.01"
                             value={formData.rent_amount}
                             onChange={handleChange}
-                            placeholder="টাকায় লিখুন"
+                            placeholder="Amount in Taka"
                             required
                         />
                     </div>
 
                     <div className="col-span-1">
-                        <label className="block text-gray-700 text-sm font-bold " htmlFor="remarks">
-                            মন্তব্য
+                        <label className="block text-gray-700 font-bold" htmlFor="remarks">
+                            Remarks
                         </label>
                         <textarea
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
@@ -259,7 +291,7 @@ export const AddRenter = () => {
                             name="remarks"
                             value={formData.remarks}
                             onChange={handleChange}
-                            placeholder="অতিরিক্ত তথ্য (যদি থাকে)"
+                            placeholder="Additional info (if any)"
                         />
                     </div>
                 </div>
@@ -269,7 +301,7 @@ export const AddRenter = () => {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
-                        {currentRenterId ? 'আপডেট করুন' : 'যোগ করুন'}
+                        {currentRenterId ? 'Update' : 'Add'}
                     </button>
                     {currentRenterId && (
                         <button
@@ -277,7 +309,7 @@ export const AddRenter = () => {
                             type="button"
                             onClick={resetForm}
                         >
-                            বাতিল করুন
+                            Cancel
                         </button>
                     )}
                 </div>
@@ -285,41 +317,45 @@ export const AddRenter = () => {
 
             {/* Renters List */}
             <div className="bg-white shadow-md rounded px-4 pt-4 pb-8">
-                <h2 className="text-xl font-bold mb-4 text-gray-800">ভাড়াটিয়াদের তালিকা</h2>
+                <h2 className="text-xl font-bold mb-4 text-gray-800">Renter List</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white">
                         <thead>
                             <tr>
-                               <th className="py-2 px-4 border-b">SL</th>
-                                <th className="py-2 px-4 border-b">নাম</th>
-                                <th className="py-2 px-4 border-b">ফোন</th>
-                                <th className="py-2 px-4 border-b">বিল্ডিং</th>
-                                <th className="py-2 px-4 border-b">ফ্লোর/রুম</th>
-                                <th className="py-2 px-4 border-b">ভাড়া</th>
-                                <th className="py-2 px-4 border-b">অ্যাকশন</th>
+                                <th className="py-2 px-4 border-b">SL</th>
+                                <th className="py-2 px-4 border-b">Name</th>
+                                <th className="py-2 px-4 border-b">Phone</th>
+                                <th className="py-2 px-4 border-b">Building</th>
+                                <th className="py-2 px-4 border-b">Floor/Room</th>
+                                <th className="py-2 px-4 border-b">Period</th>
+                                <th className="py-2 px-4 border-b">Rent</th>
+                                <th className="py-2 px-4 border-b">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {renters.map((renter,index) => (
+                            {renters.map((renter, index) => (
                                 <tr key={renter.id} className="text-center">
-                                    <td className="py-2 px-4 border-b">{index+1}</td>
+                                    <td className="py-2 px-4 border-b">{index + 1}</td>
                                     <td className="py-2 px-4 border-b">{renter.renter_name}</td>
                                     <td className="py-2 px-4 border-b">{renter.phone}</td>
                                     <td className="py-2 px-4 border-b">{renter.building_name}</td>
                                     <td className="py-2 px-4 border-b">{renter.floor_no}/{renter.room_no}</td>
+                                    <td className="py-2 px-4 border-b">
+                                    {renter.from_date} - {renter.to_date}
+                                    </td>
                                     <td className="py-2 px-4 border-b">{renter.rent_amount}</td>
                                     <td className="py-2 px-4 border-b">
                                         <button
                                             className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2"
                                             onClick={() => handleEdit(renter)}
                                         >
-                                            সম্পাদনা
+                                            Edit
                                         </button>
                                         <button
                                             className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                                             onClick={() => handleDelete(renter.id)}
                                         >
-                                            মুছুন
+                                            Delete
                                         </button>
                                     </td>
                                 </tr>

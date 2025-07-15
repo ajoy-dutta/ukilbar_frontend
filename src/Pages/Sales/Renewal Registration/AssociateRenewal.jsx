@@ -21,15 +21,14 @@ const AssociateRenewal = () =>{
  const [formData, setFormData] = useState({
     receipt_no: "",
     registration_date: new Date().toISOString().slice(0, 10),
+    from_year: "",
+    to_year: "",
     license_no: "",
     name: "",
-    // year: "",
     advocate_name: "",
     advocate_id: "",
-    // type: "",
     entry_fee: "",
     book_rate: "",
-    // renewal_fee: "",
     total: "",
     remarks: "",
   });
@@ -62,6 +61,21 @@ const AssociateRenewal = () =>{
             );
             setSuggestions(matches);
            }
+
+            // Auto-fill advocate name when exact match is selected
+            const matchedAdv = advocates.find(
+            (adv) => adv.bar_registration_number === value
+            );
+            if (matchedAdv) {
+            console.log("clicked");
+            setFormData((prev) => ({
+                ...prev,
+                advocate_id: matchedAdv.bar_registration_number,
+                advocate_name: matchedAdv.name_english,
+            }));
+            setPhone(matchedAdv.phone)
+            setSuggestions([]);
+            }
         }
 
          else if (name === "phone") {
@@ -73,35 +87,23 @@ const AssociateRenewal = () =>{
                 adv.phone.toLowerCase().includes(value.toLowerCase()));
             setSuggestions2(matches);
             }
+
+            // Auto-fill advocateInfo when exact phone match is selected
+            const matchedAdvocate1 = advocates.find(
+            (adv) => adv.phone === value
+            );
+            if (matchedAdvocate1) {
+            setFormData((prev) => ({
+                ...prev,
+                advocate_id: matchedAdvocate1.bar_registration_number,
+                advocate_name: matchedAdvocate1.name_english,
+            }));
+            setPhone(matchedAdvocate1.phone)
+            setSuggestions2([]); // hide suggestions
+            }
         }
 
-        // Auto-fill advocate name when exact match is selected
-        const matchedAdv = advocates.find(
-        (adv) => adv.bar_registration_number === value
-        );
-        if (matchedAdv) {
-        setFormData((prev) => ({
-            ...prev,
-            advocate_id: matchedAdv.bar_registration_number,
-            advocate_name: matchedAdv.name_english,
-        }));
-        setPhone(matchedAdv.phone)
-        setSuggestions([]);
-        }
-
-        // Auto-fill advocateInfo when exact phone match is selected
-        const matchedAdvocate1 = advocates.find(
-        (adv) => adv.phone === value
-        );
-        if (matchedAdvocate1) {
-        setFormData((prev) => ({
-            ...prev,
-            advocateId: matchedAdvocate1.bar_registration_number,
-            advocate_name: matchedAdvocate1.name_english,
-        }));
-        setPhone(matchedAdvocate1.phone)
-        setSuggestions2([]); // hide suggestions
-        }
+    
     };
 
 
@@ -142,15 +144,14 @@ const AssociateRenewal = () =>{
         setFormData({
             receipt_no: "",
             registration_date: new Date().toISOString().slice(0, 10),
+            from_year: "",
+            to_year: "",
             license_no: "",
             name: "",
-            // year: "",
             advocate_name: "",
             advocate_id: "",
-            // type: "",
             entry_fee: "",
             book_rate: "",
-            // renewal_fee: "",
             total: "",
             remarks: "",
         });
