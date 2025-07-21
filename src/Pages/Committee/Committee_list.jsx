@@ -6,10 +6,7 @@ export default function Committee_list() {
   const [filteredList, setFilteredList] = useState([]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-  const years = Array.from(
-    { length: 11 },
-    (_, i) => new Date().getFullYear() - i
-  );
+  const years = Array.from({ length: 11 }, (_, i) => new Date().getFullYear() - i);
 
   const fetchCommitteeList = async () => {
     try {
@@ -24,19 +21,42 @@ export default function Committee_list() {
     fetchCommitteeList();
   }, []);
 
-  const groupedByPosition = filteredList.reduce((acc, item) => {
-    const position = item.committee_position || "Other";
-    if (!acc[position]) acc[position] = [];
-    acc[position].push(item);
-    return acc;
-  }, {});
-
   useEffect(() => {
     const filtered = committeeList.filter(
       (item) => Number(item.year) === Number(selectedYear)
     );
     setFilteredList(filtered);
   }, [selectedYear, committeeList]);
+
+  // Define desired position order
+  const positionOrder = [
+    "President",
+    "Vice President",
+    "Secretary",
+    "Joint Secretary",
+    "Assistant Secretary",
+    "Library Secretary",
+    "Member",
+  ];
+
+  // Sort filtered list based on position order
+  const sortedFilteredList = [...filteredList].sort((a, b) => {
+    const aIndex = positionOrder.indexOf(a.committee_position) !== -1
+      ? positionOrder.indexOf(a.committee_position)
+      : positionOrder.length;
+    const bIndex = positionOrder.indexOf(b.committee_position) !== -1
+      ? positionOrder.indexOf(b.committee_position)
+      : positionOrder.length;
+    return aIndex - bIndex;
+  });
+
+  // Group sorted list by position
+  const groupedByPosition = sortedFilteredList.reduce((acc, item) => {
+    const position = item.committee_position || "Other";
+    if (!acc[position]) acc[position] = [];
+    acc[position].push(item);
+    return acc;
+  }, {});
 
   return (
     <div className="p-4 max-w-5xl mx-auto font-serif">
@@ -60,8 +80,7 @@ export default function Committee_list() {
 
       <div className="overflow-x-auto flex flex-col items-center border border-zinc-300 rounded shadow-md mt-6 p-4 bg-white">
         <h2 className="text-center text-lg md:text-xl font-bold mb-4 text-gray-800">
-          Executive Committee {selectedYear} — Jashore District Lawyers
-          Association
+          Executive Committee {selectedYear} — Jashore District Lawyers Association
         </h2>
 
         <table className="w-3/4 border-collapse mb-4">
@@ -81,50 +100,55 @@ export default function Committee_list() {
               </th>
             </tr>
           </thead>
-        <tbody className="divide-y divide-gray-100">
-          {Object.keys(groupedByPosition).length === 0 ? (
-            <tr>
-              <td className="border p-3 text-center text-gray-500" colSpan={4}>
-                No committee found for {selectedYear}.
-              </td>
-            </tr>
-          ) : (
-            Object.entries(groupedByPosition).map(([position, members]) =>
-              members.map((member, index) => {
-                const isPresident = position.toLowerCase() === "president";
-                const isSecretary = position.toLowerCase() === "secretary";
-                const highlightClass =
-                  isPresident
-                    ? "bg-green-50 border border-zinc-400"
-                    : isSecretary
-                    ? "bg-blue-50 border border-zinc-400"
-                    : "";
+          <tbody className="divide-y divide-gray-100">
+            {Object.keys(groupedByPosition).length === 0 ? (
+              <tr>
+                <td className="border p-3 text-center text-gray-500" colSpan={4}>
+                  No committee found for {selectedYear}.
+                </td>
+              </tr>
+            ) : (
+              Object.entries(groupedByPosition).map(([position, members]) =>
+                members.map((member, index) => {
+                  const isPresident = position.toLowerCase() === "president";
+                  const isSecretary = position.toLowerCase() === "secretary";
+                  const highlightClass =
+                    isPresident
+                      ? "bg-green-50 border border-zinc-400"
+                      : isSecretary
+                      ? "bg-blue-50 border border-zinc-400"
+                      : "";
 
-                return (
-                  <tr
-                    key={member.id}
-                    className={`hover:bg-gray-50 transition ${highlightClass}`}
-                  >
-                    {index === 0 && (
-                      <td
-                        className="border border-zinc-400 p-3 text-center font-semibold align-middle"
-                        rowSpan={members.length}
-                      >
-                        {isPresident && <span className="text-green-700 ">{position}</span>}
-                        {isSecretary && <span className="text-blue-700 ">{position}</span>}
-                        {!isPresident && !isSecretary && position}
+                  return (
+                    <tr
+                      key={member.id}
+                      className={`hover:bg-gray-50 transition ${highlightClass}`}
+                    >
+                      {index === 0 && (
+                        <td
+                          className="border border-zinc-400 p-3 text-center font-semibold align-middle"
+                          rowSpan={members.length}
+                        >
+                          {isPresident && <span className="text-green-700">{position}</span>}
+                          {isSecretary && <span className="text-blue-700">{position}</span>}
+                          {!isPresident && !isSecretary && position}
+                        </td>
+                      )}
+                      <td className="border border-zinc-400 w-20 p-3 text-center">
+                        {index + 1}
                       </td>
-                    )}
-                    <td className="border border-zinc-400 w-20 p-3 text-center">{index + 1}</td>
-                    <td className="border border-zinc-400 p-3 px-4 text-left text-gray-700 font-semibold">{member.advocate?.name_english}</td>
-                    <td className="border border-zinc-400 p-3 text-center">{member.phone}</td>
-                  </tr>
-                );
-              })
-            )
-          )}
-        </tbody>
-
+                      <td className="border border-zinc-400 p-3 px-4 text-left text-gray-700 font-semibold">
+                        {member.advocate?.name_english}
+                      </td>
+                      <td className="border border-zinc-400 p-3 text-center">
+                        {member.phone}
+                      </td>
+                    </tr>
+                  );
+                })
+              )
+            )}
+          </tbody>
         </table>
       </div>
     </div>
