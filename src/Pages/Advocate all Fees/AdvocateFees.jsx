@@ -20,8 +20,10 @@ const AdvocateFees = () => {
 
     // House Rent
     house_fee_form: false,
-    month: "",
-    year: "",
+    from_month: "",
+    from_year: "",
+    to_month: "",
+    to_year: "",
     rent_type: "House",
     building_name: "",
     floor: "",
@@ -87,8 +89,10 @@ const AdvocateFees = () => {
 
         // House Rent
         house_fee_form: !FeeData.rentcollection_set?.length,
-        month: rent.month || "",
-        year: rent.year || "",
+        from_month: rent.from_month || "",
+        from_year: rent.from_year || "",
+        to_month: rent.to_month || "",
+        to_year: rent.to_year || "",
         rent_type: rent.rent_type || "House",
         building_name: rent.building_name || "",
         floor: rent.floor || "",
@@ -273,8 +277,10 @@ const AdvocateFees = () => {
       payload.house_fee_form = true;
       payload.rentcollection_set = [
         {
-          month: formData.month,
-          year: formData.year,
+          from_month: formData.from_month,
+          from_year: formData.from_year,
+          to_month: formData.to_month,
+          to_year: formData.to_year,
           rent_type: formData.rent_type,
           building_name: formData.building_name,
           floor: formData.floor,
@@ -362,8 +368,10 @@ const AdvocateFees = () => {
 
       // House Rent
       house_fee_form: false,
-      month: "",
-      year: "",
+      from_month: "",
+      from_year: "",
+      to_month: "",
+      to_year: "",
       rent_type: "",
       building_name: "",
       floor: "",
@@ -641,11 +649,11 @@ const AdvocateFees = () => {
             {/* Month and Year */}
             <div className="">
               <label className="block text-gray-700 text-sm font-semibold ">
-                Month
+                From Month
               </label>
               <select
-                name="month"
-                value={formData.month}
+                name="from_month"
+                value={formData.from_month}
                 onChange={handleChange}
                 className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
@@ -660,11 +668,50 @@ const AdvocateFees = () => {
 
             <div className="">
               <label className="block text-gray-700 text-sm font-semibold ">
-                Year
+                From Year
               </label>
               <select
-                name="year"
-                value={formData.year}
+                name="from_year"
+                value={formData.from_year}
+                onChange={handleChange}
+                className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="">Select Year</option>
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+
+            <div className="">
+              <label className="block text-gray-700 text-sm font-semibold ">
+                To Month
+              </label>
+              <select
+                name="to_month"
+                value={formData.to_month}
+                onChange={handleChange}
+                className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="">Select Month</option>
+                {months.map((month, index) => (
+                  <option key={index} value={index + 1}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="">
+              <label className="block text-gray-700 text-sm font-semibold ">
+                To Year
+              </label>
+              <select
+                name="to_year"
+                value={formData.to_year}
                 onChange={handleChange}
                 className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >

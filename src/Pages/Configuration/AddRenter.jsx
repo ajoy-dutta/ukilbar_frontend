@@ -13,10 +13,11 @@ export const AddRenter = () => {
         remarks: '',
         from_date:'',
         to_date:'',
-        building_name: '',
+        building: '',
         floor_no: '',
         room_no: '',
-        rent_amount: ''
+        rent_amount: '',
+        security_amount:''
     });
     const [currentRenterId, setCurrentRenterId] = useState(null);
     const navigate = useNavigate();
@@ -53,6 +54,7 @@ export const AddRenter = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log("formData", formData);
         e.preventDefault();
         try {
             if (currentRenterId) {
@@ -76,10 +78,11 @@ export const AddRenter = () => {
             to_date:renter.to_date,
             category: renter.category,
             remarks: renter.remarks,
-            building_name: renter.building_name.id,
+            building: renter.building_details.id,
             floor_no: renter.floor_no,
             room_no: renter.room_no,
-            rent_amount: renter.rent_amount
+            rent_amount: renter.rent_amount,
+            security_amount:renter.security_amount,
         });
         setCurrentRenterId(renter.id);
     };
@@ -104,16 +107,17 @@ export const AddRenter = () => {
             to_date:'',
             category: '',
             remarks: '',
-            building_name: '',
+            building: '',
             floor_no: '',
             room_no: '',
-            rent_amount: ''
+            rent_amount: '',
+            security_amount: ''
         });
         setCurrentRenterId(null);
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 font-serif">
             <h1 className="text-2xl font-bold mb-4 mx-4 text-gray-800">
                 {currentRenterId ? 'Edit Renter' : 'Add New Renter'}
             </h1>
@@ -126,7 +130,7 @@ export const AddRenter = () => {
                             Renter Name
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="renter_name"
                             name="renter_name"
                             type="text"
@@ -142,7 +146,7 @@ export const AddRenter = () => {
                             Phone Number
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="phone"
                             name="phone"
                             type="text"
@@ -158,7 +162,7 @@ export const AddRenter = () => {
                             Address
                         </label>
                         <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="address"
                             name="address"
                             value={formData.address}
@@ -172,27 +176,36 @@ export const AddRenter = () => {
                         <label className="block text-gray-700 font-bold" htmlFor="category">
                             Category
                         </label>
-                        <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                        <select
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="category"
                             name="category"
-                            type="text"
                             value={formData.category}
                             onChange={handleChange}
-                            placeholder="Type (Chamber/Business/Office/Other)"
-                        />
-                    </div>
+                        >
+                            <option value="" disabled>
+                            Type (Chamber/Business/Office/Other)
+                            </option>
+                            <option value="Chamber">Chamber</option>
+                            <option value="Business">Business</option>
+                            <option value="Office">Office</option>
+                            <option value="Other">Other</option>
+                        </select>
+                     </div>
+
 
                     <div>
                         <label className="block text-gray-700  font-bold" htmlFor="building_name">
                             Select Building
                         </label>
                         <select
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
-                            id="building_name"
-                            name="building_name"
-                            value={formData.building_name}
-                            onChange={handleChange}
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            id="building"
+                            name="building"
+                            value={formData.building}
+                            onChange={(e) =>
+                                setFormData({ ...formData, building: Number(e.target.value) })
+                            }
                             required
                         >
                             <option value="">Select Building</option>
@@ -209,7 +222,7 @@ export const AddRenter = () => {
                             Floor Number
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="floor_no"
                             name="floor_no"
                             type="text"
@@ -225,7 +238,7 @@ export const AddRenter = () => {
                             Room Number
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="room_no"
                             name="room_no"
                             type="text"
@@ -246,7 +259,7 @@ export const AddRenter = () => {
                         name="from_date"
                         value={formData.from_date}
                         onChange={handleChange}
-                        className="border p-2 w-full mb-2"
+                        className="border py-1 px-2 w-full mb-2"
                     />
                     </div>
 
@@ -260,7 +273,7 @@ export const AddRenter = () => {
                         name="to_date"
                         value={formData.to_date}
                         onChange={handleChange}
-                        className="border p-2 w-full mb-2"
+                        className="border py-1 px-2 w-full mb-2"
                     />
                     </div>
 
@@ -269,12 +282,29 @@ export const AddRenter = () => {
                             Rent Amount
                         </label>
                         <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="rent_amount"
                             name="rent_amount"
                             type="number"
-                            step="0.01"
+                            step="1"
                             value={formData.rent_amount}
+                            onChange={handleChange}
+                            placeholder="Amount in Taka"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-gray-700 font-bold" htmlFor="security_amount">
+                            Security Amount
+                        </label>
+                        <input
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            id="security_amount"
+                            name="security_amount"
+                            type="number"
+                            step="1"
+                            value={formData.security_amount}
                             onChange={handleChange}
                             placeholder="Amount in Taka"
                             required
@@ -286,7 +316,7 @@ export const AddRenter = () => {
                             Remarks
                         </label>
                         <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                            className="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                             id="remarks"
                             name="remarks"
                             value={formData.remarks}
@@ -298,14 +328,14 @@ export const AddRenter = () => {
 
                 <div className="flex items-center justify-between">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"
                     >
                         {currentRenterId ? 'Update' : 'Add'}
                     </button>
                     {currentRenterId && (
                         <button
-                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline"
                             type="button"
                             onClick={resetForm}
                         >
@@ -322,31 +352,33 @@ export const AddRenter = () => {
                     <table className="min-w-full bg-white">
                         <thead>
                             <tr>
-                                <th className="py-2 px-4 border-b">SL</th>
-                                <th className="py-2 px-4 border-b">Name</th>
-                                <th className="py-2 px-4 border-b">Phone</th>
-                                <th className="py-2 px-4 border-b">Building</th>
-                                <th className="py-2 px-4 border-b">Floor/Room</th>
-                                <th className="py-2 px-4 border-b">Period</th>
-                                <th className="py-2 px-4 border-b">Rent</th>
-                                <th className="py-2 px-4 border-b">Action</th>
+                                <th className="py-1 px-4 border-b">SL</th>
+                                <th className="py-1 px-4 border-b">Name</th>
+                                <th className="py-1 px-4 border-b">Phone</th>
+                                <th className="py-1 px-4 border-b">Building</th>
+                                <th className="py-1 px-4 border-b">Floor/Room</th>
+                                <th className="py-1 px-4 border-b">Period</th>
+                                <th className="py-1 px-4 border-b">Rent</th>
+                                <th className="py-1 px-4 border-b">Security</th>
+                                <th className="py-1 px-4 border-b">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {renters.map((renter, index) => (
                                 <tr key={renter.id} className="text-center">
-                                    <td className="py-2 px-4 border-b">{index + 1}</td>
-                                    <td className="py-2 px-4 border-b">{renter.renter_name}</td>
-                                    <td className="py-2 px-4 border-b">{renter.phone}</td>
-                                    <td className="py-2 px-4 border-b">{renter.building_name}</td>
-                                    <td className="py-2 px-4 border-b">{renter.floor_no}/{renter.room_no}</td>
-                                    <td className="py-2 px-4 border-b">
+                                    <td className="py-1 px-4 border-b">{index + 1}</td>
+                                    <td className="py-1 px-4 border-b">{renter.renter_name}</td>
+                                    <td className="py-1 px-4 border-b">{renter.phone}</td>
+                                    <td className="py-1 px-4 border-b">{renter.building_details.building_name}</td>
+                                    <td className="py-1 px-4 border-b">{renter.floor_no}/{renter.room_no}</td>
+                                    <td className="py-1 px-4 border-b">
                                     {renter.from_date} - {renter.to_date}
                                     </td>
-                                    <td className="py-2 px-4 border-b">{renter.rent_amount}</td>
-                                    <td className="py-2 px-4 border-b">
+                                    <td className="py-1 px-4 border-b">{renter.rent_amount}</td>
+                                     <td className="py-1 px-4 border-b">{renter.security_amount}</td>
+                                    <td className="flex flex-col gap-2 py-1 px-4 border-b">
                                         <button
-                                            className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2"
+                                            className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-1 px-2 rounded mr-2"
                                             onClick={() => handleEdit(renter)}
                                         >
                                             Edit

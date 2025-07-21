@@ -46,11 +46,27 @@ const AdvocateChange = () => {
         );
         setSuggestions(matches);
       }
+
+
+      // Auto-fill advocate id when exact match is selected
+      const matchedAdv = advocates.find(
+        (adv) => adv.bar_registration_number === value
+      );
+      if (matchedAdv) {
+        setFormData((prev) => ({
+          ...prev,
+          advocate_id: matchedAdv.bar_registration_number,
+          advocate_name: matchedAdv.name_english,
+        }));
+        setSuggestions([]); // hide suggestions
+      }
+      
     }
 
 
 
     else if (name === "advocate_name") {
+
       if (value.trim() === "") {
         setSuggestions([]);
        }
@@ -67,23 +83,9 @@ const AdvocateChange = () => {
         });
         setSuggestions2(matches);
       }
+
     }
-
-
-
-
-    // Auto-fill advocate name when exact match is selected
-    const matchedAdv = advocates.find(
-      (adv) => adv.bar_registration_number === value
-    );
-    if (matchedAdv) {
-      setFormData((prev) => ({
-        ...prev,
-        advocate_id: matchedAdv.bar_registration_number,
-        advocate_name: matchedAdv.name_english,
-      }));
-      setSuggestions([]); // hide suggestions
-    }
+   
   };
 
   const handleSuggestionClick = (bar_registration_number, name) => {

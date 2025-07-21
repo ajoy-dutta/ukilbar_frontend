@@ -34,6 +34,7 @@ const Vokalotnama = () => {
   const [phone, setPhone] = useState("");
   const advocates = useSelector((state) => state.advocate.advocates);
   const [isBanglaInput, setIsBanglaInput] = useState(false);
+  const [buildings, setBuildings] = useState([]);
 
 
   const handleTypeChange = (e) => {
@@ -160,6 +161,21 @@ const Vokalotnama = () => {
   };
 
 
+  useEffect(() => {
+        fetchBuildings();
+    }, []);
+
+  const fetchBuildings = async () => {
+        try {
+            const response = await AxiosInstance.get('buildings/');
+            setBuildings(response.data);
+        } catch (error) {
+            console.error('Error fetching buildings:', error);
+        }
+    };
+
+
+
 
   const handleSerialChange = (index, field, value) => {
     const updatedSerials = [...formData.serials];
@@ -267,7 +283,7 @@ const Vokalotnama = () => {
           >
             <option value="Vokalotnama">Vokalotnama</option>
             <option value="Cartis Paper">Cartis Paper</option>
-            <option value="Sticker">Sticker</option>
+            <option value="Notery Sticker">Notery Sticker</option>
           </select>
         </div>
 
@@ -410,16 +426,25 @@ const Vokalotnama = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Building Name</label>
-            <input
-              name="building_name"
-              type="text"
-              value={formData.building_name}
-              onChange={handleChange}
-              placeholder="Building Name"
-              className="border px-2 rounded-md w-full bg-gray-100"
-            />
-          </div>
+            <label className="block text-gray-700  font-bold" htmlFor="building_name">
+                Select Building
+            </label>
+            <select
+                className="shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                id="building_name"
+                name="building_name"
+                value={formData.building_name}
+                onChange={handleChange}
+                required
+            >
+                <option value="">Select Building</option>
+                {buildings.map(building => (
+                    <option key={building.id} value={building.building_name}>
+                        {building.building_name}
+                    </option>
+                ))}
+            </select>
+        </div>
 
         </div>
       </div>
@@ -468,7 +493,7 @@ const Vokalotnama = () => {
     <div className="grid grid-cols-2 gap-6 mb-4">
   {/* Vokalotnama Serial Section */}
   <div className="border rounded-md p-4">
-    <h3 className="text-lg font-medium mb-2">Vokalotnama Serial No.</h3>
+    <h3 className="text-lg font-medium mb-2">{formData.sale_type} Serial No.</h3>
     <div className="grid grid-cols-3 gap-3">
       {formData.serials.map((item, index) => (
         <React.Fragment key={index}>

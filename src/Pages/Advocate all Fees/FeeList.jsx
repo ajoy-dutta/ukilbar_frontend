@@ -335,7 +335,7 @@ const FeeList = () => {
                       {grandTotal}
                     </td>
 
-                    <td className="p-2 border space-x-2">
+                    <td className="p-2 flex flex-col gap-2 border space-x-2">
                       <button
                         onClick={() => handleEdit(fee)}
                         className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
