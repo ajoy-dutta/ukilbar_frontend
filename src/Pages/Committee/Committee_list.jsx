@@ -126,12 +126,10 @@ export default function Committee_list() {
                     >
                       {index === 0 && (
                         <td
-                          className="border border-zinc-400 p-3 text-center font-semibold align-middle"
+                          className="border border-zinc-400 p-3 text-left font-semibold align-middle"
                           rowSpan={members.length}
                         >
-                          {isPresident && <span className="text-green-700">{position}</span>}
-                          {isSecretary && <span className="text-blue-700">{position}</span>}
-                          {!isPresident && !isSecretary && position}
+                          {position}
                         </td>
                       )}
                       <td className="border border-zinc-400 w-20 p-3 text-center">
