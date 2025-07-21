@@ -3,16 +3,50 @@ import AxiosInstance from "../../Components/AxiosInstance";
 
 export default function History() {
   const [committeeMembers, setCommitteeMembers] = useState([]);
+  const currentYear = new Date().getFullYear();
+
+  // useEffect(() => {
+  //   AxiosInstance.get("committees/")
+  //   .then((res) => {
+  //     const filtered = res.data.filter((item) => Number(item.year) === currentYear);
+  //     setCommitteeMembers(filtered);
+  //   })
+  //   .catch((err) => {
+  //     console.error("Failed to fetch committee data", err);
+  //   });
+  // }, []);
+
+
 
   useEffect(() => {
-    AxiosInstance.get("committees/")
-      .then((res) => {
-        setCommitteeMembers(res.data);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch committee data", err);
+  AxiosInstance.get("committees/")
+    .then((res) => {
+      const currentYear = new Date().getFullYear();
+      const filtered = res.data.filter((item) => Number(item.year) === currentYear);
+
+      const positionPriority = [
+        "President",
+        "Vice President",
+        "Secretary",
+        "Joint Secretary",
+        "Assistant Secretary",
+        "Library Secretary",
+        "Member"
+      ];
+
+      const sorted = filtered.sort((a, b) => {
+        const posA = positionPriority.indexOf(a.committee_position) !== -1 ? positionPriority.indexOf(a.committee_position) : positionPriority.length;
+        const posB = positionPriority.indexOf(b.committee_position) !== -1 ? positionPriority.indexOf(b.committee_position) : positionPriority.length;
+        return posA - posB;
       });
-  }, []);
+
+      setCommitteeMembers(sorted);
+    })
+    .catch((err) => {
+      console.error("Failed to fetch committee data", err);
+    });
+}, []);
+
 
 
   console.log(committeeMembers)
