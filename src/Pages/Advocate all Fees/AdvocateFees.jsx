@@ -20,10 +20,10 @@ const AdvocateFees = () => {
 
     // House Rent
     house_fee_form: false,
-    from_month: "",
-    from_year: "",
-    to_month: "",
-    to_year: "",
+    from_month_rent: new Date().getMonth() + 1,
+    from_year_rent: new Date().getFullYear(),
+    to_month_rent: new Date().getMonth() + 1,
+    to_year_rent: new Date().getFullYear(),
     rent_type: "House",
     building_name: "",
     floor: "",
@@ -89,10 +89,10 @@ const AdvocateFees = () => {
 
         // House Rent
         house_fee_form: !FeeData.rentcollection_set?.length,
-        from_month: rent.from_month || "",
-        from_year: rent.from_year || "",
-        to_month: rent.to_month || "",
-        to_year: rent.to_year || "",
+        from_month_rent: rent.from_month || "",
+        from_year_rent: rent.from_year || "",
+        to_month_rent: rent.to_month || "",
+        to_year_rent: rent.to_year || "",
         rent_type: rent.rent_type || "House",
         building_name: rent.building_name || "",
         floor: rent.floor || "",
@@ -277,10 +277,10 @@ const AdvocateFees = () => {
       payload.house_fee_form = true;
       payload.rentcollection_set = [
         {
-          from_month: formData.from_month,
-          from_year: formData.from_year,
-          to_month: formData.to_month,
-          to_year: formData.to_year,
+          from_month: formData.from_month_rent,
+          from_year: formData.from_year_rent,
+          to_month: formData.to_month_rent,
+          to_year: formData.to_year_rent,
           rent_type: formData.rent_type,
           building_name: formData.building_name,
           floor: formData.floor,
@@ -368,10 +368,10 @@ const AdvocateFees = () => {
 
       // House Rent
       house_fee_form: false,
-      from_month: "",
-      from_year: "",
-      to_month: "",
-      to_year: "",
+      from_month_rent: "",
+      from_year_rent: "",
+      to_month_rent: "",
+      to_year_rent: "",
       rent_type: "",
       building_name: "",
       floor: "",
@@ -652,8 +652,8 @@ const AdvocateFees = () => {
                 From Month
               </label>
               <select
-                name="from_month"
-                value={formData.from_month}
+                name="from_month_rent"
+                value={formData.from_month_rent}
                 onChange={handleChange}
                 className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
@@ -671,8 +671,8 @@ const AdvocateFees = () => {
                 From Year
               </label>
               <select
-                name="from_year"
-                value={formData.from_year}
+                name="from_year_rent"
+                value={formData.from_year_rent}
                 onChange={handleChange}
                 className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
@@ -691,8 +691,8 @@ const AdvocateFees = () => {
                 To Month
               </label>
               <select
-                name="to_month"
-                value={formData.to_month}
+                name="to_month_rent"
+                value={formData.to_month_rent}
                 onChange={handleChange}
                 className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
@@ -710,8 +710,8 @@ const AdvocateFees = () => {
                 To Year
               </label>
               <select
-                name="to_year"
-                value={formData.to_year}
+                name="to_year_rent"
+                value={formData.to_year_rent}
                 onChange={handleChange}
                 className="shadow appearance-none border border-gray-400 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
