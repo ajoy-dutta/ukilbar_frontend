@@ -13,7 +13,7 @@ const AdvocateChange = () => {
 
   const [formData, setFormData] = useState({
     receipt_no: "",
-    date: "",
+    date: new Date().toISOString().split("T")[0],
     client_name: "",
     advocate_id: "",
     advocate_name: "",
@@ -163,14 +163,15 @@ const AdvocateChange = () => {
             {/* Receipt No */}
             <div>
               <label className="block text-gray-700 text-sm font-semibold">Receipt No.</label>
-              <select
+              <input
                 name="receipt_no"
                 value={formData.receipt_no}
                 onChange={handleChange}
-                className="shadow appearance-none border border-gray-400 bg-sky-50 disabled rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              >
-                {/* Add options here */}
-              </select>
+                placeholder="Auto Generated"
+                readOnly
+                className="shadow appearance-none border border-gray-400 bg-sky-50
+                 rounded w-full py-1 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+              />
             </div>
 
             {/* Date */}
@@ -194,6 +195,7 @@ const AdvocateChange = () => {
                 name="client_name"
                 value={formData.client_name}
                 onChange={handleChange}
+                placeholder='Enter Client Name'
                 className="shadow appearance-none border border-gray-400 bg-sky-50 bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
@@ -280,7 +282,8 @@ const AdvocateChange = () => {
                 name="fee"
                 value={formData.fee}
                 onChange={handleChange}
-                className="shadow appearance-none border border-gray-400 bg-sky-50 bg-gray-100 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder='Enter Change Fee'
+                className="shadow appearance-none border border-gray-400 bg-sky-50 bg-gray-100 rounded w-full py-1 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
             </div>
@@ -293,6 +296,7 @@ const AdvocateChange = () => {
                 name="case_no"
                 value={formData.case_no}
                 onChange={handleChange}
+                placeholder='Enter Case No.'
                 className="shadow appearance-none border border-gray-400 bg-sky-50 rounded bg-gray-100 w-full px-2 py-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 rows="3"
                 required

@@ -54,6 +54,7 @@ const AdvocateFees = () => {
     yearly_from_year: new Date().getFullYear(),
     yearly_to_year: new Date().getFullYear(),
     yearly_fee: "",
+    yearly_fee_cost: "",
     yearly_delay_fee: "",
     benevolent_fund_fee: "",
     benevolent_delay_fee: "",
@@ -123,6 +124,7 @@ const AdvocateFees = () => {
         yearly_from_year: bar.yearly_from_year || new Date().getFullYear(),
         yearly_to_year: bar.yearly_to_year || new Date().getFullYear(),
         yearly_fee: bar.yearly_fee || "",
+        yearly_fee_cost: bar.yearly_fee_cost || "",
         yearly_delay_fee: bar.yearly_delay_fee || "",
         benevolent_fund_fee: bar.benevolent_fund_fee || "",
         benevolent_delay_fee: bar.benevolent_delay_fee || "",
@@ -188,6 +190,10 @@ const AdvocateFees = () => {
     );
     setSelectedAdvocate(selected || null);
   }, [formData.advocate_id, advocates]);
+
+
+
+
 
 
 
@@ -326,6 +332,7 @@ const AdvocateFees = () => {
           yearly_from_year: formData.yearly_from_year,
           yearly_to_year: formData.yearly_to_year,
           yearly_fee: formData.yearly_fee || 0,
+          yearly_fee_cost: formData.yearly_fee_cost || 0,
           yearly_delay_fee: formData.yearly_delay_fee || 0,
           benevolent_fund_fee: formData.benevolent_fund_fee || 0,
           benevolent_delay_fee: formData.benevolent_delay_fee || 0,
@@ -402,6 +409,7 @@ const AdvocateFees = () => {
       yearly_from_year: new Date().getFullYear(),
       yearly_to_year: new Date().getFullYear(),
       yearly_fee: "",
+      yearly_fee_cost: "",
       yearly_delay_fee: "",
       benevolent_fund_fee: "",
       benevolent_delay_fee: "",
@@ -445,6 +453,7 @@ const AdvocateFees = () => {
 
     return (
       toNum(formData.yearly_fee) +
+      toNum(formData.yearly_fee_cost) +
       toNum(formData.yearly_delay_fee) +
       toNum(formData.benevolent_fund_fee) +
       toNum(formData.benevolent_delay_fee) +
@@ -460,11 +469,35 @@ const AdvocateFees = () => {
     }));
   }, [
     formData.yearly_fee,
+    formData.yearly_fee_cost,
     formData.yearly_delay_fee,
     formData.benevolent_fund_fee,
     formData.benevolent_delay_fee,
     formData.relief_fund_fee
   ]);
+
+
+
+  useEffect(() => {
+    const from = parseInt(formData.yearly_from_year);
+    const to = parseInt(formData.yearly_to_year);
+
+    if (!isNaN(from) && !isNaN(to)) {
+      const totalYears = to - from + 1;
+      const cost = totalYears * 20;
+
+      setFormData((prev) => ({
+        ...prev,
+        yearly_fee_cost: cost,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        yearly_fee_cost: 0,
+      }));
+    }
+  }, [formData.yearly_from_year, formData.yearly_to_year]);
+
 
 
   return (
@@ -1082,6 +1115,19 @@ const AdvocateFees = () => {
                   name="yearly_fee"
                   value={formData.yearly_fee}
                   onChange={handleChange}
+                  className="shadow appearance-none border border-gray-400 bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+
+              <div className="">
+                <label className="block text-gray-700 text-sm font-semibold ">
+                  Yearly fee cost
+                </label>
+                <input
+                  type="number"
+                  name="yearly_fee_cost"
+                  value={formData.yearly_fee_cost}
+                  readOnly
                   className="shadow appearance-none border border-gray-400 bg-sky-50 rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>

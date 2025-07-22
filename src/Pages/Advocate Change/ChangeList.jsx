@@ -32,7 +32,7 @@ const ChangeList = () => {
   const handleDelete = async (id) => {
         setFilteredData(prevData => prevData.filter(item => item.id !== id));
         try {
-            await AxiosInstance.delete(`shop-rent/${id}`);
+            await AxiosInstance.delete(`advocate-change/${id}/`);
             fetchData();
         } catch (error) {
             console.error("Delete failed:", error);
